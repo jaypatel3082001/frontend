@@ -9,6 +9,7 @@ import Loginpage from "./componet/login/loginpage";
 import Signup from "./componet/login/Signup";
 import Sectionmain from "./componet/section/sectionmain";
 import Quizform from "./componet/section/quizform";
+import Userpage from "./componet/section/Userpage";
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
         <Route path="/Sectionmain" element={<Sectionmain />} />
         <Route path="/quizform" element={<Quizform />} />
         <Route path="/allQuiz" element={<Quizmain />} />
-        <Route path="/Sectionmain/:id" element={<Quizmain />} />
+        <Route path="/Sectionmain/:id" element={<Userpage />} />
       </Routes>
     </Router>
   );
