@@ -1,18 +1,22 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../cssfile/Login.css";
 
-function Navbar() {
+function Navbar({ setIsLoggedIn }) {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    navigate("/Login");
+  };
+
   return (
-    <div className="flex justify-between bg-red-300 ">
+    <div className="flex justify-between bg-red-300">
       <div></div>
       <div className="flex">
-        <Link to="/Login" className="p-3">
-          loging
-        </Link>
-        <Link to="/Signup" className="p-3">
-          signup
-        </Link>
+        <button onClick={handleLogout} className="p-3">
+          Logout
+        </button>
       </div>
     </div>
   );

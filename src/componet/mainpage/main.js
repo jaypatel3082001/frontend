@@ -2,7 +2,7 @@ import React from "react";
 import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
 
-function Main() {
+function Main({ setIsLoggedIn }) {
   return (
     <div className="App">
       <div className="flex">
@@ -10,7 +10,7 @@ function Main() {
         {/* ----------navbar--------------------------- */}
         <div className=" w-full mr-2">
           <div>
-            <Navbar />
+            <Navbar setIsLoggedIn={setIsLoggedIn} />
           </div>
         </div>
       </div>

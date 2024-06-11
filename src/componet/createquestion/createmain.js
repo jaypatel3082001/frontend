@@ -194,7 +194,7 @@ import Navbar from "../fixdata/navbar";
 import Addquiz from "./addquestion";
 import { useNavigate } from "react-router-dom";
 
-function Createmain() {
+function Createmain({ setIsLoggedIn }) {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -252,7 +252,7 @@ function Createmain() {
         <Sidebar />
         <div className="w-full mr-2 bg-white-200">
           <div>
-            <Navbar />
+            <Navbar setIsLoggedIn={setIsLoggedIn} />
           </div>
           <div>
             <Addquiz />

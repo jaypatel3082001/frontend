@@ -2,14 +2,17 @@ import React, { useState } from "react";
 import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
 import "../../cssfile/Signup.css";
+import { useNavigate, Link } from "react-router-dom";
 
-const Signup = () => {
+const Signup = ({ setIsLoggedIn }) => {
   const [inputsigndata, setInputsigndata] = useState({
     username: "",
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
   const [signupSuccess, setSignupSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,10 +21,9 @@ const Signup = () => {
       [name]: value,
     }));
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    setSignupSuccess(true);
 
     const api = "https://quiz-krishang.vercel.app/auth/signup";
     try {
@@ -32,26 +34,28 @@ const Signup = () => {
         },
         body: JSON.stringify(inputsigndata),
       });
-      setInputsigndata({
-        username: "",
-        email: "",
-        password: "",
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+
+      if (response.ok) {
+        setInputsigndata({
+          username: "",
+          email: "",
+          password: "",
+        });
+        setSignupSuccess(true);
+        setErrorMessage("");
+        navigate("/Login");
+      } else {
+        setErrorMessage("Username or Email already exists");
       }
     } catch (error) {
       console.error("Fetch operation error:", error);
+      setErrorMessage("An error occurred. Please try again.");
     }
   };
 
   return (
     <div className="flex">
-      <Sidebar />
-      <div className="w-full mr-2 bg-white-200">
-        <div>
-          <Navbar />
-        </div>
+      <div className="w-full h-screen mr-2 bg-red-300">
         {signupSuccess ? (
           <div
             className="alert alert-success container signup-container card signup-card"
@@ -64,6 +68,11 @@ const Signup = () => {
             <div className="card signup-card">
               <div className="card-body">
                 <h3 className="card-title text-center mb-4">Sign Up</h3>
+                {errorMessage && (
+                  <div className="alert alert-danger" role="alert">
+                    {errorMessage}
+                  </div>
+                )}
                 <form onSubmit={handleSubmit}>
                   <div className="form-group mb-3">
                     <label htmlFor="name">UserName</label>
@@ -104,9 +113,14 @@ const Signup = () => {
                       required
                     />
                   </div>
-                  <button type="submit" className="btn btn-primary btn-block">
-                    Sign Up
-                  </button>
+                  <div className="flex justify-between">
+                    <button type="submit" className="btn btn-primary btn-block">
+                      Sign Up
+                    </button>
+                    <Link to="/Login" className="font-semibold text-xl">
+                      Login
+                    </Link>
+                  </div>
                 </form>
               </div>
             </div>

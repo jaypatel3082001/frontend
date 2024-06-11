@@ -1,9 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
+import { Link } from "react-router-dom";
 
-function Userpage({ setIsLoggedIn }) {
+function Groupmain({ setIsLoggedIn }) {
   return (
     <div className="flex">
       <Sidebar />
@@ -14,8 +14,8 @@ function Userpage({ setIsLoggedIn }) {
         <div className="flex justify-between mt-5">
           <div></div>
           <div className=" flex items-center flex-col p-2  bg-blue-300">
-            <div>Add Question By Quize</div>
-            <Link to="/QuestionbyQuize">
+            <div>Quize to Group</div>
+            <Link to="/QuizetoGroup">
               <button className="bg-red-300 w-fit mt-1" type="submit">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -29,9 +29,19 @@ function Userpage({ setIsLoggedIn }) {
             </Link>
           </div>
         </div>
+        <div className="bg-slate-300 m-5 rounded-md">
+          <h1 className="fw-bold text-2xl flex justify-center border-b-2 w-full p-2">
+            Add the Quiz
+          </h1>
+          <div className=" py-2 px-9 ">
+            <h1 className="fw-bold text-xl mt-3 mb-4">opt1</h1>
+            <h1 className="fw-bold text-xl mt-3 mb-4">opt1</h1>
+            <h1 className="fw-bold text-xl mt-3 mb-4">opt1</h1>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-export default Userpage;
+export default Groupmain;

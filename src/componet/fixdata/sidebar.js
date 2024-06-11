@@ -30,6 +30,9 @@ function Sidebar() {
               <Link to="/Sectionmain" className="mt-5 flex">
                 Sections
               </Link>
+              <Link to="/Groupmain" className="mt-5 flex">
+                Group
+              </Link>
             </ul>
           </div>
         </div>

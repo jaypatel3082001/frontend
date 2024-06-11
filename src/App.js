@@ -1,7 +1,12 @@
 import "./App.css";
-import React from "react";
+import React, { useState } from "react";
 import Main from "./componet/mainpage/main";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Createmain from "./componet/createquestion/createmain";
 import Quizmain from "./componet/section/sectionmain";
 import QuestionAdd from "./componet/createquestion/questionadd";
@@ -11,21 +16,120 @@ import Sectionmain from "./componet/section/sectionmain";
 import Quizform from "./componet/section/quizform";
 import Userpage from "./componet/section/Userpage";
 import QuestionbyQuize from "./componet/section/QuestionbyQuize";
+import QuizetoGroup from "./componet/Group/QuizetoGroup";
+import Groupmain from "./componet/Group/Groupmain";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/createmain" element={<Createmain />} />
-        <Route path="/questionadd" element={<QuestionAdd />} />
-        <Route path="/Login" element={<Loginpage />} />
+        <Route
+          path="/Login"
+          element={<Loginpage setIsLoggedIn={setIsLoggedIn} />}
+        />
         <Route path="/Signup" element={<Signup />} />
-        <Route path="/Sectionmain" element={<Sectionmain />} />
-        <Route path="/quizform" element={<Quizform />} />
-        <Route path="/allQuiz" element={<Quizmain />} />
-        <Route path="/Sectionmain/:id" element={<Userpage />} />
-        <Route path="/QuestionbyQuize" element={<QuestionbyQuize />} />
+        <Route
+          path="/"
+          element={
+            isLoggedIn ? (
+              <Main setIsLoggedIn={setIsLoggedIn} />
+            ) : (
+              <Navigate to="/Login" />
+            )
+          }
+        />
+        <Route
+          path="/createmain"
+          element={
+            isLoggedIn ? (
+              <Createmain setIsLoggedIn={setIsLoggedIn} />
+            ) : (
+              <Navigate to="/Login" />
+            )
+          }
+        />
+        <Route
+          path="/questionadd"
+          element={
+            isLoggedIn ? (
+              <QuestionAdd setIsLoggedIn={setIsLoggedIn} />
+            ) : (
+              <Navigate to="/Login" />
+            )
+          }
+        />
+        <Route
+          path="/Sectionmain"
+          element={
+            isLoggedIn ? (
+              <Sectionmain setIsLoggedIn={setIsLoggedIn} />
+            ) : (
+              <Navigate to="/Login" />
+            )
+          }
+        />
+        <Route
+          path="/quizform"
+          element={
+            isLoggedIn ? (
+              <Quizform setIsLoggedIn={setIsLoggedIn} />
+            ) : (
+              <Navigate to="/Login" />
+            )
+          }
+        />
+        <Route
+          path="/allQuiz"
+          element={
+            isLoggedIn ? (
+              <Quizmain setIsLoggedIn={setIsLoggedIn} />
+            ) : (
+              <Navigate to="/Login" />
+            )
+          }
+        />
+        <Route
+          path="/Sectionmain/:id"
+          element={
+            isLoggedIn ? (
+              <Userpage setIsLoggedIn={setIsLoggedIn} />
+            ) : (
+              <Navigate to="/Login" />
+            )
+          }
+        />
+        <Route
+          path="/QuestionbyQuize"
+          element={
+            isLoggedIn ? (
+              <QuestionbyQuize setIsLoggedIn={setIsLoggedIn} />
+            ) : (
+              <Navigate to="/Login" />
+            )
+          }
+        />
+        <Route
+          path="/QuizetoGroup"
+          element={
+            isLoggedIn ? (
+              <QuizetoGroup setIsLoggedIn={setIsLoggedIn} />
+            ) : (
+              <Navigate to="/Login" />
+            )
+          }
+        />
+        <Route
+          path="/Groupmain"
+          element={
+            isLoggedIn ? (
+              <Groupmain setIsLoggedIn={setIsLoggedIn} />
+            ) : (
+              <Navigate to="/Login" />
+            )
+          }
+        />
       </Routes>
     </Router>
   );

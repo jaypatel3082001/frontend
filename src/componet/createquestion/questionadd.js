@@ -3,7 +3,7 @@ import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 
-function QuestionAdd() {
+function QuestionAdd({ setIsLoggedIn }) {
   const location = useLocation();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -69,7 +69,7 @@ function QuestionAdd() {
         <Sidebar />
         <div className="w-full mr-2">
           <div>
-            <Navbar />
+            <Navbar setIsLoggedIn={setIsLoggedIn} />
           </div>
           <form className="w-50 mx-auto mt-5 mb-4" onSubmit={handleSubmit}>
             <h1 className="mb-4">Add New Question</h1>

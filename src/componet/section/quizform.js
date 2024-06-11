@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
 
-function Quizform() {
+function Quizform({ setIsLoggedIn }) {
   const [inputquizdata, setInputquizdata] = useState({
     quizename: "",
   });
@@ -41,7 +41,7 @@ function Quizform() {
       <Sidebar />
       <div className="w-full mr-2">
         <div>
-          <Navbar />
+          <Navbar setIsLoggedIn={setIsLoggedIn} />
         </div>
         <form className="w-50 mx-auto mt-5 mb-4" onSubmit={handleSubmit}>
           <h1 className="mb-4">Add New Quiz</h1>

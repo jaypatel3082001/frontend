@@ -4,7 +4,7 @@ import Navbar from "../fixdata/navbar";
 import Addquiz from "./addquiz";
 import { Link } from "react-router-dom";
 
-function Sectionmain() {
+function Sectionmain({ setIsLoggedIn }) {
   const [quize, setQuize] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const url = "https://quiz-krishang.vercel.app/quize/getall";
@@ -35,7 +35,7 @@ function Sectionmain() {
       <Sidebar />
       <div className="w-full mr-2">
         <div>
-          <Navbar />
+          <Navbar setIsLoggedIn={setIsLoggedIn} />
         </div>
         <div>
           <Addquiz />
