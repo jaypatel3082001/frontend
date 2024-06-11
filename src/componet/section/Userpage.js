@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Sidebar from "../fixdata/sidebar";
+import Navbar from "../fixdata/navbar";
 
 function Userpage() {
   return (
@@ -12,8 +14,8 @@ function Userpage() {
         <div className="flex justify-between mt-5">
           <div></div>
           <div className=" flex items-center flex-col p-2  bg-blue-300">
-            <div>Add Quiz</div>
-            <Link to="/quizform">
+            <div>Add Question By Quize</div>
+            <Link to="/QuestionbyQuize">
               <button className="bg-red-300 w-fit mt-1" type="submit">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

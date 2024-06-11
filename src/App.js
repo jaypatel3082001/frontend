@@ -10,6 +10,7 @@ import Signup from "./componet/login/Signup";
 import Sectionmain from "./componet/section/sectionmain";
 import Quizform from "./componet/section/quizform";
 import Userpage from "./componet/section/Userpage";
+import QuestionbyQuize from "./componet/section/QuestionbyQuize";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/quizform" element={<Quizform />} />
         <Route path="/allQuiz" element={<Quizmain />} />
         <Route path="/Sectionmain/:id" element={<Userpage />} />
+        <Route path="/QuestionbyQuize" element={<QuestionbyQuize />} />
       </Routes>
     </Router>
   );
