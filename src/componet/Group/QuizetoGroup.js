@@ -4,6 +4,7 @@ import Navbar from "../fixdata/navbar";
 
 function QuizetoGroup({ setIsLoggedIn }) {
   const [data, setData] = useState([]);
+  const [selectedIds, setSelectedIds] = useState([]);
 
   const url = "https://quiz-krishang.vercel.app/quize/getall";
 
@@ -25,6 +26,20 @@ function QuizetoGroup({ setIsLoggedIn }) {
     } finally {
     }
   };
+  const handleCheckboxChange = (id) => {
+    setSelectedIds((prevSelectedIds) =>
+      prevSelectedIds.includes(id)
+        ? prevSelectedIds.filter((selectedId) => selectedId !== id)
+        : [...prevSelectedIds, id]
+    );
+  };
+  console.log("Selected IDs:", selectedIds);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission with selectedIds
+    console.log("Selected IDs:", selectedIds);
+    // You can now send selectedIds to your API or handle it as needed
+  };
   return (
     <div className="flex">
       <Sidebar />
@@ -32,7 +47,7 @@ function QuizetoGroup({ setIsLoggedIn }) {
         <div>
           <Navbar setIsLoggedIn={setIsLoggedIn} />
         </div>
-        <form className="w-50 mx-auto mt-5 mb-4">
+        <form className="w-50 mx-auto mt-5 mb-4" onSubmit={handleSubmit}>
           <h1 className="mb-4">Group select</h1>
 
           <div className="mb-3">
@@ -52,7 +67,12 @@ function QuizetoGroup({ setIsLoggedIn }) {
               <td className="px-96 py-3">
                 <div className="flex items-center">
                   <div>
-                    <input type="checkbox" className="h-4 w-4" />
+                    <input
+                      type="checkbox"
+                      checked={selectedIds.includes(info._id)}
+                      onChange={() => handleCheckboxChange(info._id)}
+                      className="h-4 w-4"
+                    />
                   </div>
                   <div className="fw-bold text-xl">{info.quizename}</div>
                 </div>
