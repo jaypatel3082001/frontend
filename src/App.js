@@ -101,7 +101,7 @@ function App() {
           }
         />
         <Route
-          path="/QuestionbyQuize"
+          path="Sectionmain/QuestionbyQuize/:id"
           element={
             isLoggedIn ? (
               <QuestionbyQuize setIsLoggedIn={setIsLoggedIn} />

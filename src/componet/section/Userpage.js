@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
 
 function Userpage({ setIsLoggedIn }) {
   const {id} = useParams()
   const [data,setData]=useState([])
-  const [del,setDel]=useState({
-    questionId:""
-  })
+  // const [del,setDel]=useState({
+  //    questionId:''
+  // })
+  const navigator = useNavigate()
   
   useEffect(()=>{
     fetchData()
@@ -25,30 +26,38 @@ const fetchData = async ()=>{
   console.error("Fetch operation error:", error);
 }
 }
-const handleDelete = async (id1) => {
-  // setDel()
-  // try {
-  //   const response = await fetch(
-  //     `https://quiz-krishang.vercel.app/quize/deletequize-question/${id}`,
-   
-  //      { method: "PUT",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(data),}
-      
-  //   );
+const handleDelete =  async (id1) => {
 
-  //   if (!response.ok) {
-  //     throw new Error("Network response was not ok");
-  //   }
+  const updatedDel = { questionId: id1 };
 
-  //   await response.json();
-  //   fetchData();
-  // } catch (error) {
-  //   console.error("Fetch operation error:", error);
-  // }
+  await DeleteHandle(updatedDel);
+
 };
+// console.log("aaaaalllllll2222222222222",del)
+const DeleteHandle=async(updatedDel)=>{
+  try {
+    const response = await fetch(
+      `https://quiz-krishang.vercel.app/quize/deletequize-question/${id}`,
+   
+       { method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedDel),}
+      
+    );
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    await response.json();
+    // fetchData();
+    navigator(0)
+  } catch (error) {
+    console.error("Fetch operation error:", error);
+  }
+}
 console.log("data  h",data)
 
   return (
