@@ -117,9 +117,11 @@ function SectionHome({ setIsLoggedIn }) {
                     </div>
                   </div>
                 </div>
-                <div className="bottom-1 border-2 py-3 font-bold text-xl pl-2">
-                  {info.quizename}
-                </div>
+                <Link to={`/Quizmain/${info._id}`}>
+                  <div className="bottom-1 border-2 py-3 font-bold text-xl pl-2">
+                    {info.quizename}
+                  </div>
+                </Link>
                 {/* <div>
                   {/* <div className="bottom-1 border-2 p-2">
                     <input type="radio" name={`option${ind}`} />

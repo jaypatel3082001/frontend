@@ -12,7 +12,7 @@ import Quizmain from "./componet/Quize/quizemain";
 import QuestionAdd from "./componet/createquestion/questionadd";
 import Loginpage from "./componet/login/loginpage";
 import Signup from "./componet/login/Signup";
-
+import Userpages from "./componet/User/userpages";
 import Quizform from "./componet/Quize/quizform";
 import Userpage from "./componet/Quize/Userpage";
 import QuestionbyQuize from "./componet/Quize/QuestionbyQuize";
@@ -162,6 +162,36 @@ function App() {
           element={
             isLoggedIn ? (
               <SectionHome setIsLoggedIn={setIsLoggedIn} />
+            ) : (
+              <Navigate to="/Login" />
+            )
+          }
+        />
+        <Route
+          path="Sectionmain/Userpage/:id"
+          element={
+            isLoggedIn ? (
+              <Main setIsLoggedIn={setIsLoggedIn} />
+            ) : (
+              <Navigate to="/Login" />
+            )
+          }
+        />
+        <Route
+          path="/userpages/:id"
+          element={
+            isLoggedIn ? (
+              <Userpages setIsLoggedIn={setIsLoggedIn} />
+            ) : (
+              <Navigate to="/Login" />
+            )
+          }
+        />
+        <Route
+          path="/userpages"
+          element={
+            isLoggedIn ? (
+              <Main setIsLoggedIn={setIsLoggedIn} />
             ) : (
               <Navigate to="/Login" />
             )

@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function Sidebar() {
+  const app = "";
+  const url = "";
   return (
     <div className="h-full bg-slate-400 w-52  p-4  ">
       <div className="ml-8">
@@ -32,6 +34,9 @@ function Sidebar() {
               </Link>
               <Link to="/Sectionmain" className="mt-5 flex">
                 Section
+              </Link>
+              <Link to="/userpages" className="mt-5 flex">
+                User
               </Link>
             </ul>
           </div>
