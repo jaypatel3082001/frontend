@@ -4,12 +4,12 @@ import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
 
 function Userpage({ setIsLoggedIn }) {
-<<<<<<< HEAD:src/componet/Quize/Userpage.js
   const { id } = useParams();
   const [data, setData] = useState([]);
-  const [del, setDel] = useState({
-    questionId: "",
-  });
+  // const [del,setDel]=useState({
+  //    questionId:''
+  // })
+  const navigator = useNavigate();
 
   useEffect(() => {
     fetchData();
@@ -29,83 +29,37 @@ function Userpage({ setIsLoggedIn }) {
     }
   };
   const handleDelete = async (id1) => {
-    // setDel()
-    // try {
-    //   const response = await fetch(
-    //     `https://quiz-krishang.vercel.app/quize/deletequize-question/${id}`,
-    //      { method: "PUT",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify(data),}
-    //   );
-    //   if (!response.ok) {
-    //     throw new Error("Network response was not ok");
-    //   }
-    //   await response.json();
-    //   fetchData();
-    // } catch (error) {
-    //   console.error("Fetch operation error:", error);
-    // }
+    const updatedDel = { questionId: id1 };
+
+    await DeleteHandle(updatedDel);
+  };
+  // console.log("aaaaalllllll2222222222222",del)
+  const DeleteHandle = async (updatedDel) => {
+    try {
+      const response = await fetch(
+        `https://quiz-krishang.vercel.app/quize/deletequize-question/${id}`,
+
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedDel),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      await response.json();
+      // fetchData();
+      navigator(0);
+    } catch (error) {
+      console.error("Fetch operation error:", error);
+    }
   };
   console.log("data  h", data);
-=======
-  const {id} = useParams()
-  const [data,setData]=useState([])
-  // const [del,setDel]=useState({
-  //    questionId:''
-  // })
-  const navigator = useNavigate()
-  
-  useEffect(()=>{
-    fetchData()
-  },[])
-const fetchData = async ()=>{
-  try{
-  const response = await fetch(`https://quiz-krishang.vercel.app/quize/read/${id}`)
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  const result = await response.json();
-  setData(result);
-} catch (error) {
-  console.error("Fetch operation error:", error);
-}
-}
-const handleDelete =  async (id1) => {
-
-  const updatedDel = { questionId: id1 };
-
-  await DeleteHandle(updatedDel);
-
-};
-// console.log("aaaaalllllll2222222222222",del)
-const DeleteHandle=async(updatedDel)=>{
-  try {
-    const response = await fetch(
-      `https://quiz-krishang.vercel.app/quize/deletequize-question/${id}`,
-   
-       { method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedDel),}
-      
-    );
-
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-
-    await response.json();
-    // fetchData();
-    navigator(0)
-  } catch (error) {
-    console.error("Fetch operation error:", error);
-  }
-}
-console.log("data  h",data)
->>>>>>> c875c95c2768a651648667aeaa0f52c0e18ebb6c:src/componet/section/Userpage.js
 
   return (
     <div className="flex">

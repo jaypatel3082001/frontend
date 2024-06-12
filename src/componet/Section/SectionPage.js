@@ -29,32 +29,32 @@ function SectionPage({ setIsLoggedIn }) {
       setIsLoading(false);
     }
   };
-  // const handleDelete = async (id) => {
-  //   try {
-  //     const response = await fetch(
-  //       `https://quiz-krishang.vercel.app/section/delete/${id}`,
-  //       {
-  //         method: "DELETE",
-  //       }
-  //     );
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(
+        `https://quiz-krishang.vercel.app/section/delete/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
-  //     if (!response.ok) {
-  //       throw new Error("Network response was not ok");
-  //     }
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
 
-  //     await response.json();
-  //     fetchData();
-  //   } catch (error) {
-  //     console.error("Fetch operation error:", error);
-  //   }
-  // };
+      await response.json();
+      fetchData();
+    } catch (error) {
+      console.error("Fetch operation error:", error);
+    }
+  };
 
-  // const handleEditClick = (id) => {
-  //   const quizeToUpdate = quizes.find((quize) => quize._id === id);
-  //   if (quizeToUpdate) {
-  //     navigate("/quizform", { state: { itemToEdit: quizeToUpdate } });
-  //   }
-  // };
+  const handleEditClick = (id) => {
+    const quizeToUpdate = quizes.data.find((quize) => quize._id === id);
+    if (quizeToUpdate) {
+      navigate("/quizform", { state: { itemToEdit: quizeToUpdate } });
+    }
+  };
   return (
     <div className="flex">
       <Sidebar />
@@ -93,7 +93,7 @@ function SectionPage({ setIsLoggedIn }) {
                 <div className="flex justify-end">
                   <div
                     className="cursor-pointer ml-4"
-                    // onClick={() => handleEditClick(info._id)}
+                    onClick={() => handleEditClick(info._id)}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -109,7 +109,7 @@ function SectionPage({ setIsLoggedIn }) {
                   </div>
                   <div
                     className="cursor-pointer ml-4"
-                    // onClick={() => handleDelete(info._id)}
+                    onClick={() => handleDelete(info._id)}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

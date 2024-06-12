@@ -94,7 +94,6 @@ function App() {
         />
 
         <Route
-<<<<<<< HEAD
           path="/Quizmain"
           element={
             isLoggedIn ? (
@@ -107,9 +106,6 @@ function App() {
 
         <Route
           path="Quizmain/QuestionbyQuize/:id"
-=======
-          path="Sectionmain/QuestionbyQuize/:id"
->>>>>>> c875c95c2768a651648667aeaa0f52c0e18ebb6c
           element={
             isLoggedIn ? (
               <QuestionbyQuize setIsLoggedIn={setIsLoggedIn} />
