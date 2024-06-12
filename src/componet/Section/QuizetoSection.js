@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
+import { useLocation, useNavigate } from "react-router-dom";
 
-function QuizetoGroup({ setIsLoggedIn }) {
+function QuizetoSection({ setIsLoggedIn }) {
   const [data, setData] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
-
+  const navigate = useNavigate();
   const url = "https://quiz-krishang.vercel.app/quize/getall";
 
   useEffect(() => {
@@ -34,11 +35,26 @@ function QuizetoGroup({ setIsLoggedIn }) {
     );
   };
   console.log("Selected IDs:", selectedIds);
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission with selectedIds
-    console.log("Selected IDs:", selectedIds);
-    // You can now send selectedIds to your API or handle it as needed
+    const createApi = "https://quiz-krishang.vercel.app/section/create";
+
+    try {
+      const response = await fetch(createApi, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      navigate("/Sectionmain");
+      setData({});
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+    } catch (error) {
+      console.error("Fetch operation error:", error);
+    }
   };
   return (
     <div className="flex">
@@ -48,17 +64,17 @@ function QuizetoGroup({ setIsLoggedIn }) {
           <Navbar setIsLoggedIn={setIsLoggedIn} />
         </div>
         <form className="w-50 mx-auto mt-5 mb-4" onSubmit={handleSubmit}>
-          <h1 className="mb-4">Group select</h1>
+          <h1 className="mb-4">Section select</h1>
 
           <div className="mb-3">
             <label htmlFor="question" className="form-label">
-              Group Name
+              Section Name
             </label>
             <input
               type="text"
-              name="groupname"
+              name="Sectionname"
               className="form-control"
-              placeholder="Enter your Group Name"
+              placeholder="Enter your Section Name"
               required
             />
           </div>
@@ -88,4 +104,4 @@ function QuizetoGroup({ setIsLoggedIn }) {
   );
 }
 
-export default QuizetoGroup;
+export default QuizetoSection;

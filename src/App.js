@@ -8,16 +8,17 @@ import {
   Navigate,
 } from "react-router-dom";
 import Createmain from "./componet/createquestion/createmain";
-import Quizmain from "./componet/section/sectionmain";
+import Quizmain from "./componet/Quize/quizemain";
 import QuestionAdd from "./componet/createquestion/questionadd";
 import Loginpage from "./componet/login/loginpage";
 import Signup from "./componet/login/Signup";
-import Sectionmain from "./componet/section/sectionmain";
-import Quizform from "./componet/section/quizform";
-import Userpage from "./componet/section/Userpage";
-import QuestionbyQuize from "./componet/section/QuestionbyQuize";
-import QuizetoGroup from "./componet/Group/QuizetoGroup";
-import Groupmain from "./componet/Group/Groupmain";
+
+import Quizform from "./componet/Quize/quizform";
+import Userpage from "./componet/Quize/Userpage";
+import QuestionbyQuize from "./componet/Quize/QuestionbyQuize";
+import QuizetoSection from "./componet/Section/QuizetoSection";
+import Sectionmain from "./componet/Section/SectionPage";
+import QuizetoSectionName from "./componet/Section/QuizetoSectionName";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -35,6 +36,16 @@ function App() {
           element={
             isLoggedIn ? (
               <Main setIsLoggedIn={setIsLoggedIn} />
+            ) : (
+              <Navigate to="/Login" />
+            )
+          }
+        />
+        <Route
+          path="/QuizetoSectionName"
+          element={
+            isLoggedIn ? (
+              <QuizetoSectionName setIsLoggedIn={setIsLoggedIn} />
             ) : (
               <Navigate to="/Login" />
             )
@@ -60,16 +71,7 @@ function App() {
             )
           }
         />
-        <Route
-          path="/Sectionmain"
-          element={
-            isLoggedIn ? (
-              <Sectionmain setIsLoggedIn={setIsLoggedIn} />
-            ) : (
-              <Navigate to="/Login" />
-            )
-          }
-        />
+
         <Route
           path="/quizform"
           element={
@@ -81,17 +83,7 @@ function App() {
           }
         />
         <Route
-          path="/allQuiz"
-          element={
-            isLoggedIn ? (
-              <Quizmain setIsLoggedIn={setIsLoggedIn} />
-            ) : (
-              <Navigate to="/Login" />
-            )
-          }
-        />
-        <Route
-          path="/Sectionmain/:id"
+          path="/Quizmain/:id"
           element={
             isLoggedIn ? (
               <Userpage setIsLoggedIn={setIsLoggedIn} />
@@ -100,8 +92,20 @@ function App() {
             )
           }
         />
+
         <Route
-          path="/QuestionbyQuize"
+          path="/Quizmain"
+          element={
+            isLoggedIn ? (
+              <Quizmain setIsLoggedIn={setIsLoggedIn} />
+            ) : (
+              <Navigate to="/Login" />
+            )
+          }
+        />
+
+        <Route
+          path="Quizmain/QuestionbyQuize/:id"
           element={
             isLoggedIn ? (
               <QuestionbyQuize setIsLoggedIn={setIsLoggedIn} />
@@ -111,20 +115,20 @@ function App() {
           }
         />
         <Route
-          path="/QuizetoGroup"
+          path="/QuizetoSection"
           element={
             isLoggedIn ? (
-              <QuizetoGroup setIsLoggedIn={setIsLoggedIn} />
+              <QuizetoSection setIsLoggedIn={setIsLoggedIn} />
             ) : (
               <Navigate to="/Login" />
             )
           }
         />
         <Route
-          path="/Groupmain"
+          path="/Sectionmain"
           element={
             isLoggedIn ? (
-              <Groupmain setIsLoggedIn={setIsLoggedIn} />
+              <Sectionmain setIsLoggedIn={setIsLoggedIn} />
             ) : (
               <Navigate to="/Login" />
             )

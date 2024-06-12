@@ -27,11 +27,11 @@ function Sidebar() {
               <Link to="/createmain" className="mt-5 flex">
                 Add-question
               </Link>
-              <Link to="/Sectionmain" className="mt-5 flex">
-                Sections
+              <Link to="/Quizmain" className="mt-5 flex">
+                Quize
               </Link>
-              <Link to="/Groupmain" className="mt-5 flex">
-                Group
+              <Link to="/Sectionmain" className="mt-5 flex">
+                Section
               </Link>
             </ul>
           </div>

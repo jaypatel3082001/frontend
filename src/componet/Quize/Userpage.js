@@ -4,52 +4,50 @@ import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
 
 function Userpage({ setIsLoggedIn }) {
-  const {id} = useParams()
-  const [data,setData]=useState([])
-  const [del,setDel]=useState({
-    questionId:""
-  })
-  
-  useEffect(()=>{
-    fetchData()
-  },[])
-const fetchData = async ()=>{
-  try{
-  const response = await fetch(`https://quiz-krishang.vercel.app/quize/read/${id}`)
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  const result = await response.json();
-  setData(result);
-} catch (error) {
-  console.error("Fetch operation error:", error);
-}
-}
-const handleDelete = async (id1) => {
-  // setDel()
-  // try {
-  //   const response = await fetch(
-  //     `https://quiz-krishang.vercel.app/quize/deletequize-question/${id}`,
-   
-  //      { method: "PUT",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(data),}
-      
-  //   );
+  const { id } = useParams();
+  const [data, setData] = useState([]);
+  const [del, setDel] = useState({
+    questionId: "",
+  });
 
-  //   if (!response.ok) {
-  //     throw new Error("Network response was not ok");
-  //   }
-
-  //   await response.json();
-  //   fetchData();
-  // } catch (error) {
-  //   console.error("Fetch operation error:", error);
-  // }
-};
-console.log("data  h",data)
+  useEffect(() => {
+    fetchData();
+  }, []);
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        `https://quiz-krishang.vercel.app/quize/read/${id}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const result = await response.json();
+      setData(result);
+    } catch (error) {
+      console.error("Fetch operation error:", error);
+    }
+  };
+  const handleDelete = async (id1) => {
+    // setDel()
+    // try {
+    //   const response = await fetch(
+    //     `https://quiz-krishang.vercel.app/quize/deletequize-question/${id}`,
+    //      { method: "PUT",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify(data),}
+    //   );
+    //   if (!response.ok) {
+    //     throw new Error("Network response was not ok");
+    //   }
+    //   await response.json();
+    //   fetchData();
+    // } catch (error) {
+    //   console.error("Fetch operation error:", error);
+    // }
+  };
+  console.log("data  h", data);
 
   return (
     <div className="flex">
@@ -62,7 +60,7 @@ console.log("data  h",data)
           <div></div>
           <div className=" flex items-center flex-col p-2  bg-blue-300">
             <div>Add Question By Quize</div>
-            <Link to={`/Sectionmain/QuestionbyQuize/${id}`}>
+            <Link to={`/Quizmain/QuestionbyQuize/${id}`}>
               <button className="bg-red-300 w-fit mt-1" type="submit">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -75,12 +73,12 @@ console.log("data  h",data)
               </button>
             </Link>
           </div>
-        
+
           <div className="bg-slate-300 m-5 rounded-md">
-          <h1 className="fw-bold text-2xl flex justify-center border-b-2 w-full p-2">
-            Added the Question
-          </h1>
-         { data.quizemcqs?.map((info, ind) => (
+            <h1 className="fw-bold text-2xl flex justify-center border-b-2 w-full p-2">
+              Added the Question
+            </h1>
+            {data.quizemcqs?.map((info, ind) => (
               <div key={info._id} className="border-red-600 m-10">
                 <div className="flex items-center justify-between">
                   <div>
@@ -89,7 +87,6 @@ console.log("data  h",data)
                     </h1>
                   </div>
                   <div className="flex">
-                 
                     <div
                       className="cursor-pointer ml-4"
                       onClick={() => handleDelete(info._id)}
@@ -134,7 +131,7 @@ console.log("data  h",data)
                 </div>
               </div>
             ))}
-        </div>
+          </div>
         </div>
       </div>
     </div>

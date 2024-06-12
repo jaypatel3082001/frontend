@@ -131,7 +131,7 @@ import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
 import Addquiz from "./addquiz";
 
-function Sectionmain({ setIsLoggedIn }) {
+function Quizemain({ setIsLoggedIn }) {
   const navigate = useNavigate();
   const [quizes, setQuizes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -240,7 +240,7 @@ function Sectionmain({ setIsLoggedIn }) {
               <h1 className="fw-bold text-2xl">Add the Quiz</h1>
               <h1 className="fw-bold text-xl mt-3 mb-4">{info.quizename}</h1>
               <Link
-                to={`/Sectionmain/${info._id}`}
+                to={`/Quizmain/${info._id}`}
                 className="bg-blue-400 p-2 rounded text-white w-fit"
               >
                 Add the {info.quizename} Quiz ❯
@@ -253,4 +253,4 @@ function Sectionmain({ setIsLoggedIn }) {
   );
 }
 
-export default Sectionmain;
+export default Quizemain;
