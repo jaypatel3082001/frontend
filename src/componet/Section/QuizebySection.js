@@ -52,7 +52,7 @@ function QuizebySection() {
             setArrrr((prevArrrr) => prevArrrr.filter((_, i) => i !== ind));
         }
     };
-    console.log("src", arrrr);
+    console.log("srgc", arrrr);
 
     const handleSubmit = (e) => {
         e.preventDefault();
