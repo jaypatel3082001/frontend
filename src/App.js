@@ -116,7 +116,6 @@ function App() {
             )
           }
         />
-        <Route
         {/* <Route
           path="/QuizetoSection"
           element={
