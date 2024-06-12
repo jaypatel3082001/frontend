@@ -19,6 +19,8 @@ import QuestionbyQuize from "./componet/Quize/QuestionbyQuize";
 import QuizetoSection from "./componet/Section/QuizetoSection";
 import Sectionmain from "./componet/Section/SectionPage";
 import QuizetoSectionName from "./componet/Section/QuizetoSectionName";
+import QuizebySection from "./componet/Section/QuizebySection";
+import SectionHome from "./componet/Section/SectionHome";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -129,6 +131,37 @@ function App() {
           element={
             isLoggedIn ? (
               <Sectionmain setIsLoggedIn={setIsLoggedIn} />
+            ) : (
+              <Navigate to="/Login" />
+            )
+          }
+        />
+        <Route
+          path="/Sectionmain/:id"
+          element={
+            isLoggedIn ? (
+              <SectionHome setIsLoggedIn={setIsLoggedIn} />
+            ) : (
+              <Navigate to="/Login" />
+            )
+          }
+        />
+
+        <Route
+          path="/SectionHome/Sectionmain/:id"
+          element={
+            isLoggedIn ? (
+              <QuizebySection setIsLoggedIn={setIsLoggedIn} />
+            ) : (
+              <Navigate to="/Login" />
+            )
+          }
+        />
+        <Route
+          path="/SectionHome"
+          element={
+            isLoggedIn ? (
+              <SectionHome setIsLoggedIn={setIsLoggedIn} />
             ) : (
               <Navigate to="/Login" />
             )
