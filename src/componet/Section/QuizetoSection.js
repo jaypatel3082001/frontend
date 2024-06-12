@@ -4,7 +4,7 @@
 // import { useLocation, useNavigate } from "react-router-dom";
 
 // function QuizetoSection({ setIsLoggedIn }) {
-//   const [data, setData] = useState([dgfsdgdgsggfsfd]);
+//   const [data, setData] = useState([]);
 //   const [selectedIds, setSelectedIds] = useState([]);
 //   const navigate = useNavigate();
 //   const url = "https://quiz-krishang.vercel.app/quize/getall";
