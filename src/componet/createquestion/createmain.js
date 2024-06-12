@@ -100,7 +100,7 @@
 //     <div className="App">
 //       <div className="flex">
 //         <Sidebar />
-//         <div className="w-full mr-2 bg-white-200">
+//         <div className="w-full  bg-white-200">
 //           <div>
 //             <Navbar />
 //           </div>
@@ -250,7 +250,7 @@ function Createmain({ setIsLoggedIn }) {
     <div className="App">
       <div className="flex">
         <Sidebar />
-        <div className="w-full mr-2 bg-white-200">
+        <div className="w-full  bg-white-200">
           <div>
             <Navbar setIsLoggedIn={setIsLoggedIn} />
           </div>

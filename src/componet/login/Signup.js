@@ -55,7 +55,7 @@ const Signup = ({ setIsLoggedIn }) => {
 
   return (
     <div className="flex">
-      <div className="w-full h-screen mr-2 bg-red-300">
+      <div className="w-full h-screen  bg-red-300">
         {signupSuccess ? (
           <div
             className="alert alert-success container signup-container card signup-card"

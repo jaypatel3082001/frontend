@@ -39,6 +39,7 @@ function QuestionbyQuize() {
         throw new Error("Network response was not ok");
       }
       const result = await response.json();
+      console.log("resx", result);
       setCheckedIds(result.quizemcqs.map((question) => question._id));
     } catch (error) {
       console.error("Fetch operation error:", error);
@@ -87,7 +88,7 @@ function QuestionbyQuize() {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="w-full mr-2">
+      <div className="w-full ">
         <div>
           <Navbar />
         </div>

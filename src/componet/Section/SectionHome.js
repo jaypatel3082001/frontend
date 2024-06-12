@@ -1,6 +1,5 @@
 //to show added quize also user can delete quize
 
-
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Sidebar from "../fixdata/sidebar";
@@ -13,7 +12,7 @@ function SectionHome({ setIsLoggedIn }) {
   //    questionId:''
   // })
   const navigator = useNavigate();
-
+  console.log("sasasas", data);
   useEffect(() => {
     fetchData();
   }, []);
@@ -67,7 +66,7 @@ function SectionHome({ setIsLoggedIn }) {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="w-full mr-2">
+      <div className="w-full ">
         <div>
           <Navbar setIsLoggedIn={setIsLoggedIn} />
         </div>
@@ -97,9 +96,7 @@ function SectionHome({ setIsLoggedIn }) {
               <div key={info._id} className="border-red-600 m-10">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h1 className="text-3xl mb-2 font-bold">
-                      Quize {ind + 1}
-                    </h1>
+                    <h1 className="text-3xl mb-2 font-bold">Quize {ind + 1}</h1>
                   </div>
                   <div className="flex">
                     <div
@@ -128,7 +125,7 @@ function SectionHome({ setIsLoggedIn }) {
                     <input type="radio" name={`option${ind}`} />
                     <span className="ml-2 text-xl">{info.quizename}</span>
                   </div> */}
-                  {/* <div className="bottom-1 border-2 p-2">
+                {/* <div className="bottom-1 border-2 p-2">
                     <input type="radio" name={`option${ind}`} />
                     <span className="ml-2 text-xl">{info.option2}</span>
                   </div>

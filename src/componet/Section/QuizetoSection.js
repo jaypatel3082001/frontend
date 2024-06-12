@@ -59,7 +59,7 @@
 //   return (
 //     <div className="flex">
 //       <Sidebar />
-//       <div className="w-full mr-2">
+//       <div className="w-full ">
 //         <div>
 //           <Navbar setIsLoggedIn={setIsLoggedIn} />
 //         </div>

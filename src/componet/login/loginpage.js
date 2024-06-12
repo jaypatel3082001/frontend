@@ -55,7 +55,7 @@
 //   return (
 //     <div className="flex">
 //       <Sidebar />
-//       <div className="w-full mr-2 bg-white-200">
+//       <div className="w-full  bg-white-200">
 //         <div>
 //           <Navbar />
 //         </div>
@@ -173,7 +173,7 @@ const Loginpage = ({ setIsLoggedIn }) => {
   return (
     <div className="bg-red-300 w-full h-screen">
       <div className="flex ">
-        <div className="w-full mr-2 bg-white-200">
+        <div className="w-full  bg-white-200">
           <div className="container login-container">
             <div className="card login-card">
               <div className="card-body">
