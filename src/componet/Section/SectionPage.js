@@ -52,7 +52,7 @@ function SectionPage({ setIsLoggedIn }) {
   const handleEditClick = (id) => {
     const quizeToUpdate = quizes.data.find((quize) => quize._id === id);
     if (quizeToUpdate) {
-      navigate("/quizform", { state: { itemToEdit: quizeToUpdate } });
+      navigate("/QuizetoSectionName", { state: { itemToEdit: quizeToUpdate } });
     }
   };
   return (
@@ -132,7 +132,11 @@ function SectionPage({ setIsLoggedIn }) {
                   to={`/SectionPage/${info._id}`}
                   className="bg-blue-400 p-2 rounded text-white w-fit"
                 >
-                  Add the {info.sectionName} Section ❯
+                  Add the{" "}
+                  <span className="text-blue-700 font-bold">
+                    {info.sectionName}
+                  </span>{" "}
+                  Section ❯
                 </Link>
               </div>
             ))

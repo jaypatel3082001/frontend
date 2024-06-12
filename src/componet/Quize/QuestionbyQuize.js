@@ -8,15 +8,19 @@ function QuestionbyQuize() {
   const { id } = useParams();
   const [arrrr, setArrrr] = useState([]);
   const navigator = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [checkedIds, setCheckedIds] = useState([]);
 
   const url = "https://quiz-krishang.vercel.app/questions/getallquestions";
-
+  const api = `https://quiz-krishang.vercel.app/quize/read/${id}`;
   useEffect(() => {
     fetchData();
+    fetchApiData();
   }, []);
   console.log("new quize id", id);
   const fetchData = async () => {
     try {
+      //  setIsLoading(true);
       const response = await fetch(url);
 
       if (!response.ok) {
@@ -28,19 +32,33 @@ function QuestionbyQuize() {
       console.error("Fetch operation error:", error);
     }
   };
-
-  const handleQuestion = (e) => {
-    const { value, checked } = e.target;
-    const ind = parseInt(e.target.getAttribute("data-key"), 10);
-
-    if (checked) {
-      // Add item if checked
-      setArrrr((prevArrrr) => [...prevArrrr, { questionId: value }]);
-    } else {
-      // Remove item if unchecked
-      setArrrr((prevArrrr) => prevArrrr.filter((_, i) => i !== ind));
+  const fetchApiData = async () => {
+    try {
+      const response = await fetch(api);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const result = await response.json();
+      setCheckedIds(result.quizemcqs.map((question) => question._id));
+    } catch (error) {
+      console.error("Fetch operation error:", error);
     }
   };
+  const [hadcheck, setHadcheck] = useState([
+    data.map((info, ind) => checkedIds.includes(info._id)),
+  ]);
+  const handleQuestion = (e) => {
+    const { value, checked } = e.target;
+
+    if (checked) {
+      setArrrr((prevArrrr) => [...prevArrrr, { questionId: value }]);
+    } else {
+      setArrrr((prevArrrr) =>
+        prevArrrr.filter((item) => item.questionId !== value)
+      );
+    }
+  };
+
   console.log("src", arrrr);
 
   const handleSubmit = (e) => {
@@ -74,40 +92,51 @@ function QuestionbyQuize() {
           <Navbar />
         </div>
 
-        {/* <div className="w-50 mx-auto mt-5 mb-4"> */}
-        <h1 className="mb-4">Add New Quiz</h1>
+        <div className="w-50 mx-auto mt-5 mb-4">
+          <h1 className="mb-4">Add New Quiz</h1>
 
-        <div className="mb-3">
-          <label htmlFor="question" className="form-label">
-            Quiz-Name
-          </label>
-          <table>
-            <tbody>
-              {data.map((info, ind) => (
-                <tr key={ind} className="border-2 border-slate-500">
-                  <td className="px-96 py-3">
-                    <div className="flex items-center">
-                      <div>
-                        <input
-                          type="checkbox"
-                          className="h-4 w-4"
-                          value={info._id}
-                          data-key={ind}
-                          onChange={handleQuestion}
-                        />
-                      </div>
-                      <div className="fw-bold text-xl">{info.question}</div>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="mb-3">
+            <label htmlFor="question" className="form-label">
+              Quiz-Name
+            </label>
+            <table>
+              <tbody>
+                {isLoading ? (
+                  <div className="flex align-middle">Loading ...</div>
+                ) : (
+                  data.map((info, ind) => (
+                    <tr key={ind} className="border-2 border-slate-500">
+                      <td className="px-96 py-3">
+                        <div className="flex items-center">
+                          <div>
+                            <input
+                              type="checkbox"
+                              className="h-4 w-4 "
+                              value={info._id}
+                              checked={
+                                checkedIds.includes(info._id)
+                                  ? checkedIds.includes(info._id)
+                                  : hadcheck.data?.map((ele) => {
+                                      return ele;
+                                    })
+                              }
+                              onChange={handleQuestion}
+                            />
+                          </div>
+                          <div className="fw-bold text-xl">{info.question}</div>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+          <button className="btn btn-primary" onClick={handleSubmit}>
+            Submit
+          </button>
+          {/* </form> */}
         </div>
-        <button className="btn btn-primary" onClick={handleSubmit}>
-          Submit
-        </button>
-        {/* </form> */}
       </div>
     </div>
   );
