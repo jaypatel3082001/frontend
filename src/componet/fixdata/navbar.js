@@ -11,7 +11,7 @@ function Navbar({ setIsLoggedIn }) {
   };
 
   return (
-    <div className="flex justify-between bg-red-300">
+    <div className="flex justify-between bg-red-300 ">
       <div></div>
       <div className="flex">
         <button onClick={handleLogout} className="p-3">

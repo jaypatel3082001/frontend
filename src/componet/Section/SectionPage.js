@@ -132,7 +132,11 @@ function SectionPage({ setIsLoggedIn }) {
                   to={`/Sectionmain/${info._id}`}
                   className="bg-blue-400 p-2 rounded text-white w-fit"
                 >
-                  Add the {info.sectionName} Section ❯
+                  Add the{" "}
+                  <span className="text-blue-700 font-bold">
+                    {info.sectionName}
+                  </span>{" "}
+                  Section ❯
                 </Link>
               </div>
             ))

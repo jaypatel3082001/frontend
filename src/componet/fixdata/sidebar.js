@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Sidebar() {
   return (
-    <div className="h-screen bg-slate-400 w-52 p-4">
+    <div className="h-full bg-slate-400 w-52  p-4  ">
       <div className="ml-8">
         <div className="sidebar-header flex  items-center  ">
           <div>
