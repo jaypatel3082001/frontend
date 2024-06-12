@@ -16,7 +16,7 @@ import Userpages from "./componet/User/userpages";
 import Quizform from "./componet/Quize/quizform";
 import Userpage from "./componet/Quize/Userpage";
 import QuestionbyQuize from "./componet/Quize/QuestionbyQuize";
-import QuizetoSection from "./componet/Section/QuizetoSection";
+// import QuizetoSection from "./componet/Section/QuizetoSection";
 import Sectionmain from "./componet/Section/SectionPage";
 import QuizetoSectionName from "./componet/Section/QuizetoSectionName";
 import QuizebySection from "./componet/Section/QuizebySection";
@@ -116,7 +116,7 @@ function App() {
             )
           }
         />
-        <Route
+        {/* <Route
           path="/QuizetoSection"
           element={
             isLoggedIn ? (
@@ -125,7 +125,7 @@ function App() {
               <Navigate to="/Login" />
             )
           }
-        />
+        /> */}
         <Route
           path="/Sectionmain"
           element={
