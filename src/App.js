@@ -158,6 +158,16 @@ function App() {
           }
         />
         <Route
+          path="/QuizebySection"
+          element={
+            isLoggedIn ? (
+              <QuizebySection setIsLoggedIn={setIsLoggedIn} />
+            ) : (
+              <Navigate to="/Login" />
+            )
+          }
+        />
+        <Route
           path="/SectionHome"
           element={
             isLoggedIn ? (

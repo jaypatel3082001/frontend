@@ -16,6 +16,7 @@ function QuestionAdd({ setIsLoggedIn }) {
     option3: "",
     option4: "",
     answer: "",
+    weightage: "",
   });
 
   useEffect(() => {
@@ -156,19 +157,25 @@ function QuestionAdd({ setIsLoggedIn }) {
                 required
               >
                 <option value="">Select Answer*</option>
-                <option value={inputquedata.option1}>
-                  {inputquedata.option1}
-                </option>
-                <option value={inputquedata.option2}>
-                  {inputquedata.option2}
-                </option>
-                <option value={inputquedata.option3}>
-                  {inputquedata.option3}
-                </option>
-                <option value={inputquedata.option4}>
-                  {inputquedata.option4}
-                </option>
+                <option value="option1">{inputquedata.option1}</option>
+                <option value="option2">{inputquedata.option2}</option>
+                <option value="option3">{inputquedata.option3}</option>
+                <option value="option4">{inputquedata.option4}</option>
               </select>
+            </div>
+            <div className="mb-3">
+              <label htmlFor="option4" className="form-label">
+                weightage
+              </label>
+              <input
+                type="text"
+                name="weightage"
+                value={inputquedata.weightage}
+                onChange={handleChange}
+                className="form-control"
+                placeholder="weightage "
+                required
+              />
             </div>
             <button type="submit" className="btn btn-primary">
               Submit

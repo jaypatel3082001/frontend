@@ -202,9 +202,6 @@ function QuizebySection() {
           <h1 className="mb-4">Add New Quiz</h1>
 
           <div className="mb-3">
-            <label htmlFor="question" className="form-label">
-              Quiz-Name
-            </label>
             <table>
               <tbody>
                 {data.data?.map((info, ind) => (

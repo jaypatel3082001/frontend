@@ -141,6 +141,7 @@ function SectionPage({ setIsLoggedIn }) {
                   </Link>
                 </div>
                 <h1 className="fw-bold text-2xl">Add the Quiz</h1>
+
                 <h1 className="fw-bold text-xl mt-3 mb-4">
                   {info.sectionName}
                 </h1>

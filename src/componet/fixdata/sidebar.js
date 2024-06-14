@@ -1,11 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { ReactComponent as Result } from "../../svgfile/result.svg";
+import { ReactComponent as Examlist } from "../../svgfile/examlist.svg";
+import { ReactComponent as Logout } from "../../svgfile/logout.svg";
+import { ReactComponent as Newexam } from "../../svgfile/newexam.svg";
+import { ReactComponent as Qestionadd } from "../../svgfile/Questionadd.svg";
+import { ReactComponent as Quize } from "../../svgfile/Quize.svg";
+import { ReactComponent as Home } from "../../svgfile/homg.svg";
 
 function Sidebar() {
-  const app = "";
-  const url = "";
+  const { id } = useParams();
   return (
-    <div className="h-full bg-slate-400 w-52  p-4  ">
+    <div className="h-full bg-blue-200 w-52  p-4  ">
       <div className="ml-8">
         <div className="sidebar-header flex  items-center  ">
           <div>
@@ -22,7 +28,7 @@ function Sidebar() {
         </div>
         <div className="mt-8 p-0">
           <div className="m-0 p-0">
-            <ul className="">
+            {/* <ul className="">
               <Link to="/" className="mt-5 flex">
                 Home
               </Link>
@@ -38,7 +44,62 @@ function Sidebar() {
               <Link to="/userpages" className="mt-5 flex">
                 User
               </Link>
-            </ul>
+            </ul> */}
+            <div className="h-screen w-44 text-black flex flex-col space-y-8 ">
+              <ul className="flex flex-col space-y-6 mt-7">
+                <li className="flex flex-row items-center py-1 ">
+                  <Link
+                    to="/"
+                    className="flex flex-row items-center py-2 space-x-2"
+                  >
+                    <Home />
+                    <div>Home</div>
+                  </Link>
+                </li>{" "}
+                <li className="flex flex-row items-center py-1 ">
+                  <Link
+                    to="/createmain"
+                    className="flex flex-row items-center py-2 space-x-2"
+                  >
+                    <Qestionadd />
+                    <div>Add-question</div>
+                  </Link>
+                </li>{" "}
+                <li className="flex flex-row items-center py-1 ">
+                  <Link
+                    to="/Quizmain"
+                    className="flex flex-row items-center py-2 space-x-2"
+                  >
+                    <Quize />
+                    <div>Quize</div>
+                  </Link>
+                </li>
+                <li className="flex flex-row items-center py-1 ">
+                  <Link
+                    to="/Sectionmain"
+                    className="flex flex-row items-center py-2 space-x-2"
+                  >
+                    <Examlist />
+                    <div>Section</div>
+                  </Link>
+                </li>
+                <li className="flex flex-row items-center py-2">
+                  <Link
+                    to="/result"
+                    className="flex flex-row items-center py-2 space-x-2"
+                  >
+                    <Result />
+                    <div>Result</div>
+                  </Link>
+                </li>
+                <li className="flex flex-row items-center py-2">
+                  <button className="flex flex-row items-center py-2 space-x-2">
+                    <Logout />
+                    <div>Logout</div>
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
