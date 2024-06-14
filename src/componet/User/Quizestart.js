@@ -11,7 +11,7 @@ function Quizestart({ id }) {
 
   useEffect(() => {
     fetchData();
-    fetchDatas();
+    // fetchDatas();
   }, []);
 
   const fetchData = async () => {
@@ -44,26 +44,26 @@ function Quizestart({ id }) {
   //   return randomedArray;
   // };
 
-  const fetchDatas = async () => {
-    try {
-      setIsLoading(true);
-      const response = await fetch(
-        "https://quiz-krishang.vercel.app/result/create/66669a840ab0fa8918321786"
-      );
+  // const fetchDatas = async () => {
+  //   try {
+  //     setIsLoading(true);
+  //     const response = await fetch(
+  //       "https://quiz-krishang.vercel.app/result/create/66669a840ab0fa8918321786"
+  //     );
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
+  //     if (!response.ok) {
+  //       throw new Error("Network response was not ok");
+  //     }
 
-      const result = await response.json();
-      setData(result);
-      console.log("Fetched data:", result);
-    } catch (error) {
-      console.error("Fetch operation error:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  //     const result = await response.json();
+  //     setData(result);
+  //     console.log("Fetched data:", result);
+  //   } catch (error) {
+  //     console.error("Fetch operation error:", error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
