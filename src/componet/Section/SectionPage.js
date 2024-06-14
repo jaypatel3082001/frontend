@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setSectionid } from "../../reduxfiles/InputSlice";
+// import { useDispatch } from "react-redux";
+// import { setSectionid } from "../../reduxfiles/InputSlice";
 
 function SectionPage({ setIsLoggedIn }) {
   const [quizes, setQuizes] = useState([]);

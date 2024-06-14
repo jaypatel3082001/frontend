@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 function SectionHome({ setIsLoggedIn }) {
   // const { id } = useParams();
