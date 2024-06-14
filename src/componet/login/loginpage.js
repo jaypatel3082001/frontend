@@ -159,8 +159,8 @@ const Loginpage = ({ setIsLoggedIn }) => {
           password: "",
         });
         setErrorMessage("");
-        setIsLoggedIn(true); // Set isLoggedIn state to true upon successful login
-        navigate("/"); // Redirect to the main page upon successful login
+        setIsLoggedIn(true);
+        navigate("/");
       } else {
         setErrorMessage("Invalid email or password");
       }
