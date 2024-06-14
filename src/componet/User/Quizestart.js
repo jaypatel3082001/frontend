@@ -137,7 +137,7 @@ function Quizestart({ id }) {
       }
     });
   };
-
+  console.log("dddddddddd", arrrr);
   let qcount = 0;
 
   console.log("arrrr", arrrr);

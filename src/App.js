@@ -317,7 +317,7 @@ function App() {
           }
         />
         <Route
-          path="/Quizmain/:id"
+          path="/Quizmain/question-list"
           element={
             <PrivateRoute isLoggedIn={isLoggedIn}>
               <Userpage setIsLoggedIn={setIsLoggedIn} />
@@ -333,7 +333,7 @@ function App() {
           }
         />
         <Route
-          path="Quizmain/QuestionbyQuize/:id"
+          path="Quizmain/question-list/question-select"
           element={
             <PrivateRoute isLoggedIn={isLoggedIn}>
               <QuestionbyQuize setIsLoggedIn={setIsLoggedIn} />
@@ -349,7 +349,7 @@ function App() {
           }
         />
         <Route
-          path="/Sectionmain/:id"
+          path="/Sectionmain/Section-quiz-list"
           element={
             <PrivateRoute isLoggedIn={isLoggedIn}>
               <SectionHome setIsLoggedIn={setIsLoggedIn} />
@@ -357,7 +357,7 @@ function App() {
           }
         />
         <Route
-          path="/SectionHome/Sectionmain/:id"
+          path="/SectionHome/Sectionmain/quizelist"
           element={
             <PrivateRoute isLoggedIn={isLoggedIn}>
               <QuizebySection setIsLoggedIn={setIsLoggedIn} />
@@ -389,7 +389,7 @@ function App() {
           }
         />
         <Route
-          path="/userpages/:id"
+          path="/userpages/quiz-start"
           element={
             <PrivateRoute isLoggedIn={isLoggedIn}>
               <Userpages setIsLoggedIn={setIsLoggedIn} />

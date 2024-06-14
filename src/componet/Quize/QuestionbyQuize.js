@@ -5,7 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 
 function QuestionbyQuize() {
   const [data, setData] = useState([]);
-  const { id } = useParams();
+  // const { id } = useParams();
+  const id = localStorage.getItem("QuizeId");
   const [arrrr, setArrrr] = useState([]);
   const navigator = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -82,7 +83,7 @@ function QuestionbyQuize() {
         console.error("Submission error");
       }
     });
-    navigator(`/Quizmain/${id}`);
+    navigator(`/Quizmain/question-list`);
   };
 
   return (

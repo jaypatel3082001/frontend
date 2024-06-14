@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setSectionid } from "../../reduxfiles/InputSlice";
 
 function SectionPage({ setIsLoggedIn }) {
   const [quizes, setQuizes] = useState([]);
@@ -11,6 +13,7 @@ function SectionPage({ setIsLoggedIn }) {
   useEffect(() => {
     fetchData();
   }, []);
+  // const dispatch = useDispatch();
 
   const fetchData = async () => {
     try {
@@ -54,6 +57,12 @@ function SectionPage({ setIsLoggedIn }) {
     if (quizeToUpdate) {
       navigate("/QuizetoSectionName", { state: { itemToEdit: quizeToUpdate } });
     }
+  };
+  const handleSec = (id1) => {
+    // const value = e.target.getAttribute("value");
+    console.log("mmmmmmmmmm", id1);
+    // dispatch(setSectionid(`${id1}`));
+    localStorage.setItem("sectionId", id1);
   };
   return (
     <div className="flex">
@@ -123,7 +132,7 @@ function SectionPage({ setIsLoggedIn }) {
                       />
                     </svg>
                   </div>
-                  <Link to={`/userpages/${info._id}`}>
+                  <Link to={`/userpages/quiz-start`}>
                     {" "}
                     <div
                       className="cursor-pointer ml-4"
@@ -146,14 +155,17 @@ function SectionPage({ setIsLoggedIn }) {
                   {info.sectionName}
                 </h1>
                 <Link
-                  to={`/Sectionmain/${info._id}`}
+                  to={`/Sectionmain/Section-quiz-list`}
                   className="bg-blue-400 p-2 rounded text-white w-fit"
                 >
-                  Add the{" "}
-                  <span className="text-blue-700 font-bold">
-                    {info.sectionName}
-                  </span>{" "}
-                  Section ❯
+                  <button onClick={() => handleSec(info._id)}>
+                    {" "}
+                    Add the{" "}
+                    <span className="text-blue-700 font-bold">
+                      {info.sectionName}
+                    </span>{" "}
+                    Section ❯
+                  </button>
                 </Link>
               </div>
             ))

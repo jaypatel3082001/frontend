@@ -9,7 +9,8 @@ function Userpage() {
   const [isstart, setIsstart] = useState(false);
 
   const api = "https://quiz-krishang.vercel.app/section/read";
-  const { id } = useParams();
+  // const { id } = useParams();
+  const id = localStorage.getItem("sectionId");
   useEffect(() => {
     fetchData();
   }, []);
