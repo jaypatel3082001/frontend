@@ -184,6 +184,9 @@ function Quizemain({ setIsLoggedIn }) {
       navigate("/quizform", { state: { itemToEdit: quizeToUpdate } });
     }
   };
+  const handleQuize = (id) => {
+   localStorage.setItem("QuizeId",id)
+  };
 
   return (
     <div className="flex">
@@ -240,10 +243,10 @@ function Quizemain({ setIsLoggedIn }) {
               <h1 className="fw-bold text-2xl">Add the Quiz</h1>
               <h1 className="fw-bold text-xl mt-3 mb-4">{info.quizename}</h1>
               <Link
-                to={`/Quizmain/${info._id}`}
+                to={`/Quizmain/question-list`}
                 className="bg-blue-400 p-2 rounded text-white w-fit"
               >
-                Add the {info.quizename} Quiz ❯
+               <button onClick={() => handleQuize(info._id)}> Add the {info.quizename} Quiz ❯</button>
               </Link>
             </div>
           ))

@@ -4,9 +4,14 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
+import { useSelector } from "react-redux";
 
 function SectionHome({ setIsLoggedIn }) {
-  const { id } = useParams();
+  // const { id } = useParams();
+  // const inputs = useSelector((state) => state.action);
+  // console.log("redux value", inputs?.sectionId);
+  const id = localStorage.getItem("sectionId");
+  console.log("redux value", id);
   const [data, setData] = useState([]);
   // const [del,setDel]=useState({
   //    questionId:''
@@ -62,6 +67,9 @@ function SectionHome({ setIsLoggedIn }) {
     }
   };
   console.log("data  h", data);
+  const handleQuize = (id) => {
+    localStorage.setItem("QuizeId", id);
+  };
 
   return (
     <div className="flex">
@@ -74,7 +82,7 @@ function SectionHome({ setIsLoggedIn }) {
           <div></div>
           <div className=" flex items-center flex-col p-2  bg-blue-300">
             <div>Add Quize In Section</div>
-            <Link to={`/SectionHome/Sectionmain/${id}`}>
+            <Link to={`/SectionHome/Sectionmain/quizelist`}>
               <button className="bg-red-300 w-fit mt-1" type="submit">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -117,8 +125,11 @@ function SectionHome({ setIsLoggedIn }) {
                     </div>
                   </div>
                 </div>
-                <Link to={`/Quizmain/${info._id}`}>
-                  <div className="bottom-1 border-2 py-3 font-bold text-xl pl-2">
+                <Link to={`/Quizmain/question-list`}>
+                  <div
+                    className="bottom-1 border-2 py-3 font-bold text-xl pl-2"
+                    onClick={() => handleQuize(info._id)}
+                  >
                     {info.quizename}
                   </div>
                 </Link>

@@ -85,7 +85,7 @@ function App() {
           }
         />
         <Route
-          path="/Quizmain/:id"
+          path="/Quizmain/question-list"
           element={
             isLoggedIn ? (
               <Userpage setIsLoggedIn={setIsLoggedIn} />
@@ -107,7 +107,7 @@ function App() {
         />
 
         <Route
-          path="Quizmain/QuestionbyQuize/:id"
+          path="Quizmain/question-list/question-select"
           element={
             isLoggedIn ? (
               <QuestionbyQuize setIsLoggedIn={setIsLoggedIn} />
@@ -137,7 +137,7 @@ function App() {
           }
         />
         <Route
-          path="/Sectionmain/:id"
+          path="/Sectionmain/Section-quiz-list"
           element={
             isLoggedIn ? (
               <SectionHome setIsLoggedIn={setIsLoggedIn} />
@@ -148,7 +148,7 @@ function App() {
         />
 
         <Route
-          path="/SectionHome/Sectionmain/:id"
+          path="/SectionHome/Sectionmain/quizelist"
           element={
             isLoggedIn ? (
               <QuizebySection setIsLoggedIn={setIsLoggedIn} />
@@ -188,7 +188,7 @@ function App() {
           }
         />
         <Route
-          path="/userpages/:id"
+          path="/userpages/quiz-start"
           element={
             isLoggedIn ? (
               <Userpages setIsLoggedIn={setIsLoggedIn} />

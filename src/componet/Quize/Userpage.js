@@ -4,7 +4,8 @@ import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
 
 function Userpage({ setIsLoggedIn }) {
-  const { id } = useParams();
+  // const { id } = useParams();
+  const id = localStorage.getItem("QuizeId");
   const [data, setData] = useState([]);
   // const [del,setDel]=useState({
   //    questionId:''
@@ -72,7 +73,7 @@ function Userpage({ setIsLoggedIn }) {
           <div></div>
           <div className=" flex items-center flex-col p-2  bg-blue-300">
             <div>Add Question By Quize</div>
-            <Link to={`/Quizmain/QuestionbyQuize/${id}`}>
+            <Link to={`/Quizmain/question-list/question-select`}>
               <button className="bg-red-300 w-fit mt-1" type="submit">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

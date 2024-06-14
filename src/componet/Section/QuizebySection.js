@@ -102,7 +102,8 @@ import { useNavigate, useParams } from "react-router-dom";
 
 function QuizebySection() {
   const [data, setData] = useState([]);
-  const { id } = useParams();
+  // const { id } = useParams();
+  const id = localStorage.getItem("sectionId");
   const [arrrr, setArrrr] = useState([]);
   const navigator = useNavigate();
   const [checkedIds, setCheckedIds] = useState([]);
@@ -186,7 +187,7 @@ function QuizebySection() {
         console.error("Submission error");
       }
     });
-    navigator(`/Sectionmain/${id}`);
+    navigator(`/Sectionmain/Section-quiz-list`);
   };
   console.log("this is data   k", data);
 
