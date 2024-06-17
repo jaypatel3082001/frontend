@@ -126,7 +126,7 @@ function Sidebar() {
 
     const token = localStorage.getItem("token"); // Check if token exists in local storage
     if (!token) {
-      navigate("/login"); // Redirect to login page if token does not exist
+      navigate("/Logingpage"); // Redirect to login page if token does not exist
     }
   };
 
