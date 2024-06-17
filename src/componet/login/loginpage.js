@@ -133,7 +133,7 @@ const Loginpage = ({ setIsLoggedIn }) => {
       [name]: value,
     }));
   };
-
+  console.log("data    ..", inputlogindata);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -146,17 +146,14 @@ const Loginpage = ({ setIsLoggedIn }) => {
         },
         body: JSON.stringify(inputlogindata),
       });
-
+      console.log("ress---", response);
       if (response.ok) {
         const result = await response.json();
         console.log("result", result);
         localStorage.setItem("authToken", result.token); // Save token to localStorage
-        setInputlogindata({
-          email: "",
-          password: "",
-        });
+        setInputlogindata(result);
         setErrorMessage("");
-        setIsLoggedIn(true);
+        // setIsLoggedIn(true);
         navigate("/");
       } else {
         setErrorMessage("Invalid email or password");
@@ -165,6 +162,7 @@ const Loginpage = ({ setIsLoggedIn }) => {
       console.error("Fetch operation error:", error);
       setErrorMessage("An error occurred. Please try again.");
     }
+    navigate(0);
   };
 
   return (

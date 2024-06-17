@@ -37,15 +37,15 @@
 //         <Route
 //           path="/"
 //           element={
-//             <PrivateRoute isLoggedIn={isLoggedIn}>
-//               <Main setIsLoggedIn={setIsLoggedIn} />
+//             <PrivateRoute   >
+//               <Main   />
 //             </PrivateRoute>
 //           }
 //         />
 //         <Route
 //           path="/QuizetoSectionName"
 //           element={
-//             <PrivateRoute isLoggedIn={isLoggedIn}>
+//             <PrivateRoute   >
 //               <QuizetoSectionName setIsLoggedIn={setIsLoggedIn} />
 //             </PrivateRoute>
 //           }
@@ -260,13 +260,18 @@ import PrivateRoute from "./PrivateRoute";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const token = localStorage.getItem("authToken");
+  console.log("jjjjjjjj", token);
+  console.log("jjjjjjjjkkkkkkkkkkkk", isLoggedIn);
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
+    if (token === "null") {
+      setIsLoggedIn(false);
+      console.log("hello");
+    } else {
+      console.log("pppppp", token);
       setIsLoggedIn(true);
     }
-  }, []);
+  }, [token]);
 
   return (
     <Router>
@@ -274,133 +279,145 @@ function App() {
         <Route
           path="/"
           element={
-            <PrivateRoute isLoggedIn={isLoggedIn}>
-              <Main setIsLoggedIn={setIsLoggedIn} />
+            <PrivateRoute>
+              {isLoggedIn == true ? <Main /> : <Loginpage />}
             </PrivateRoute>
           }
         />
         <Route
           path="/QuizetoSectionName"
           element={
-            <PrivateRoute isLoggedIn={isLoggedIn}>
-              <QuizetoSectionName setIsLoggedIn={setIsLoggedIn} />
+            <PrivateRoute>
+              {isLoggedIn == true ? <QuizetoSectionName /> : <Loginpage />}
+              {/* <QuizetoSectionName setIsLoggedIn={setIsLoggedIn} /> */}
             </PrivateRoute>
           }
         />
-        <Route
-          path="/Logingpage"
-          element={<Loginpage setIsLoggedIn={setIsLoggedIn} />}
-        />
+        <Route path="/Logingpage" element={<Loginpage />} />
         <Route path="/Signup" element={<Signup />} />
         <Route
           path="/createmain"
           element={
-            <PrivateRoute isLoggedIn={isLoggedIn}>
-              <Createmain setIsLoggedIn={setIsLoggedIn} />
+            <PrivateRoute>
+              {isLoggedIn == true ? <Createmain /> : <Loginpage />}
+              {/* <Createmain /> */}
             </PrivateRoute>
           }
         />
         <Route
           path="/questionadd"
           element={
-            <PrivateRoute isLoggedIn={isLoggedIn}>
-              <QuestionAdd setIsLoggedIn={setIsLoggedIn} />
+            <PrivateRoute>
+              {isLoggedIn == true ? <QuestionAdd /> : <Loginpage />}
+              {/* <QuestionAdd setIsLoggedIn={setIsLoggedIn} /> */}
             </PrivateRoute>
           }
         />
         <Route
           path="/quizform"
           element={
-            <PrivateRoute isLoggedIn={isLoggedIn}>
-              <Quizform setIsLoggedIn={setIsLoggedIn} />
+            <PrivateRoute>
+              {isLoggedIn == true ? <Quizform /> : <Loginpage />}
+              {/* <Quizform setIsLoggedIn={setIsLoggedIn} /> */}
             </PrivateRoute>
           }
         />
         <Route
           path="/Quizmain/question-list"
           element={
-            <PrivateRoute isLoggedIn={isLoggedIn}>
-              <Userpage setIsLoggedIn={setIsLoggedIn} />
+            <PrivateRoute>
+              {isLoggedIn == true ? <Userpage /> : <Loginpage />}
+              {/* <Userpage setIsLoggedIn={setIsLoggedIn} /> */}
             </PrivateRoute>
           }
         />
         <Route
           path="/Quizmain"
           element={
-            <PrivateRoute isLoggedIn={isLoggedIn}>
-              <Quizmain setIsLoggedIn={setIsLoggedIn} />
+            <PrivateRoute>
+              {isLoggedIn == true ? <Quizmain /> : <Loginpage />}
+              {/* <Quizmain /> */}
             </PrivateRoute>
           }
         />
         <Route
           path="Quizmain/question-list/question-select"
           element={
-            <PrivateRoute isLoggedIn={isLoggedIn}>
-              <QuestionbyQuize setIsLoggedIn={setIsLoggedIn} />
+            <PrivateRoute>
+              {isLoggedIn == true ? <QuestionbyQuize /> : <Loginpage />}
+              {/* <QuestionbyQuize /> */}
             </PrivateRoute>
           }
         />
         <Route
           path="/Sectionmain"
           element={
-            <PrivateRoute isLoggedIn={isLoggedIn}>
-              <Sectionmain setIsLoggedIn={setIsLoggedIn} />
+            <PrivateRoute>
+              {isLoggedIn == true ? <Sectionmain /> : <Loginpage />}
+              {/* <Sectionmain /> */}
             </PrivateRoute>
           }
         />
         <Route
           path="/Sectionmain/Section-quiz-list"
           element={
-            <PrivateRoute isLoggedIn={isLoggedIn}>
-              <SectionHome setIsLoggedIn={setIsLoggedIn} />
+            <PrivateRoute>
+              {isLoggedIn == true ? <SectionHome /> : <Loginpage />}
+              {/* <SectionHome /> */}
             </PrivateRoute>
           }
         />
         <Route
           path="/SectionHome/Sectionmain/quizelist"
           element={
-            <PrivateRoute isLoggedIn={isLoggedIn}>
-              <QuizebySection setIsLoggedIn={setIsLoggedIn} />
+            <PrivateRoute>
+              {isLoggedIn == true ? <QuizebySection /> : <Loginpage />}
+              {/* <QuizebySection /> */}
             </PrivateRoute>
           }
         />
         <Route
           path="/QuizebySection"
           element={
-            <PrivateRoute isLoggedIn={isLoggedIn}>
-              <QuizebySection setIsLoggedIn={setIsLoggedIn} />
+            <PrivateRoute>
+              {isLoggedIn == true ? <QuizebySection /> : <Loginpage />}
+              {/* <QuizebySection /> */}
             </PrivateRoute>
           }
         />
         <Route
           path="/SectionHome"
           element={
-            <PrivateRoute isLoggedIn={isLoggedIn}>
-              <SectionHome setIsLoggedIn={setIsLoggedIn} />
+            <PrivateRoute>
+              {isLoggedIn == true ? <SectionHome /> : <Loginpage />}
+              {/* <SectionHome /> */}
             </PrivateRoute>
           }
         />
         <Route
           path="Sectionmain/Userpage/:id"
           element={
-            <PrivateRoute isLoggedIn={isLoggedIn}>
-              <Main setIsLoggedIn={setIsLoggedIn} />
+            <PrivateRoute>
+              {isLoggedIn == true ? <Main /> : <Loginpage />}
+              {/* <Main /> */}
             </PrivateRoute>
           }
         />
         <Route
           path="/userpages/quiz-start"
           element={
-            <PrivateRoute isLoggedIn={isLoggedIn}>
-              <Userpages setIsLoggedIn={setIsLoggedIn} />
+            <PrivateRoute>
+              {isLoggedIn == true ? <Userpages /> : <Loginpage />}
+              {/* <Userpages /> */}
             </PrivateRoute>
           }
         />
         <Route
           path="/userpages"
           element={
-            <PrivateRoute isLoggedIn={isLoggedIn}>
-              <Main setIsLoggedIn={setIsLoggedIn} />
+            <PrivateRoute>
+              {isLoggedIn == true ? <Main /> : <Loginpage />}
+              {/* <Main /> */}
             </PrivateRoute>
           }
         />

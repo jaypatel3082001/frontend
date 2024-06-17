@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Quizestart({ id }) {
   const [data, setData] = useState([]);
   const [coutn, setCoutn] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
-  const [arrrr, setArrrr] = useState([]);
+  const navigator = useNavigate();
+  const [arrrr, setArrrr] = useState([
+    // {
+    //   sectionId: "",
+    //   question: [{ questionId: "", qindex: "", answer: "", isAttempted: true }],
+    // },
+  ]);
 
   const url = `https://quiz-krishang.vercel.app/section/getall/${id}`;
 
@@ -66,6 +73,7 @@ function Quizestart({ id }) {
   // };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("ggggggggggyyyyyyyyyy", arrrr[0]);
 
     try {
       const response = await fetch(
@@ -75,7 +83,7 @@ function Quizestart({ id }) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(arrrr),
+          body: JSON.stringify(arrrr[0]),
         }
       );
 
@@ -88,46 +96,52 @@ function Quizestart({ id }) {
       console.error("Error during submission", error);
     } finally {
     }
+    navigator(0);
   };
   const handleQuestion = (e) => {
     const answer = e.target.value;
     const questionId = e.target.getAttribute("data-question-id");
     const qindex = parseInt(e.target.getAttribute("data-qindex"));
-    const question = e.target.getAttribute("data-question-name");
+    // const question = e.target.getAttribute("data-question-name");
 
     setArrrr((prevArrrr) => {
-      const existingQuestionIndex = prevArrrr.findIndex(
-        (item) => item.qindex === qindex
+      const existingSectionIndex = prevArrrr.findIndex(
+        (section) => section.sectionId === id
       );
 
-      if (existingQuestionIndex !== -1) {
+      if (existingSectionIndex !== -1) {
         const updatedArrrr = [...prevArrrr];
-        updatedArrrr[existingQuestionIndex] = {
-          sectionId: `${id}`,
-          questions: [
-            {
-              qindex,
+        const existingSection = updatedArrrr[existingSectionIndex];
+        const existingQuestionIndex = existingSection.questions.findIndex(
+          (q) => q.qindex === qindex
+        );
 
-              ...updatedArrrr[existingQuestionIndex].qdetails,
-              questionId,
-              question,
-              answer,
-              isAttempted: true,
-            },
-          ],
-        };
+        if (existingQuestionIndex !== -1) {
+          existingSection.questions[existingQuestionIndex] = {
+            ...existingSection.questions[existingQuestionIndex],
+            answer,
+            isAttempted: true,
+          };
+        } else {
+          existingSection.questions.push({
+            questionId,
+            qindex,
+            answer,
+            isAttempted: true,
+          });
+        }
+
+        updatedArrrr[existingSectionIndex] = existingSection;
         return updatedArrrr;
       } else {
         return [
           ...prevArrrr,
           {
-            sectionId: `${id}`,
+            sectionId: id,
             questions: [
               {
-                qindex,
-
                 questionId,
-                question,
+                qindex,
                 answer,
                 isAttempted: true,
               },

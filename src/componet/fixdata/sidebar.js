@@ -120,13 +120,19 @@ function Sidebar() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("onBoarding");
+    console.log("this is");
+    localStorage.setItem("authToken", null);
 
-    const token = localStorage.getItem("token"); // Check if token exists in local storage
-    if (!token) {
-      navigate("/login"); // Redirect to login page if token does not exist
+    // localStorage.removeItem("token");
+    // localStorage.removeItem("refreshToken");
+    // localStorage.removeItem("onBoarding");
+    const token = localStorage.getItem("authToken");
+    console.log(token);
+
+    // const token = localStorage.getItem("token"); // Check if token exists in local storage
+    if (token === "null") {
+      // localStorage.setItem("authToken",)
+      navigate("/Logingpage"); // Redirect to login page if token does not exist
     }
   };
 
