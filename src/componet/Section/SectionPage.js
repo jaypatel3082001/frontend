@@ -65,6 +65,12 @@ function SectionPage({ setIsLoggedIn }) {
     // dispatch(setSectionid(`${id1}`));
     localStorage.setItem("sectionId", id1);
   };
+  const handleShare = (id1) => {
+    // const value = e.target.getAttribute("value");
+    console.log("mmmmmmmmmm", id1);
+    // dispatch(setSectionid(`${id1}`));
+    localStorage.setItem("sectionId", id1);
+  };
   return (
     <div className="flex">
       <Sidebar />
@@ -137,7 +143,7 @@ function SectionPage({ setIsLoggedIn }) {
                     {" "}
                     <div
                       className="cursor-pointer ml-4"
-                      // onClick={() => handleDelete(info._id)}
+                      onClick={() => handleShare(info._id)}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
