@@ -78,6 +78,7 @@ function Quizestart({ id }) {
   };
 
   const handleSubmit = async () => {
+    console.log("arrrr", arrrr);
     try {
       const response = await fetch(
         "https://quiz-krishang.vercel.app/result/create/66669a840ab0fa8918321786",
