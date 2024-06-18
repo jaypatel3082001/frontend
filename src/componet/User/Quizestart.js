@@ -7,6 +7,8 @@ function Quizestart({ id }) {
   const [issubmitted, setIssubmitted] = useState(false);
   const [arrrr, setArrrr] = useState([]);
   const navigate = useNavigate();
+  const token = localStorage.getItem("authToken");
+  // console.log("token::", token);
 
   const [currentPartPage, setCurrentPartPage] = useState(0);
   const [currentQuestionPage, setCurrentQuestionPage] = useState(0);
@@ -104,11 +106,12 @@ function Quizestart({ id }) {
     };
     try {
       const response = await fetch(
-        "https://quiz-krishang.vercel.app/result/create/66669a840ab0fa8918321786",
+        "https://quiz-krishang.vercel.app/result/create",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(result),
         }
