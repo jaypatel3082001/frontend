@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Quizestart({ id }) {
+  const [data1, setData1] = useState([]);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [issubmitted, setIssubmitted] = useState(false);
   const [arrrr, setArrrr] = useState([]);
   const navigate = useNavigate();
+  let new_arr = [];
 
   const [currentPartPage, setCurrentPartPage] = useState(0);
   const [currentQuestionPage, setCurrentQuestionPage] = useState(0);
@@ -23,7 +25,7 @@ function Quizestart({ id }) {
 
   const url = `https://quiz-krishang.vercel.app/section/getall/${id}`;
   console.log("data..", data);
-  const [timeRemaining, setTimeRemaining] = useState(0.1); // Initial time in minutes
+  const [timeRemaining, setTimeRemaining] = useState(1); // Initial time in minutes
 
   useEffect(() => {
     const totalSeconds = timeRemaining * 60;
@@ -52,7 +54,17 @@ function Quizestart({ id }) {
       .toString()
       .padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
   };
-
+  const shuffleArray = (array) => {
+    let shuffledArray = array.slice(); // Create a copy of the array
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [
+        shuffledArray[j],
+        shuffledArray[i],
+      ];
+    }
+    return shuffledArray;
+  };
   useEffect(() => {
     fetchData();
   }, []);
@@ -66,7 +78,11 @@ function Quizestart({ id }) {
         throw new Error("Network response was not ok");
       }
       const result = await response.json();
-      setData(result);
+
+      // rand
+      // setData1(result);
+      // const aa = ;
+      setData(shuffleArray(result));
 
       // Initialize unanswered count for each section
       const initialUnansweredCount = {};
@@ -344,69 +360,76 @@ function Quizestart({ id }) {
                 </div>
 
                 <div>
-                  {info.quizemcqs
-                    ?.slice(
-                      currentQuestionPage * questionsPerPage,
-                      (currentQuestionPage + 1) * questionsPerPage
-                    )
-                    .map((ele, questionIndex) => {
-                      counter = `${currentPartPage + 1}${
-                        currentQuestionPage + 1
-                      }`;
+                  {
+                    (
+                      // shuffleArray(info.quizemcqs) &&
+                      info.quizemcqs
+                        ?.slice(
+                          currentQuestionPage * questionsPerPage,
+                          (currentQuestionPage + 1) * questionsPerPage
+                        )
+                        .map((ele, questionIndex) => {
+                          counter = `${currentPartPage + 1}${
+                            currentQuestionPage + 1
+                          }`;
 
-                      const qcount =
-                        questionIndex +
-                        1 +
-                        currentQuestionPage * questionsPerPage;
-                      const existingAnswer = arrrr
-                        .find((section) => section.sectionId === id)
-                        ?.questions.find(
-                          (q) => q.qindex === parseInt(counter)
-                        )?.answer;
+                          const qcount =
+                            questionIndex +
+                            1 +
+                            currentQuestionPage * questionsPerPage;
+                          const existingAnswer = arrrr
+                            .find((section) => section.sectionId === id)
+                            ?.questions.find(
+                              (q) => q.qindex === parseInt(counter)
+                            )?.answer;
 
-                      return (
-                        <div key={questionIndex} className="mb-4">
-                          <h1>{`Question ${counter}`}</h1>
-                          {/* <h1>{`Question ${counter1}`}</h1> */}
-                          <div className="border-2 py-3 font-bold text-xl pl-2 mb-2">
-                            {ele.question}
-                          </div>
-                          <div>
-                            {[
-                              ele.option1,
-                              ele.option2,
-                              ele.option3,
-                              ele.option4,
-                            ].map((option, index) => (
-                              <div key={index} className="border-2 p-2 mb-2">
-                                <input
-                                  type="radio"
-                                  name={`option-${partIndex}-${questionIndex}`}
-                                  value={`option${index + 1}`}
-                                  data-question-id={ele._id}
-                                  data-qindex={parseInt(counter)}
-                                  id={`option-${partIndex}-${questionIndex}-${
-                                    index + 1
-                                  }`}
-                                  checked={
-                                    existingAnswer === `option${index + 1}`
-                                  }
-                                  onChange={handleQuestion}
-                                />
-                                <label
-                                  className="ml-2 text-xl"
-                                  htmlFor={`option-${partIndex}-${questionIndex}-${
-                                    index + 1
-                                  }`}
-                                >
-                                  {option}
-                                </label>
+                          return (
+                            <div key={questionIndex} className="mb-4">
+                              <h1>{`Question ${counter}`}</h1>
+                              {/* <h1>{`Question ${counter1}`}</h1> */}
+                              <div className="border-2 py-3 font-bold text-xl pl-2 mb-2">
+                                {ele.question}
                               </div>
-                            ))}
-                          </div>
-                        </div>
-                      );
-                    })}
+                              <div>
+                                {[
+                                  ele.option1,
+                                  ele.option2,
+                                  ele.option3,
+                                  ele.option4,
+                                ].map((option, index) => (
+                                  <div
+                                    key={index}
+                                    className="border-2 p-2 mb-2"
+                                  >
+                                    <input
+                                      type="radio"
+                                      name={`option-${partIndex}-${questionIndex}`}
+                                      value={`option${index + 1}`}
+                                      data-question-id={ele._id}
+                                      data-qindex={parseInt(counter)}
+                                      id={`option-${partIndex}-${questionIndex}-${
+                                        index + 1
+                                      }`}
+                                      checked={
+                                        existingAnswer === `option${index + 1}`
+                                      }
+                                      onChange={handleQuestion}
+                                    />
+                                    <label
+                                      className="ml-2 text-xl"
+                                      htmlFor={`option-${partIndex}-${questionIndex}-${
+                                        index + 1
+                                      }`}
+                                    >
+                                      {option}
+                                    </label>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          );
+                        }))
+                  }
                 </div>
               </div>
             </div>
