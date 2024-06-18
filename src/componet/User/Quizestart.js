@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Quizestart({ id }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [issubmitted, setIssubmitted] = useState(false);
   const [arrrr, setArrrr] = useState([]);
->>>>>>>>> Temporary merge branch 2
+  const navigate = useNavigate();
 
   const [currentPartPage, setCurrentPartPage] = useState(0);
   const [currentQuestionPage, setCurrentQuestionPage] = useState(0);
@@ -94,6 +96,16 @@ function Quizestart({ id }) {
     } catch (error) {
       console.error("Error during submission", error);
     }
+    setIssubmitted(true);
+    const intervalId = setTimeout(() => {
+      navigate("/");
+    }, 1000); // Update every second
+    // setIssubmitted(false)
+    // Cleanup function to clear the interval when the component unmounts
+    //  clearInterval(intervalId) ;
+
+    // return () => clearInterval(intervalId);
+    return () => clearInterval(intervalId);
   };
 
   // Handle radio button change
@@ -265,6 +277,10 @@ function Quizestart({ id }) {
   return isLoading ? (
     <div className="flex items-center justify-center absolute left-0 h-full top-0 w-full bg-slate-300 text-5xl font-extrabold">
       Loading ...
+    </div>
+  ) : issubmitted ? (
+    <div className="flex items-center justify-center absolute left-0 h-full top-0 w-full bg-slate-300 text-5xl font-extrabold">
+      Thankyou ...
     </div>
   ) : (
     <div className="absolute left-0 h-full bg-slate-200 top-0 w-full">
