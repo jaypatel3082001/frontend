@@ -22,7 +22,8 @@ function Quizestart({ id }) {
   const questionsPerPage = 1; // Number of questions per page
 
   const url = `https://quiz-krishang.vercel.app/section/getall/${id}`;
-  const [timeRemaining, setTimeRemaining] = useState(21); // Initial time in minutes
+  console.log("data..", data);
+  const [timeRemaining, setTimeRemaining] = useState(0.1); // Initial time in minutes
 
   useEffect(() => {
     const totalSeconds = timeRemaining * 60;
@@ -83,6 +84,10 @@ function Quizestart({ id }) {
 
   const handleSubmit = async () => {
     console.log("arrrr", arrrr);
+    const result = arrrr[0] || {
+      sectionId: `${id}`,
+      questions: [],
+    };
     try {
       const response = await fetch(
         "https://quiz-krishang.vercel.app/result/create/66669a840ab0fa8918321786",
@@ -91,7 +96,7 @@ function Quizestart({ id }) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(arrrr[0]),
+          body: JSON.stringify(result),
         }
       );
 
