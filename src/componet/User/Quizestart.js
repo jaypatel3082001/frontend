@@ -6,18 +6,19 @@ function Quizestart({ id }) {
   const [arrrr, setArrrr] = useState([]);
   const [currentPartPage, setCurrentPartPage] = useState(0);
   const [currentQuestionPage, setCurrentQuestionPage] = useState(0);
-  const [selectedRadioButton, setSelectedRadioButton] = useState(false);
   const [highlightedQuestionPages, setHighlightedQuestionPages] = useState({});
-  const [selectedQuestions, setSelectedQuestions] = useState({});
-  const [unselectedQuestions, setUnselectedQuestions] = useState({});
   const [revisitedQuestions, setRevisitedQuestions] = useState({});
-  var counter = 0;
+  const [selectedQuestions, setSelectedQuestions] = useState({});
+  const [answeredCount, setAnsweredCount] = useState({});
+  const [unansweredCount, setUnansweredCount] = useState({});
+  const [alreadyAnswered, setAlreadyAnswered] = useState({});
+  let counter = 0;
 
   const partsPerPage = 1; // Number of parts per page
   const questionsPerPage = 1; // Number of questions per page
 
   const url = `https://quiz-krishang.vercel.app/section/getall/${id}`;
-  const [timeRemaining, setTimeRemaining] = useState(0.1); // Initial time in minutes
+  const [timeRemaining, setTimeRemaining] = useState(21); // Initial time in minutes
 
   useEffect(() => {
     const totalSeconds = timeRemaining * 60;
@@ -30,7 +31,6 @@ function Quizestart({ id }) {
       if (currentTime <= 0) {
         clearInterval(timer);
         setTimeRemaining(0);
-
         handleSubmit();
       }
     }, 1000);
@@ -47,12 +47,11 @@ function Quizestart({ id }) {
       .toString()
       .padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
   };
-  // Fetch data on component mount
+
   useEffect(() => {
     fetchData();
   }, []);
 
-  // Fetch quiz data
   const fetchData = async () => {
     try {
       setIsLoading(true);
@@ -63,6 +62,14 @@ function Quizestart({ id }) {
       }
       const result = await response.json();
       setData(result);
+
+      // Initialize unanswered count for each section
+      const initialUnansweredCount = {};
+      result.forEach((section, index) => {
+        initialUnansweredCount[`Section ${index + 1}`] =
+          section.quizemcqs.length;
+      });
+      setUnansweredCount(initialUnansweredCount);
     } catch (error) {
       console.error("Fetch operation error:", error);
     } finally {
@@ -70,7 +77,6 @@ function Quizestart({ id }) {
     }
   };
 
-  // Handle submission of quiz answers
   const handleSubmit = async () => {
     try {
       const response = await fetch(
@@ -80,7 +86,7 @@ function Quizestart({ id }) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(arrrr[0]), // Assuming arrrr is defined elsewhere
+          body: JSON.stringify(arrrr[0]),
         }
       );
 
@@ -94,12 +100,11 @@ function Quizestart({ id }) {
     }
   };
 
-  // Handle radio button change
   const handleQuestion = (e) => {
     const answer = e.target.value;
     const questionId = e.target.getAttribute("data-question-id");
     const qindex = parseInt(e.target.getAttribute("data-qindex"));
-    let abc = [];
+    const sectionName = `Section ${currentPartPage + 1}`;
 
     setArrrr((prevArrrr) => {
       const existingSectionIndex = prevArrrr.findIndex(
@@ -146,8 +151,30 @@ function Quizestart({ id }) {
         ];
       }
     });
-    abc = abc.concat(arrrr[0]);
-    console.log("mmmmmmmmmmmaaaaaaaaa", abc);
+
+    setSelectedQuestions((prevSelectedQuestions) => ({
+      ...prevSelectedQuestions,
+      [`${currentPartPage}-${currentQuestionPage}-${qindex}`]: answer,
+    }));
+
+    if (
+      !alreadyAnswered[`${currentPartPage}-${currentQuestionPage}-${qindex}`]
+    ) {
+      setAnsweredCount((prevAnsweredCount) => ({
+        ...prevAnsweredCount,
+        [sectionName]: (prevAnsweredCount[sectionName] || 0) + 1,
+      }));
+
+      setUnansweredCount((prevUnansweredCount) => ({
+        ...prevUnansweredCount,
+        [sectionName]: Math.max((prevUnansweredCount[sectionName] || 0) - 1, 0),
+      }));
+
+      setAlreadyAnswered((prevAlreadyAnswered) => ({
+        ...prevAlreadyAnswered,
+        [`${currentPartPage}-${currentQuestionPage}-${qindex}`]: true,
+      }));
+    }
   };
 
   const handlePartPageClick = (index) => {
@@ -155,33 +182,10 @@ function Quizestart({ id }) {
     setCurrentQuestionPage(0);
   };
 
-  // Handle pagination for questions
   const handleQuestionPageClick = (index) => {
     setCurrentQuestionPage(index);
   };
 
-  // Handle highlighting current question page index
-  // const handleHighlight = () => {
-  //   const currentHighlightedPages =
-  //     highlightedQuestionPages[currentPartPage] || [];
-  //   const updatedHighlightedPages = currentHighlightedPages.includes(
-  //     currentQuestionPage
-  //   )
-  //     ? currentHighlightedPages.filter((page) => page !== currentQuestionPage)
-  //     : [...currentHighlightedPages, currentQuestionPage];
-
-  //   setHighlightedQuestionPages((prev) => ({
-  //     ...prev,
-  //     [currentPartPage]: updatedHighlightedPages,
-  //   }));
-
-  //   // Update revisited questions count for the highlighted section
-  //   const revisitedCount = updatedHighlightedPages.length;
-  //   setRevisitedQuestions((prev) => ({
-  //     ...prev,
-  //     [`Section ${currentPartPage + 1}`]: revisitedCount,
-  //   }));
-  // };
   const handleHighlight = () => {
     const currentHighlightedPages =
       highlightedQuestionPages[currentPartPage] || [];
@@ -196,69 +200,12 @@ function Quizestart({ id }) {
       [currentPartPage]: updatedHighlightedPages,
     }));
 
-    // Update revisited questions count for the highlighted section
     const revisitedCount = updatedHighlightedPages.length;
     setRevisitedQuestions((prev) => ({
       ...prev,
       [`Section ${currentPartPage + 1}`]: revisitedCount,
     }));
   };
-
-  function deepEqual(obj1, obj2) {
-    return JSON.stringify(obj1) === JSON.stringify(obj2);
-  }
-  // Calculate section-wise selected and unselected questions
-  useEffect(() => {
-    // Calculate selected and unselected counts using functional programming
-    const counts = data.map((section, partIndex) => {
-      const selectedCount = section.quizemcqs.reduce(
-        (count, question, questionIndex) => {
-          const qindex =
-            questionIndex + 1 + currentQuestionPage * questionsPerPage;
-          return (
-            count +
-            (selectedQuestions[
-              `${partIndex}-${currentQuestionPage}-${qindex}`
-            ] === question.answer
-              ? 1
-              : 0)
-          );
-        },
-        0
-      );
-
-      return {
-        section: `Section ${partIndex + 1}`,
-        selectedCount,
-        unselectedCount: section.quizemcqs.length - selectedCount,
-      };
-    });
-
-    // Prepare the updated selected and unselected state objects
-    const selected = {};
-    const unselected = {};
-    counts.forEach(({ section, selectedCount, unselectedCount }) => {
-      selected[section] = selectedCount;
-      unselected[section] = unselectedCount;
-    });
-
-    // Check if state update is necessary to avoid unnecessary re-renders
-    if (!deepEqual(selected, selectedQuestions)) {
-      setSelectedQuestions(selected);
-    }
-
-    if (!deepEqual(unselected, unselectedQuestions)) {
-      setUnselectedQuestions(unselected);
-    }
-  }, [
-    selectedQuestions,
-    setSelectedQuestions,
-    unselectedQuestions,
-    setUnselectedQuestions,
-    data,
-    currentQuestionPage,
-    questionsPerPage,
-  ]);
 
   return isLoading ? (
     <div className="flex items-center justify-center absolute left-0 h-full top-0 w-full bg-slate-300 text-5xl font-extrabold">
@@ -268,8 +215,7 @@ function Quizestart({ id }) {
     <div className="absolute left-0 h-full bg-slate-200 top-0 w-full">
       <div className="flex flex-col h-screen justify-center items-center w-full">
         <div className="bg-white shadow-lg w-full p-2 flex justify-between items-center">
-          <div className="">
-            {/* Part Pagination */}
+          <div>
             <div className="flex mb-3">
               <h1 className="font-bold text-xl">Section :- </h1>
               <div className="flex items-center mx-2">
@@ -290,9 +236,7 @@ function Quizestart({ id }) {
                 ))}
               </div>
             </div>
-
-            {/* Question Pagination */}
-            <div className="flex items-center ">
+            <div className="flex items-center">
               <div>
                 <h1 className="font-bold text-xl">Question :- </h1>
               </div>
@@ -303,9 +247,7 @@ function Quizestart({ id }) {
                 ),
               }).map((_, index) => {
                 const buttonClass = `mx-1 px-3 py-1 rounded-md font-bold ${
-                  selectedRadioButton
-                    ? "bg-green-500 text-white"
-                    : highlightedQuestionPages[currentPartPage]?.includes(index)
+                  highlightedQuestionPages[currentPartPage]?.includes(index)
                     ? "bg-yellow-500 text-white"
                     : currentQuestionPage === index
                     ? "bg-blue-500 text-white"
@@ -335,17 +277,19 @@ function Quizestart({ id }) {
                 </tr>
               </thead>
               <tbody>
-                {Object.keys(selectedQuestions).map((section, index) => (
+                {data.map((_, index) => (
                   <tr key={index} className="border border-gray-200">
-                    <td className="border border-gray-200">{section}</td>
                     <td className="border border-gray-200">
-                      {selectedQuestions[section]}
+                      Section {index + 1}
                     </td>
                     <td className="border border-gray-200">
-                      {unselectedQuestions[section]}
+                      {answeredCount[`Section ${index + 1}`] || 0}
                     </td>
                     <td className="border border-gray-200">
-                      {revisitedQuestions[section] || 0}
+                      {unansweredCount[`Section ${index + 1}`] || 0}
+                    </td>
+                    <td className="border border-gray-200">
+                      {revisitedQuestions[`Section ${index + 1}`] || 0}
                     </td>
                   </tr>
                 ))}
@@ -375,70 +319,6 @@ function Quizestart({ id }) {
                   </div>
                 </div>
 
-                {/* <div>
-                  {info.quizemcqs
-                    ?.slice(
-                      currentQuestionPage * questionsPerPage,
-                      (currentQuestionPage + 1) * questionsPerPage
-                    )
-                    .map((ele, questionIndex) => {
-                      const qcount =
-                        questionIndex +
-                        1 +
-                        currentQuestionPage * questionsPerPage;
-                      const existingAnswer = arrrr
-                        .find((section) => section.sectionId === id)
-                        ?.questions.find((q) => q.qindex === qcount)?.answer;
-
-                      return (
-                        <div key={questionIndex} className="mb-4 ">
-                          <div className="flex justify-between">
-                            <h1 className=" py-3 font-extrabold text-2xl pl-2 ">{`Question ${qcount}`}</h1>
-                            <h1 className=" py-3 font-extrabold text-2xl pl-2 ">
-                              Marks :- {ele.weightage}
-                            </h1>
-                          </div>
-
-                          <div className="border-2 py-3 font-bold text-xl pl-2 mb-2">
-                            {ele.question}
-                          </div>
-                          <div>
-                            {[
-                              ele.option1,
-                              ele.option2,
-                              ele.option3,
-                              ele.option4,
-                            ].map((option, index) => (
-                              <div key={index} className="border-2 p-2 mb-2">
-                                <input
-                                  type="radio"
-                                  name={`question-${partIndex}-${questionIndex}`} // Ensure name attribute is consistent
-                                  value={option}
-                                  data-qindex={qcount}
-                                  section={info._id}
-                                  className="mr-2"
-                                  checked={
-                                    selectedQuestions[
-                                      `${currentPartPage}-${currentQuestionPage}-${qcount}`
-                                    ] === option
-                                  }
-                                  onChange={handleQuestion}
-                                />
-                                <label
-                                  className="ml-2 text-xl"
-                                  htmlFor={`option-${partIndex}-${questionIndex}-${
-                                    index + 1
-                                  }`}
-                                >
-                                  {option}
-                                </label>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      );
-                    })}
-                </div> */}
                 <div>
                   {info.quizemcqs
                     ?.slice(
@@ -446,12 +326,10 @@ function Quizestart({ id }) {
                       (currentQuestionPage + 1) * questionsPerPage
                     )
                     .map((ele, questionIndex) => {
-                      // counter++;
-                      // console.log("conueeeee", questionIndex);
                       counter = `${currentPartPage + 1}${
                         currentQuestionPage + 1
                       }`;
-                      console.log("lolo", counter);
+
                       const qcount =
                         questionIndex +
                         1 +
@@ -461,7 +339,6 @@ function Quizestart({ id }) {
                         ?.questions.find(
                           (q) => q.qindex === parseInt(counter)
                         )?.answer;
-                      console.log("lklklklk", existingAnswer);
 
                       return (
                         <div key={questionIndex} className="mb-4">
