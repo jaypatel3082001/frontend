@@ -20,6 +20,7 @@ function Createmain({ setIsLoggedIn }) {
   const [idstores, setIdstores] = useState(null);
   const dispatch = useDispatch();
   const inputs = useSelector((state) => state.inputs);
+  const sortByOptions = [5, 10, 15, 20];
   // *********search*********
   const [searchquestionname, setSearchquestionName] = useState("");
   const [sortedData, setSortedData] = useState([]);
@@ -32,6 +33,32 @@ function Createmain({ setIsLoggedIn }) {
 
     setSortedData(filteredData);
   }, [searchquestionname, data]);
+
+  //************sort by timing */
+  const [sortOrder, setSortOrder] = useState("desc");
+  const handleSortByCreatedAt = () => {
+    let sortedArray = [...sortedData];
+
+    // Toggle sorting order
+    if (sortOrder === "desc") {
+      sortedArray.sort((a, b) => {
+        let dateA = new Date(a.createdAt);
+        let dateB = new Date(b.createdAt);
+        return dateA - dateB; // Ascending order
+      });
+      setSortOrder("asc"); // Update sort order state
+    } else {
+      sortedArray.sort((a, b) => {
+        let dateA = new Date(a.createdAt);
+        let dateB = new Date(b.createdAt);
+        return dateB - dateA; // Descending order
+      });
+      setSortOrder("desc"); // Update sort order state
+    }
+
+    setSortedData(sortedArray); // Update sorted data state
+  };
+
   // ************pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -55,6 +82,10 @@ function Createmain({ setIsLoggedIn }) {
   const showQuestion = (id) => {
     setIdstores(id);
     dispatch(toggleModal(!inputs.openpop));
+  };
+  const handleSelectChange = (event) => {
+    const selectedValues = event.target.value;
+    setRowsPerPage(selectedValues);
   };
 
   useEffect(() => {
@@ -111,18 +142,37 @@ function Createmain({ setIsLoggedIn }) {
           <div>
             <Navbar setIsLoggedIn={setIsLoggedIn} />
           </div>
-          <div>
-            <Addquiz />
+
+          <div className="flex flex-col md:flex-row md:justify-between items-center mt-5 bg-gray-200 p-2 md:p-4">
+            <div
+              className="cursor-pointer mb-2 md:mb-0 font-bold "
+              onClick={handleSortByCreatedAt}
+            >
+              Sort by CreatedAt
+            </div>
+            <div className="flex items-center mb-2 md:mb-0">
+              <label className="font-bold ml-2">Search: </label>
+              <input
+                type="text"
+                className="w-full md:w-64 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ml-2 md:ml-4"
+                placeholder="Search"
+                value={searchquestionname}
+                onChange={(e) => setSearchquestionName(e.target.value)}
+              />
+            </div>
+            <div className="">
+              <span className="fw-bold me-2">Sort by :</span>
+              <select onChange={handleSelectChange}>
+                {sortByOptions.map((sortByOption, index) => {
+                  return <option key={index}>{sortByOption}</option>;
+                })}
+              </select>
+            </div>
+            <div>
+              <Addquiz />
+            </div>
           </div>
-          <div className="me-3 my-3 my-md-0">
-            <input
-              type="text"
-              className="w-full md:w-1/2 lg:w-1/3 p-2 md:p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Search"
-              value={searchquestionname}
-              onChange={(e) => setSearchquestionName(e.target.value)}
-            />
-          </div>
+
           <table className="min-w-full bg-white border border-gray-300">
             <thead>
               <tr className="border-b border-gray-400 text-black font-bold uppercase text-sm leading-normal w-full ">
@@ -197,9 +247,7 @@ function Createmain({ setIsLoggedIn }) {
                                 >
                                   Edit
                                 </li>
-                                <li className="cursor-pointer hover:bg-gray-200 p-1 rounded">
-                                  Archive
-                                </li>
+
                                 <li
                                   className="cursor-pointer hover:bg-gray-200 p-1 rounded"
                                   onClick={() => handleDelete(info._id)}
@@ -230,7 +278,6 @@ function Createmain({ setIsLoggedIn }) {
                     <td className="hidden lg:table-cell w-fit"></td>
                   </tr>
                 </tfoot>
-
                 {data.map(
                   (info, ind) =>
                     idstores === info._id &&
