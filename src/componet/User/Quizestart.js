@@ -9,7 +9,6 @@ function Quizestart({ id }) {
   const navigate = useNavigate();
   const token = localStorage.getItem("authToken");
   // console.log("token::", token);
-
   const [currentPartPage, setCurrentPartPage] = useState(0);
   const [currentQuestionPage, setCurrentQuestionPage] = useState(0);
   const [highlightedQuestionPages, setHighlightedQuestionPages] = useState({});
@@ -24,7 +23,7 @@ function Quizestart({ id }) {
   const questionsPerPage = 1; // Number of questions per page
 
   const url = `https://quiz-krishang.vercel.app/section/getall/${id}`;
-  console.log("data..", data);
+
   const [timeRemaining, setTimeRemaining] = useState(1); // Initial time in minutes
 
   useEffect(() => {
@@ -137,7 +136,8 @@ function Quizestart({ id }) {
     const questionId = e.target.getAttribute("data-question-id");
     const qindex = parseInt(e.target.getAttribute("data-qindex"));
     const sectionName = `Section ${currentPartPage + 1}`;
-
+    const quizeId = e.target.getAttribute("quizeId");
+    console.log("arrrr", quizeId);
     setArrrr((prevArrrr) => {
       const existingSectionIndex = prevArrrr.findIndex(
         (section) => section.sectionId === id
@@ -160,6 +160,7 @@ function Quizestart({ id }) {
           existingSection.questions.push({
             questionId,
             qindex,
+            quizeId,
             answer,
             isAttempted: true,
           });
@@ -175,6 +176,7 @@ function Quizestart({ id }) {
               {
                 questionId,
                 qindex,
+                quizeId,
                 answer,
                 isAttempted: true,
               },
@@ -395,6 +397,7 @@ function Quizestart({ id }) {
                                 <div key={index} className="border-2 p-2 mb-2">
                                   <input
                                     type="radio"
+                                    quizeId={info._id}
                                     name={`option-${partIndex}-${questionIndex}`}
                                     value={`option${index + 1}`}
                                     data-question-id={ele._id}

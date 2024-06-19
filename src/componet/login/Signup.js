@@ -117,7 +117,7 @@ const Signup = ({ setIsLoggedIn }) => {
                     <button type="submit" className="btn btn-primary btn-block">
                       Sign Up
                     </button>
-                    <Link to="/Login" className="font-semibold text-xl">
+                    <Link to="/Logingpage" className="font-semibold text-xl">
                       Login
                     </Link>
                   </div>
