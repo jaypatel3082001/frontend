@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
 
 function QuestionAdd({ setIsLoggedIn }) {
   const location = useLocation();
@@ -168,7 +168,7 @@ function QuestionAdd({ setIsLoggedIn }) {
                 weightage
               </label>
               <input
-                type="text"
+                type="number"
                 name="weightage"
                 value={inputquedata.weightage}
                 onChange={handleChange}
@@ -177,9 +177,14 @@ function QuestionAdd({ setIsLoggedIn }) {
                 required
               />
             </div>
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn btn-primary mr-5">
               Submit
             </button>
+            <Link to="/createmain">
+              <button type="submit" className="btn btn-primary">
+                Back
+              </button>
+            </Link>
           </form>
         </div>
       </div>
