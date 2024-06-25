@@ -89,7 +89,7 @@ function Sectionmain({ setIsLoggedIn }) {
       }
       const result = await response.json();
 
-      dispatch(setSortedData(result.data));
+      dispatch(setSortedData(result));
       dispatch(setTotalCount(result.totalCount));
 
       console.log("result", result);

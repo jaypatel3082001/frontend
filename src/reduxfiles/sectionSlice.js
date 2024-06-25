@@ -13,7 +13,7 @@ const initialState = {
     isLoading: false,
 
     data: [],
-    sortedData: [],
+    sortedData: {},
     totalPage: 0,
     currentPage: 1,
 
