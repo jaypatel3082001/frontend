@@ -20,9 +20,9 @@ import { setTotalCount } from "../../../reduxfiles/sectionSlice";
 
 function Sectionmain({ setIsLoggedIn }) {
   const dispatch = useDispatch();
-  const inputs = useSelector((state) => state.inputs3);
+  const inputs = useSelector((state) => state.inputs4);
   const sortByOptions = [5, 10, 15, 20];
-  const urloFe = `https://quiz-krishang.vercel.app/search/getsearchAll`; //api
+  const urloFe = `https://quiz-krishang.vercel.app/result/getall`; //api
   const [limit, setLimit] = useState(5);
   const sortBy = "createdAt";
   let type = "section";
@@ -56,8 +56,7 @@ function Sectionmain({ setIsLoggedIn }) {
   const totalPage = Math.ceil(inputs.Tablemanuplation.totalCount / limit);
 
   dispatch(setTotalPage(totalPage));
-  console.log("tot", inputs.Tablemanuplation.sortedData);
-  console.log("total", inputs.Tablemanuplation.totalPage);
+
   //********************************************************* */
 
   const handleLimit = (e) => {
@@ -89,7 +88,7 @@ function Sectionmain({ setIsLoggedIn }) {
       }
       const result = await response.json();
 
-      dispatch(setSortedData(result));
+      dispatch(setSortedData(result.data));
       dispatch(setTotalCount(result.totalCount));
 
       console.log("result", result);
@@ -106,12 +105,6 @@ function Sectionmain({ setIsLoggedIn }) {
   }, [search, limit, offset, type, sortBy, sortOrder, startDate, endDate]);
 
   // ************ show question ************************
-  const showQuestion = (id) => {
-    dispatch(setIdstores(id));
-    dispatch(toggleModal(!inputs.openpop));
-    console.log("edjkd", id);
-    localStorage.setItem("sectionId", id);
-  };
 
   const handleChange = (e) => {
     setsearch(e.target.value);
@@ -166,27 +159,13 @@ function Sectionmain({ setIsLoggedIn }) {
                   })}
                 </select>
               </div>
-              <Link to="/QuizetoSectionName">
-                <div className="btn btn-primary mr-5 flex">
-                  <span>ADD SECTION</span>
-                  <span>
-                    <Addquiz />
-                  </span>
-                </div>
-              </Link>
             </div>
 
             <table className="min-w-full bg-white border border-gray-300">
               <Tableheader sortOrder={sortOrder} setSortOrder={setSortOrder} />
 
-              <Tablebody
-                formatDate={formatDate}
-                offset={offset}
-                showQuestion={showQuestion}
-              />
+              <Tablebody offset={offset} />
             </table>
-
-            <Showquestionbox showQuestion={showQuestion} />
           </div>
         </div>
       </div>

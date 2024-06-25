@@ -20,7 +20,7 @@ import { setTotalCount } from "../../../reduxfiles/sectionSlice";
 
 function Sectionmain({ setIsLoggedIn }) {
   const dispatch = useDispatch();
-  const inputs = useSelector((state) => state.inputs3);
+  const inputs = useSelector((state) => state.inputs4);
   const sortByOptions = [5, 10, 15, 20];
   const urloFe = `https://quiz-krishang.vercel.app/search/getsearchAll`; //api
   const [limit, setLimit] = useState(5);
@@ -89,7 +89,7 @@ function Sectionmain({ setIsLoggedIn }) {
       }
       const result = await response.json();
 
-      dispatch(setSortedData(result));
+      dispatch(setSortedData(result.data));
       dispatch(setTotalCount(result.totalCount));
 
       console.log("result", result);

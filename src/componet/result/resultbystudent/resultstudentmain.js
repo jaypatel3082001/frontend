@@ -89,7 +89,7 @@ function Sectionmain({ setIsLoggedIn }) {
       }
       const result = await response.json();
 
-      dispatch(setSortedData(result));
+      dispatch(setSortedData(result.data));
       dispatch(setTotalCount(result.totalCount));
 
       console.log("result", result);
@@ -166,14 +166,6 @@ function Sectionmain({ setIsLoggedIn }) {
                   })}
                 </select>
               </div>
-              <Link to="/QuizetoSectionName">
-                <div className="btn btn-primary mr-5 flex">
-                  <span>ADD SECTION</span>
-                  <span>
-                    <Addquiz />
-                  </span>
-                </div>
-              </Link>
             </div>
 
             <table className="min-w-full bg-white border border-gray-300">
