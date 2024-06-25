@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import { ReactComponent as Option } from "../../../svgfile/option.svg";
 import { ReactComponent as Popbox } from "../../../svgfile/Popbox.svg";
 import { ReactComponent as Upboxuparrow } from "../../../svgfile/boxuparrow.svg";
-import { ReactComponent as Key } from "../../../svgfile/key.svg";
 import Createmainpagination from "../pagination/createmainpagination";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -101,13 +100,13 @@ function Tablebody({ formatDate, offset, showQuestion }) {
       };
     }, [ref, callback]);
   }
-  console.log("aaaaa sort data", inputs.Tablemanuplation.sortedData);
+
   const calendarRef = useRef(null);
   useClickOutside(calendarRef, () => {
     dispatch(setDisplay(false));
   });
 
-  return inputs?.Tablemanuplation?.isLoading ? (
+  return inputs.Tablemanuplation.isLoading ? (
     <tbody>
       <tr className="border-b border-gray-400">
         <td
@@ -118,7 +117,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
         </td>
       </tr>
     </tbody>
-  ) : inputs?.Tablemanuplation?.sortedData?.data?.length === 0 ? (
+  ) : inputs.Tablemanuplation.sortedData?.length === 0 ? (
     <tbody>
       <tr className="border-b border-gray-400">
         <td
@@ -131,7 +130,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
     </tbody>
   ) : (
     <tbody className="text-black font-semibold">
-      {inputs?.Tablemanuplation?.sortedData?.data?.map((info, ind) => (
+      {inputs.Tablemanuplation?.sortedData?.map((info, ind) => (
         <tr key={info._id} className="border-b border-gray-400">
           <td className="text-center whitespace-nowrap hover:bg-gray-200 border-x-2 border-gray-300">
             {offset + ind + 1}
@@ -139,14 +138,8 @@ function Tablebody({ formatDate, offset, showQuestion }) {
           <td className="py-3 px-6 text-left hover:bg-gray-200 border-x-2 border-gray-300 max-w-64">
             <div className="max-w-full truncate"> {info.sectionName}</div>
           </td>
-          <td className="hover:bg-gray-200 cursor-pointer">
-            <div className="flex justify-center ">
-              <Key />
-            </div>
-          </td>
-          <td className="text-center border-x-2 border-gray-300 hover:bg-gray-200">
-            {formatDate(info.createdAt)}
-          </td>
+          <td className="text-center">{formatDate(info.createdAt)}</td>
+          <td className="text-center">{formatDate(info.result)}</td>
           <td
             className="text-center cursor-pointer border-x-2 border-gray-300 hover:bg-gray-200"
             onClick={() => showQuestion(info._id)}
@@ -162,8 +155,8 @@ function Tablebody({ formatDate, offset, showQuestion }) {
             <div className="flex justify-center">
               <Option />
             </div>
-            {inputs?.Tablemanuplation?.display &&
-              inputs?.Tablemanuplation?.idstore === info._id && (
+            {inputs.Tablemanuplation.display &&
+              inputs.Tablemanuplation.idstore === info._id && (
                 <div
                   ref={calendarRef}
                   role="tooltip"

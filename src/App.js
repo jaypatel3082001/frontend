@@ -13,7 +13,7 @@ import Loginpage from "./componet/login/loginpage";
 import Signup from "./componet/login/Signup";
 import Userpages from "./componet/User/userpages";
 import Quizform from "./componet/Quize/quizform";
-
+import Resultmain from "./componet/result/resultbysectionhome/resultmain";
 import QuestionbyQuize from "./componet/Quize/QuestionbyQuize";
 import Sectionmain from "./componet/Section/sectionhome/sectionmain";
 import QuizetoSectionName from "./componet/Section/QuizetoSectionName";
@@ -173,6 +173,15 @@ function App() {
             <PrivateRoute>
               {isLoggedIn == true ? <Main /> : <Loginpage />}
               {/* <Main /> */}
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/resultmain"
+          element={
+            <PrivateRoute>
+              {isLoggedIn == true ? <Resultmain /> : <Loginpage />}
+              {/* <Sectionmain /> */}
             </PrivateRoute>
           }
         />

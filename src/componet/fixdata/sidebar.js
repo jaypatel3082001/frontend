@@ -194,7 +194,7 @@ function Sidebar() {
                 </li>
                 <li className="flex flex-row items-center py-2">
                   <Link
-                    to="/result"
+                    to="/resultmain"
                     className="flex flex-row items-center py-2 space-x-2"
                   >
                     <Result />

@@ -28,14 +28,7 @@ function Tableheader({ sortOrder, setSortOrder }) {
             </div>
           </div>
         </th>
-        <th className="px-5 border-x-2 border-gray-300 ">KEY</th>
-        <th className="px-5">Created Date</th>
-        <th
-          className="py-3 px-5 border-x-2 border-gray-300 text-left lg:w-fit"
-          colSpan="2"
-        >
-          Action
-        </th>
+        <th className="px-5">Show Result</th>
       </tr>
     </thead>
   );
