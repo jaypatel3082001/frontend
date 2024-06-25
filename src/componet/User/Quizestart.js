@@ -8,7 +8,7 @@ function Quizestart({ id }) {
   const [arrrr, setArrrr] = useState([]);
   const navigate = useNavigate();
   const token = localStorage.getItem("authToken");
-  // console.log("token::", token);
+
   const [currentPartPage, setCurrentPartPage] = useState(0);
   const [currentQuestionPage, setCurrentQuestionPage] = useState(0);
   const [highlightedQuestionPages, setHighlightedQuestionPages] = useState({});
@@ -137,6 +137,7 @@ function Quizestart({ id }) {
     const qindex = parseInt(e.target.getAttribute("data-qindex"));
     const sectionName = `Section ${currentPartPage + 1}`;
     const quizeId = e.target.getAttribute("quizeId");
+    const weightage = parseInt(e.target.getAttribute("weightage"));
     console.log("arrrr", quizeId);
     setArrrr((prevArrrr) => {
       const existingSectionIndex = prevArrrr.findIndex(
@@ -161,6 +162,7 @@ function Quizestart({ id }) {
             questionId,
             qindex,
             quizeId,
+            weightage,
             answer,
             isAttempted: true,
           });
@@ -177,6 +179,7 @@ function Quizestart({ id }) {
                 questionId,
                 qindex,
                 quizeId,
+                weightage,
                 answer,
                 isAttempted: true,
               },
@@ -398,6 +401,7 @@ function Quizestart({ id }) {
                                   <input
                                     type="radio"
                                     quizeId={info._id}
+                                    weightage={ele.weightage}
                                     name={`option-${partIndex}-${questionIndex}`}
                                     value={`option${index + 1}`}
                                     data-question-id={ele._id}

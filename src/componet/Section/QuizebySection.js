@@ -1,104 +1,7 @@
-// import React, { useState, useEffect } from "react";
-// import Sidebar from "../fixdata/sidebar";
-// import Navbar from "../fixdata/navbar";
-// import { useNavigate, useParams } from "react-router-dom";
-
-// function QuizebySection() {
-//   const [data, setData] = useState([]);
-//   const { id } = useParams();
-//   const [checkedIds, setCheckedIds] = useState([]);
-//   const [selectedQuizzes, setSelectedQuizzes] = useState([]);
-//   const navigate = useNavigate();
-//   const [arrrr, setArrrr] = useState([]);
-//   useEffect(() => {
-//     fetchData();
-//     fetchSectionData();
-//   }, []);
-
-//   const [hadcheck, setHadcheck] = useState([
-//     data.map((quiz, ind) => checkedIds.includes(quiz._id)),
-//   ]);
-//   const handleQuestion = (e) => {
-//     const { value, checked } = e.target;
-
-//     if (checked) {
-//       setSelectedQuizzes((prevSelected) => [...prevSelected, value]);
-//     } else {
-//       setSelectedQuizzes((prevSelected) =>
-//         prevSelected.filter((quizId) => quizId !== value)
-//       );
-//     }
-//   };
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     const awr = arrrr.map((ele) => {
-//       const response = fetch(
-//         `https://quiz-krishang.vercel.app/section/insertquiz/${id}`,
-//         {
-//           method: "PUT",
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//           body: JSON.stringify(ele),
-//         }
-//       );
-
-//       if (response.ok) {
-//         console.log("Submitted successfully");
-//       } else {
-//         console.error("Submission error");
-//       }
-//     });
-//     navigate(`/Sectionmain/${id}`);
-//   };
-//   return (
-//     <div className="flex">
-//       <Sidebar />
-//       <div className="w-full ">
-//         <div>
-//           <Navbar />
-//         </div>
-//         <div className="w-50 mx-auto mt-5 mb-4">
-//           <h1 className="mb-4">Add New Quiz</h1>
-//           <div className="mb-3">
-//             <label htmlFor="question" className="form-label">
-//               Quiz-Name
-//             </label>
-//             <table>
-//               <tbody>
-//                 {data.map((quiz) => (
-//                   <tr key={quiz._id} className="border-2 border-slate-500">
-//                     <td className="px-96 py-3">
-//                       <div className="flex items-center">
-//                         <input
-//                           type="checkbox"
-//                           className="h-4 w-4"
-//                           value={quiz._id}
-
-//                           onChange={handleQuestion}
-//                         />
-//                         <div className="fw-bold text-xl">{quiz.quizename}</div>
-//                       </div>
-//                     </td>
-//                   </tr>
-//                 ))}
-//               </tbody>
-//             </table>
-//           </div>
-//           <button className="btn btn-primary" onClick={handleSubmit}>
-//             Submit
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default QuizebySection;
 import React, { useState, useEffect } from "react";
 import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 function QuizebySection() {
   const [data, setData] = useState([]);
@@ -143,7 +46,6 @@ function QuizebySection() {
       console.log("result", result);
 
       setCheckedIds(result.data.sectioninfo.map((question) => question._id));
-      console.log("cccc", checkedIds);
     } catch (error) {
       console.error("Fetch operation error:", error);
     }
@@ -187,7 +89,7 @@ function QuizebySection() {
         console.error("Submission error");
       }
     });
-    navigator(`/Sectionmain/Section-quiz-list`);
+    navigator(`/Sectionmain`);
   };
   console.log("this is data   k", data);
 
@@ -236,6 +138,11 @@ function QuizebySection() {
           <button className="btn btn-primary" onClick={handleSubmit}>
             Submit
           </button>
+          <Link to="/sectionmain">
+            <button className="btn btn-primary ml-4" onClick={handleSubmit}>
+              Cancle
+            </button>
+          </Link>
           <div />
         </div>
       </div>

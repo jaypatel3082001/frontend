@@ -83,7 +83,7 @@ function QuestionbyQuize() {
         console.error("Submission error");
       }
     });
-    navigator(`/Quizmain/question-list`);
+    navigator(`/Quizmain`);
   };
 
   return (

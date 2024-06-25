@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 
 function Quizform({ setIsLoggedIn }) {
   const location = useLocation();
@@ -79,6 +79,11 @@ function Quizform({ setIsLoggedIn }) {
           <button type="submit" className="btn btn-primary">
             Submit
           </button>
+          <Link to="/Quizmain">
+            <button type="submit" className="btn btn-primary ml-4 ">
+              cancle
+            </button>
+          </Link>
         </form>
       </div>
     </div>

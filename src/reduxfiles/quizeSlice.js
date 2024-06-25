@@ -1,30 +1,5 @@
-// import { createSlice } from "@reduxjs/toolkit";
-
-// const InputSlice = createSlice({
-//   name: "inputs",
-//   initialState: {
-//     userId: "",
-//     sectionId: "",
-//     role: "",
-//   },
-//   reducers: {
-//     setUserid: (state, action) => {
-//       state.userId = action.payload;
-//     },
-//     setSectionid: (state, action) => {
-//       state.sectionId = action.payload;
-//     },
-//     setRole: (state, action) => {
-//       state.role = action.payload;
-//     },
-//   },
-// });
-
-// export const { userId, setSectionid, setRole } = InputSlice.actions;
-// export default InputSlice.reducer;
 import { createSlice } from "@reduxjs/toolkit";
 
-// Define the initial state
 const initialState = {
   openpop: false,
   dateRange: [
@@ -51,9 +26,7 @@ const initialState = {
   },
   fadeTransition: { in: false, down: false },
 };
-
-// Create a loader slice
-const InputSlice = createSlice({
+const InputSlice2 = createSlice({
   name: "inputs",
   initialState,
   reducers: {
@@ -109,7 +82,7 @@ export const {
   setTotalPage,
   setSortedData,
   setDisplay,
-} = InputSlice.actions;
+} = InputSlice2.actions;
 
 // Export reducer
-export default InputSlice.reducer;
+export default InputSlice2.reducer;

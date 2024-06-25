@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 function QuizetoSectionName({ setIsLoggedIn }) {
   const location = useLocation();
@@ -55,11 +55,11 @@ function QuizetoSectionName({ setIsLoggedIn }) {
           <Navbar setIsLoggedIn={setIsLoggedIn} />
         </div>
         <form className="w-50 mx-auto mt-5 mb-4" onSubmit={handleSubmit}>
-          <h1 className="mb-4">Add New Quiz</h1>
+          <h1 className="mb-4">Add New Section</h1>
 
           <div className="mb-3">
             <label htmlFor="question" className="form-label">
-              QuizetoSectionName
+              SectionName
             </label>
             <input
               type="text"
@@ -67,13 +67,16 @@ function QuizetoSectionName({ setIsLoggedIn }) {
               value={inputSectiondata.sectionName}
               onChange={handleChange}
               className="form-control"
-              placeholder="Question*"
+              placeholder="Section*"
               required
             />
           </div>
           <button type="submit" className="btn btn-primary">
             Submit
           </button>
+          <Link to="/Sectionmain">
+            <button className="btn btn-primary ml-4">Back</button>
+          </Link>
         </form>
       </div>
     </div>

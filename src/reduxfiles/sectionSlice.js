@@ -1,30 +1,5 @@
-// import { createSlice } from "@reduxjs/toolkit";
-
-// const InputSlice = createSlice({
-//   name: "inputs",
-//   initialState: {
-//     userId: "",
-//     sectionId: "",
-//     role: "",
-//   },
-//   reducers: {
-//     setUserid: (state, action) => {
-//       state.userId = action.payload;
-//     },
-//     setSectionid: (state, action) => {
-//       state.sectionId = action.payload;
-//     },
-//     setRole: (state, action) => {
-//       state.role = action.payload;
-//     },
-//   },
-// });
-
-// export const { userId, setSectionid, setRole } = InputSlice.actions;
-// export default InputSlice.reducer;
 import { createSlice } from "@reduxjs/toolkit";
 
-// Define the initial state
 const initialState = {
   openpop: false,
   dateRange: [
@@ -42,7 +17,7 @@ const initialState = {
     totalPage: 0,
     currentPage: 1,
 
-    // offset,
+    totalCount: 0,
     display: false,
     idstore: null,
     idstores: null,
@@ -51,9 +26,7 @@ const initialState = {
   },
   fadeTransition: { in: false, down: false },
 };
-
-// Create a loader slice
-const InputSlice = createSlice({
+const InputSlice3 = createSlice({
   name: "inputs",
   initialState,
   reducers: {
@@ -80,6 +53,9 @@ const InputSlice = createSlice({
     },
     setCurrentPage: (state, action) => {
       state.Tablemanuplation.currentPage = action.payload;
+    },
+    setTotalCount: (state, action) => {
+      state.Tablemanuplation.totalCount = action.payload;
     },
     setIdstore: (state, action) => {
       state.Tablemanuplation.idstore = action.payload;
@@ -109,7 +85,8 @@ export const {
   setTotalPage,
   setSortedData,
   setDisplay,
-} = InputSlice.actions;
+  setTotalCount,
+} = InputSlice3.actions;
 
 // Export reducer
-export default InputSlice.reducer;
+export default InputSlice3.reducer;

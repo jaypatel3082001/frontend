@@ -1,10 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentPage } from "../../../reduxfiles/InputSlice";
+import { setCurrentPage } from "../../../reduxfiles/quizeSlice";
 
 function Createmainpagination() {
   const dispatch = useDispatch();
-  const inputs = useSelector((state) => state.inputs);
+  const inputs = useSelector((state) => state.inputs3);
 
   const handlePageChange = (pageNumber) => {
     if (
@@ -13,7 +13,6 @@ function Createmainpagination() {
       pageNumber <= inputs.Tablemanuplation.totalPage
     ) {
       dispatch(setCurrentPage(pageNumber));
-      console.log("tot", inputs.Tablemanuplation.currentPage);
     }
   };
 

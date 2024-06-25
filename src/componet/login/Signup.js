@@ -43,7 +43,7 @@ const Signup = ({ setIsLoggedIn }) => {
         });
         setSignupSuccess(true);
         setErrorMessage("");
-        navigate("/Login");
+        navigate("/Loginpage");
       } else {
         setErrorMessage("Username or Email already exists");
       }
