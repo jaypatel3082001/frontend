@@ -5,13 +5,13 @@ const PrivateRoute = (props) => {
   const navigate = useNavigate();
   const token = localStorage.getItem("authToken");
 
-  useEffect(() => {
-    if (token !== null) {
-      navigate("/");
-    } else {
-      navigate("/Logingpage");
-    }
-  }, [token]);
+  // useEffect(() => {
+  //   // if (token !== null) {
+  //   //   navigate("/");
+  //   // } else {
+  //   //   navigate("/Logingpage");
+  //   // }
+  // }, [token]);
 
   const removeTokens = () => {
     localStorage.removeItem("token");
