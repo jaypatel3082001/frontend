@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentPage } from "../../../reduxfiles/quizeSlice";
 
@@ -6,17 +6,27 @@ function Createmainpagination() {
   const dispatch = useDispatch();
   const inputs = useSelector((state) => state.inputs3);
 
-  const handlePageChange = (pageNumber) => {
-    if (
-      pageNumber !== "..." &&
-      pageNumber >= 1 &&
-      pageNumber <= inputs.Tablemanuplation.totalPage
-    ) {
-      dispatch(setCurrentPage(pageNumber));
-    }
-  };
+  // Memoized function to calculate pages array
+  const pages = useMemo(
+    () => getPageNumbers(),
+    [inputs.Tablemanuplation.currentPage, inputs.Tablemanuplation.totalPage]
+  );
 
-  const getPageNumbers = () => {
+  // Memoized event handler
+  const handlePageChange = useCallback(
+    (pageNumber) => {
+      if (
+        pageNumber !== "..." &&
+        pageNumber >= 1 &&
+        pageNumber <= inputs.Tablemanuplation.totalPage
+      ) {
+        dispatch(setCurrentPage(pageNumber));
+      }
+    },
+    [dispatch, inputs.Tablemanuplation.totalPage]
+  );
+
+  function getPageNumbers() {
     const pages = [];
 
     if (inputs.Tablemanuplation.totalPage <= 5) {
@@ -63,9 +73,7 @@ function Createmainpagination() {
     }
 
     return pages;
-  };
-
-  const pages = getPageNumbers();
+  }
 
   return (
     <div className="pagination m-2">

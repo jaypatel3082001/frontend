@@ -1,23 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Addquiz from "../addquiz";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { setIsloading, setData } from "../../../reduxfiles/quizeSlice";
 
 function Showquestionbox({ showQuestion }) {
-  const url = "https://quiz-krishang.vercel.app/quize/getall";
-
   const dispatch = useDispatch();
-
   const inputs = useSelector((state) => state.inputs2);
   const id2 = localStorage.getItem("QuizeId");
-  console.log(inputs.Tablemanuplation.data, "aaa");
-  const navigate = useNavigate();
+
+  const url = useMemo(
+    () => "https://quiz-krishang.vercel.app/quize/getall",
+    []
+  );
 
   useEffect(() => {
     fetchData();
   }, []);
-  const fetchData = async () => {
+
+  const fetchData = useCallback(async () => {
     try {
       dispatch(setIsloading(true));
       const response = await fetch(url);
@@ -25,51 +26,49 @@ function Showquestionbox({ showQuestion }) {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      const result = await response.json();
 
+      const result = await response.json();
       dispatch(setData(result.data));
     } catch (error) {
       console.error("Fetch operation error:", error);
     } finally {
       dispatch(setIsloading(false));
     }
-  };
+  }, [dispatch, url]);
 
-  const handleDelete = async (id1) => {
-    const updatedDel = { questionId: id1 };
+  const handleDelete = useCallback(
+    async (id1) => {
+      const updatedDel = { questionId: id1 };
 
-    await DeleteHandle(updatedDel);
-  };
+      try {
+        const response = await fetch(
+          `https://quiz-krishang.vercel.app/quize/deletequize-question/${id2}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedDel),
+          }
+        );
 
-  const DeleteHandle = async (updatedDel) => {
-    try {
-      const response = await fetch(
-        `https://quiz-krishang.vercel.app/quize/deletequize-question/${id2}`,
-
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedDel),
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
         }
-      );
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+        await response.json();
+        fetchData();
+      } catch (error) {
+        console.error("Fetch operation error:", error);
       }
-
-      await response.json();
-      fetchData();
-    } catch (error) {
-      console.error("Fetch operation error:", error);
-    }
-  };
+    },
+    [id2, fetchData]
+  );
 
   return (
     <div>
       {inputs.Tablemanuplation.data?.map(
-        (info, ind) =>
+        (info) =>
           inputs.Tablemanuplation.idstores === info._id &&
           inputs?.openpop === true && (
             <div
@@ -108,8 +107,8 @@ function Showquestionbox({ showQuestion }) {
                   </div>
                 </div>
                 <div className="p-6 overflow-y-scroll h-full">
-                  {info.quizemcqs?.map((index, ind) => (
-                    <div key={ind} className="mb-6">
+                  {info.quizemcqs?.map((index) => (
+                    <div key={index._id} className="mb-6">
                       <div>
                         <div className="flex justify-between items-center">
                           <div className="font-bold text-xl mb-2 mt-4">

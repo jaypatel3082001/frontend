@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
+import { Link } from "react-router-dom";
 import Sidebar from "../../fixdata/sidebar";
 import Navbar from "../../fixdata/navbar";
 import Addquiz from "../../Quize/addquiz";
@@ -11,63 +11,62 @@ import {
   setSortedData,
   setCurrentPage,
   setIdstores,
+  setDateRangequize,
 } from "../../../reduxfiles/quizeSlice";
 import Tableheader from "./tableheader";
 import Tablebody from "./tablebody";
 import Showquestionbox from "./showquestionbox";
 import { useDispatch, useSelector } from "react-redux";
-import { setTotalCount } from "../../../reduxfiles/sectionSlice";
+import {
+  setDateRangesection,
+  setTotalCount,
+} from "../../../reduxfiles/sectionSlice";
+import { serializedSelectionDatePicker } from "../../../util/utility";
 
 function Sectionmain({ setIsLoggedIn }) {
   const dispatch = useDispatch();
   const inputs = useSelector((state) => state.inputs3);
-  const sortByOptions = [5, 10, 15, 20];
-  const urloFe = `https://quiz-krishang.vercel.app/search/getsearchAll`; //api
+  const sortByOptions = useMemo(() => [5, 10, 15, 20], []);
+  const urloFe = "https://quiz-krishang.vercel.app/search/getsearchAll";
   const [limit, setLimit] = useState(5);
+  const [search, setSearch] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
+
   const sortBy = "createdAt";
-  let type = "section";
-  const startDate =
-    formatDate(inputs.dateRange[0].startDate) + "T00:00:00.000Z";
-  const formatstartDate = formatDate(inputs.dateRange[0].startDate);
-  const formatendDate = formatDate(inputs.dateRange[0].endDate || new Date());
-  const endDate =
-    formatDate(inputs.dateRange[0].endDate || new Date()) + "T23:59:59.000Z";
+  const type = "section";
 
-  //********************************************* */
-
-  // ****************  date formate  ********************
-
-  function formatDate(dateString) {
+  const formatDate = useCallback((dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
-  }
-  // *********search*********
-  const [search, setsearch] = useState("");
-  const [sortOrder, setSortOrder] = useState("asc");
+  }, []);
 
-  // ************pagination
+  const startDate = useMemo(
+    () => formatDate(inputs.dateRange[0].startDate) + "T00:00:00.000Z",
+    [inputs.dateRange, formatDate]
+  );
 
-  const indexOfLastRow = inputs.Tablemanuplation.currentPage * limit; // 2 * 5 = 10
-  const offset = indexOfLastRow - limit; // 10 -5 = 5
+  const endDate = useMemo(
+    () =>
+      formatDate(inputs.dateRange[0].endDate || new Date()) + "T23:59:59.000Z",
+    [inputs.dateRange, formatDate]
+  );
 
-  const totalPage = Math.ceil(inputs.Tablemanuplation.totalCount / limit);
+  const formatstartDate = inputs.dateRange[0].startDate;
+  const formatendDate = inputs.dateRange[0].endDate;
 
-  dispatch(setTotalPage(totalPage));
-  console.log("tot", inputs.Tablemanuplation.sortedData);
-  console.log("total", inputs.Tablemanuplation.totalPage);
-  //********************************************************* */
+  const totalPage = useMemo(
+    () => Math.ceil(inputs.Tablemanuplation.totalCount / limit),
+    [inputs.Tablemanuplation.totalCount, limit]
+  );
 
-  const handleLimit = (e) => {
-    setLimit(e.target.value);
-    dispatch(setCurrentPage(1));
-  };
+  useEffect(() => {
+    dispatch(setTotalPage(totalPage));
+  }, [dispatch, totalPage]);
 
-  // ************ sort data api **************************
-
-  const fetchsortData = async () => {
+  const fetchsortData = useCallback(async () => {
     try {
       dispatch(setIsloading(true));
 
@@ -79,7 +78,7 @@ function Sectionmain({ setIsLoggedIn }) {
         startDate,
         endDate,
         type,
-        offset,
+        offset: inputs.Tablemanuplation.currentPage * limit - limit,
       });
 
       const response = await fetch(`${urloFe}?${params.toString()}`);
@@ -91,31 +90,55 @@ function Sectionmain({ setIsLoggedIn }) {
 
       dispatch(setSortedData(result));
       dispatch(setTotalCount(result.totalCount));
-
-      console.log("result", result);
     } catch (error) {
       console.error("Fetch operation error:", error);
     } finally {
       dispatch(setIsloading(false));
     }
-  };
-  console.log("sortdata", inputs.Tablemanuplation.sortedData);
+  }, [
+    dispatch,
+    endDate,
+    limit,
+    search,
+    sortBy,
+    sortOrder,
+    startDate,
+    type,
+    inputs.Tablemanuplation.currentPage,
+  ]);
 
   useEffect(() => {
     fetchsortData();
-  }, [search, limit, offset, type, sortBy, sortOrder, startDate, endDate]);
+  }, [fetchsortData]);
 
-  // ************ show question ************************
-  const showQuestion = (id) => {
-    dispatch(setIdstores(id));
-    dispatch(toggleModal(!inputs.openpop));
-    console.log("edjkd", id);
-    localStorage.setItem("sectionId", id);
-  };
+  const handleLimit = useCallback(
+    (e) => {
+      setLimit(Number(e.target.value));
+      dispatch(setCurrentPage(1));
+    },
+    [dispatch]
+  );
 
-  const handleChange = (e) => {
-    setsearch(e.target.value);
-    dispatch(setCurrentPage(1));
+  const handleChange = useCallback(
+    (e) => {
+      setSearch(e.target.value);
+      dispatch(setCurrentPage(1));
+    },
+    [dispatch]
+  );
+
+  const showQuestion = useCallback(
+    (id) => {
+      dispatch(setIdstores(id));
+      dispatch(toggleModal(!inputs.openpop));
+      localStorage.setItem("QuizeId", id);
+      localStorage.setItem("sectionId", id);
+    },
+    [dispatch, inputs.openpop]
+  );
+  const handleDateRangePicker = (ranges) => {
+    const serializedSelection = serializedSelectionDatePicker(ranges);
+    dispatch(setDateRangesection([serializedSelection]));
   };
   return (
     <div className="App">
@@ -129,22 +152,25 @@ function Sectionmain({ setIsLoggedIn }) {
             <div className="flex flex-col md:flex-row md:justify-between items-center mt-5 bg-gray-200 p-2 md:p-4">
               <div className="flex items-center">
                 <div className="mr-2 font-bold">Date :- </div>
-                <div className=" bg-white rounded-xl p-2">
+                <div className="bg-white rounded-xl p-2">
                   <div className="flex items-center">
                     <div>
-                      <CustomDatePicker />
+                      <CustomDatePicker
+                        inputs={inputs}
+                        onDateRangeChange={handleDateRangePicker}
+                      />
                     </div>
-                    {formatstartDate && formatendDate && (
-                      <div className="flex items-center ml-2  ">
-                        <div className="text-gray-700 font-bold">
-                          {formatstartDate}
-                        </div>
-                        <div className="mx-2 text-gray-500 font-bold">To</div>
-                        <div className="text-gray-700 font-bold">
-                          {formatendDate}
-                        </div>
+                    <div className="flex items-center ml-2">
+                      <div className="text-gray-700 font-bold">
+                        {formatendDate
+                          ? formatDate(formatstartDate)
+                          : "YY/MM/DD"}
                       </div>
-                    )}
+                      <div className="mx-2 text-gray-500 font-bold">To</div>
+                      <div className="text-gray-700 font-bold">
+                        {formatendDate ? formatDate(formatendDate) : "YY/MM/DD"}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -161,9 +187,9 @@ function Sectionmain({ setIsLoggedIn }) {
               <div className="">
                 <span className="fw-bold me-2">Sort by :</span>
                 <select onChange={handleLimit}>
-                  {sortByOptions?.map((sortByOption, index) => {
-                    return <option key={index}>{sortByOption}</option>;
-                  })}
+                  {sortByOptions.map((sortByOption, index) => (
+                    <option key={index}>{sortByOption}</option>
+                  ))}
                 </select>
               </div>
               <Link to="/QuizetoSectionName">
@@ -178,10 +204,9 @@ function Sectionmain({ setIsLoggedIn }) {
 
             <table className="min-w-full bg-white border border-gray-300">
               <Tableheader sortOrder={sortOrder} setSortOrder={setSortOrder} />
-
               <Tablebody
                 formatDate={formatDate}
-                offset={offset}
+                offset={inputs.Tablemanuplation.currentPage * limit - limit}
                 showQuestion={showQuestion}
               />
             </table>

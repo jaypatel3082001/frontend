@@ -11,7 +11,7 @@ function Showquestionbox({ showQuestion }) {
 
   const dispatch = useDispatch();
 
-  const inputs = useSelector((state) => state.inputs3);
+  const inputs = useSelector((state) => state.inputs5);
 
   const navigate = useNavigate();
 
@@ -66,7 +66,6 @@ function Showquestionbox({ showQuestion }) {
       console.error("Fetch operation error:", error);
     }
   };
-  console.log("data  h", inputs.Tablemanuplation.data);
 
   return (
     <div>

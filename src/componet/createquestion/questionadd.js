@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
 import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
@@ -8,7 +8,7 @@ function QuestionAdd({ setIsLoggedIn }) {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [inputquedata, setInputquedata] = useState({
+  const initialInputData = {
     _id: "",
     question: "",
     option1: "",
@@ -17,7 +17,9 @@ function QuestionAdd({ setIsLoggedIn }) {
     option4: "",
     answer: "",
     weightage: "",
-  });
+  };
+
+  const [inputquedata, setInputquedata] = useState(initialInputData);
 
   useEffect(() => {
     if (location.state && location.state.itemToEdit) {
@@ -25,44 +27,39 @@ function QuestionAdd({ setIsLoggedIn }) {
     }
   }, [location.state]);
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setInputquedata((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-  };
+  }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const createApi = "https://quiz-krishang.vercel.app/questions/create";
-    const updateApi = `https://quiz-krishang.vercel.app/questions/update/${inputquedata._id}`;
-    try {
-      const api = inputquedata._id ? updateApi : createApi;
-      const response = await fetch(api, {
-        method: inputquedata._id ? "PUT" : "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(inputquedata),
-      });
-      setInputquedata({
-        _id: "",
-        question: "",
-        option1: "",
-        option2: "",
-        option3: "",
-        option4: "",
-        answer: "",
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      const createApi = "https://quiz-krishang.vercel.app/questions/create";
+      const updateApi = `https://quiz-krishang.vercel.app/questions/update/${inputquedata._id}`;
+      try {
+        const api = inputquedata._id ? updateApi : createApi;
+        const response = await fetch(api, {
+          method: inputquedata._id ? "PUT" : "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(inputquedata),
+        });
+        setInputquedata(initialInputData); // Reset form fields after submission
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        navigate("/createmain");
+      } catch (error) {
+        console.error("Fetch operation error:", error);
       }
-      navigate("/createmain");
-    } catch (error) {
-      console.error("Fetch operation error:", error);
-    }
-  };
+    },
+    [inputquedata, navigate, initialInputData]
+  );
 
   return (
     <>
@@ -164,8 +161,8 @@ function QuestionAdd({ setIsLoggedIn }) {
               </select>
             </div>
             <div className="mb-3">
-              <label htmlFor="option4" className="form-label">
-                weightage
+              <label htmlFor="weightage" className="form-label">
+                Weightage
               </label>
               <input
                 type="number"
@@ -173,7 +170,7 @@ function QuestionAdd({ setIsLoggedIn }) {
                 value={inputquedata.weightage}
                 onChange={handleChange}
                 className="form-control"
-                placeholder="weightage "
+                placeholder="Weightage*"
                 required
               />
             </div>
@@ -181,7 +178,7 @@ function QuestionAdd({ setIsLoggedIn }) {
               Submit
             </button>
             <Link to="/createmain">
-              <button type="submit" className="btn btn-primary">
+              <button type="button" className="btn btn-primary">
                 Back
               </button>
             </Link>

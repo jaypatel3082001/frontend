@@ -13,11 +13,11 @@ const initialState = {
     isLoading: false,
 
     data: [],
-    sortedData: {},
+    sortedData: [],
     totalPage: 0,
     currentPage: 1,
-
     totalCount: 0,
+    // offset,
     display: false,
     idstore: null,
     idstores: null,
@@ -26,14 +26,14 @@ const initialState = {
   },
   fadeTransition: { in: false, down: false },
 };
-const InputSlice3 = createSlice({
+const InputSlice5 = createSlice({
   name: "inputs",
   initialState,
   reducers: {
     toggleModal: (state, action) => {
       state.openpop = action.payload;
     },
-    setDateRangesection: (state, action) => {
+    setDateRangeresultstudent: (state, action) => {
       return {
         ...state,
         dateRange: action.payload,
@@ -54,14 +54,14 @@ const InputSlice3 = createSlice({
     setCurrentPage: (state, action) => {
       state.Tablemanuplation.currentPage = action.payload;
     },
-    setTotalCount: (state, action) => {
-      state.Tablemanuplation.totalCount = action.payload;
-    },
     setIdstore: (state, action) => {
       state.Tablemanuplation.idstore = action.payload;
     },
     setIdstores: (state, action) => {
       state.Tablemanuplation.idstores = action.payload;
+    },
+    setTotalCount: (state, action) => {
+      state.Tablemanuplation.totalCount = action.payload;
     },
     setDisplay: (state, action) => {
       state.Tablemanuplation.display = action.payload;
@@ -76,17 +76,18 @@ export const {
   closeModal,
   setFadeTransition,
   AllModalClose,
-  setDateRangesection,
+  resultstudent,
+  setDateRangeresultstudent,
   setData,
   setIdstores,
   setIsloading,
   setIdstore,
   setCurrentPage,
+  setTotalCount,
   setTotalPage,
   setSortedData,
   setDisplay,
-  setTotalCount,
-} = InputSlice3.actions;
+} = InputSlice5.actions;
 
 // Export reducer
-export default InputSlice3.reducer;
+export default InputSlice5.reducer;

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { Link } from "react-router-dom";
 import Sidebar from "../../fixdata/sidebar";
 import Navbar from "../../fixdata/navbar";
 import Addquiz from "../addquiz";
@@ -11,31 +11,27 @@ import {
   setSortedData,
   setCurrentPage,
   setIdstores,
+  setDateRangequize,
 } from "../../../reduxfiles/quizeSlice";
 import Tableheader from "./tableheader";
 import Tablebody from "./tablebody";
 import Showquestionbox from "./showquestionbox";
 import { useDispatch, useSelector } from "react-redux";
+import { serializedSelectionDatePicker } from "../../../util/utility";
 
 function Quizemain({ setIsLoggedIn }) {
   const dispatch = useDispatch();
   const inputs = useSelector((state) => state.inputs2);
-  const sortByOptions = [5, 10, 15, 20];
+
+  // Memoized sortByOptions array
+  const sortByOptions = useMemo(() => [5, 10, 15, 20], []);
+
   const urloFe = `https://quiz-krishang.vercel.app/search/getsearchAll`; //api
   const [limit, setLimit] = useState(5);
   const sortBy = "createdAt";
   let type = "quiz";
-  const startDate =
-    formatDate(inputs.dateRange[0].startDate) + "T00:00:00.000Z";
-  const formatstartDate = formatDate(inputs.dateRange[0].startDate);
-  const formatendDate = formatDate(inputs.dateRange[0].endDate || new Date());
-  const endDate =
-    formatDate(inputs.dateRange[0].endDate || new Date()) + "T23:59:59.000Z";
 
-  //********************************************* */
-
-  // ****************  date formate  ********************
-
+  // Date format function
   function formatDate(dateString) {
     const date = new Date(dateString);
     const year = date.getFullYear();
@@ -43,32 +39,42 @@ function Quizemain({ setIsLoggedIn }) {
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   }
-  // *********search*********
+
+  const startDate =
+    formatDate(inputs.dateRange[0].startDate) + "T00:00:00.000Z";
+  const endDate =
+    formatDate(inputs.dateRange[0].endDate || new Date()) + "T23:59:59.000Z";
+
+  const formatstartDate = inputs.dateRange[0].startDate;
+  const formatendDate = inputs.dateRange[0].endDate;
+
+  // Search state
   const [search, setsearch] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
 
-  // ************pagination
-
-  const indexOfLastRow = inputs.Tablemanuplation.currentPage * limit; // 2 * 5 = 10
-  const offset = indexOfLastRow - limit; // 10 -5 = 5
-
+  // Pagination calculations
+  const indexOfLastRow = inputs.Tablemanuplation.currentPage * limit;
+  const offset = indexOfLastRow - limit;
   const totalPage = Math.ceil(
     inputs.Tablemanuplation.sortedData.totalCount / limit
   );
 
-  dispatch(setTotalPage(totalPage));
-  console.log("tot", inputs.Tablemanuplation.sortedData);
-  console.log("total", inputs.Tablemanuplation.totalPage);
-  //********************************************************* */
+  // Dispatch totalPage initially
+  useEffect(() => {
+    dispatch(setTotalPage(totalPage));
+  }, [dispatch, totalPage]);
 
-  const handleLimit = (e) => {
-    setLimit(e.target.value);
-    dispatch(setCurrentPage(1));
-  };
+  // Handle limit change
+  const handleLimit = useCallback(
+    (e) => {
+      setLimit(e.target.value);
+      dispatch(setCurrentPage(1));
+    },
+    [dispatch]
+  );
 
-  // ************ sort data api **************************
-
-  const fetchsortData = async () => {
+  // Fetch sorted data from API
+  const fetchsortData = useCallback(async () => {
     try {
       dispatch(setIsloading(true));
 
@@ -88,62 +94,82 @@ function Quizemain({ setIsLoggedIn }) {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      const result = await response.json();
 
+      const result = await response.json();
       dispatch(setSortedData(result));
-      console.log("sortdata", inputs.Tablemanuplation.sortedData);
-      console.log("result", result);
     } catch (error) {
       console.error("Fetch operation error:", error);
     } finally {
       dispatch(setIsloading(false));
     }
-  };
+  }, [
+    dispatch,
+    search,
+    limit,
+    offset,
+    type,
+    sortBy,
+    sortOrder,
+    startDate,
+    endDate,
+  ]);
 
+  // Fetch data on component mount and when dependencies change
   useEffect(() => {
     fetchsortData();
-  }, [search, limit, offset, type, sortBy, sortOrder, startDate, endDate]);
+  }, [fetchsortData]);
 
-  // ************ show question ************************
-  const showQuestion = (id) => {
-    dispatch(setIdstores(id));
-    dispatch(toggleModal(!inputs.openpop));
-    console.log("edjkd", id);
-    localStorage.setItem("QuizeId", id);
+  // Show question details
+  const showQuestion = useCallback(
+    (id) => {
+      dispatch(setIdstores(id));
+      dispatch(toggleModal(!inputs.openpop));
+      localStorage.setItem("QuizeId", id);
+    },
+    [dispatch, inputs.openpop]
+  );
+
+  // Handle search input change
+  const handleChange = useCallback(
+    (e) => {
+      setsearch(e.target.value);
+      dispatch(setCurrentPage(1));
+    },
+    [dispatch]
+  );
+
+  const handleDateRangePicker = (ranges) => {
+    const serializedSelection = serializedSelectionDatePicker(ranges);
+    dispatch(setDateRangequize([serializedSelection]));
   };
 
-  const handleChange = (e) => {
-    setsearch(e.target.value);
-    dispatch(setCurrentPage(1));
-  };
   return (
     <div className="App">
       <div className="flex">
         <Sidebar />
         <div className="w-full bg-white-200">
-          <div>
-            <Navbar setIsLoggedIn={setIsLoggedIn} />
-          </div>
+          <Navbar setIsLoggedIn={setIsLoggedIn} />
           <div className="w-full px-3 bg-gray-200">
             <div className="flex flex-col md:flex-row md:justify-between items-center mt-5 bg-gray-200 p-2 md:p-4">
               <div className="flex items-center">
                 <div className="mr-2 font-bold">Date :- </div>
                 <div className=" bg-white rounded-xl p-2">
                   <div className="flex items-center">
-                    <div>
-                      <CustomDatePicker />
-                    </div>
-                    {formatstartDate && formatendDate && (
-                      <div className="flex items-center ml-2  ">
-                        <div className="text-gray-700 font-bold">
-                          {formatstartDate}
-                        </div>
-                        <div className="mx-2 text-gray-500 font-bold">To</div>
-                        <div className="text-gray-700 font-bold">
-                          {formatendDate}
-                        </div>
+                    <CustomDatePicker
+                      inputs={inputs}
+                      onDateRangeChange={handleDateRangePicker}
+                    />
+                    <div className="flex items-center ml-2">
+                      <div className="text-gray-700 font-bold">
+                        {formatendDate
+                          ? formatDate(formatstartDate)
+                          : "YY/MM/DD"}
                       </div>
-                    )}
+                      <div className="mx-2 text-gray-500 font-bold">To</div>
+                      <div className="text-gray-700 font-bold">
+                        {formatendDate ? formatDate(formatendDate) : "YY/MM/DD"}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -160,9 +186,9 @@ function Quizemain({ setIsLoggedIn }) {
               <div className="">
                 <span className="fw-bold me-2">Sort by :</span>
                 <select onChange={handleLimit}>
-                  {sortByOptions?.map((sortByOption, index) => {
-                    return <option key={index}>{sortByOption}</option>;
-                  })}
+                  {sortByOptions.map((sortByOption, index) => (
+                    <option key={index}>{sortByOption}</option>
+                  ))}
                 </select>
               </div>
               <Link to="/quizform">
@@ -177,7 +203,6 @@ function Quizemain({ setIsLoggedIn }) {
 
             <table className="min-w-full bg-white border border-gray-300">
               <Tableheader sortOrder={sortOrder} setSortOrder={setSortOrder} />
-
               <Tablebody
                 formatDate={formatDate}
                 offset={offset}

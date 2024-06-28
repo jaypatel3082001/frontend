@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { ReactComponent as Sortbyname } from "../../../svgfile/sortbyname.svg";
 import { setCurrentPage } from "../../../reduxfiles/quizeSlice";
 import { useDispatch } from "react-redux";
@@ -6,10 +6,11 @@ import { useDispatch } from "react-redux";
 function Tableheader({ sortOrder, setSortOrder }) {
   const dispatch = useDispatch();
 
-  const handleSorting = () => {
+  // Memoize the handleSorting function using useCallback
+  const handleSorting = useCallback(() => {
     setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
     dispatch(setCurrentPage(1));
-  };
+  }, [dispatch, setSortOrder]);
 
   return (
     <thead>
@@ -28,7 +29,7 @@ function Tableheader({ sortOrder, setSortOrder }) {
             </div>
           </div>
         </th>
-        <th className="px-5">Show Result</th>
+        <th className="px-5 border-x-2 border-gray-300">SHOW RESULT</th>
       </tr>
     </thead>
   );

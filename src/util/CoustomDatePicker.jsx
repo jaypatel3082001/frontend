@@ -1,54 +1,22 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { DateRangePicker } from "react-date-range";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
-// import style from "./CustomDatePicker.module.scss";
-// import { SlCalender } from "react-icons/sl";
 import { FaCalendarDays } from "react-icons/fa6";
-
 import { useClickOutside } from "../../src/hooks/CustomHooks";
-import { useDispatch, useSelector } from "react-redux";
-import { setDateRange } from "../reduxfiles/InputSlice";
 
-function CustomDatePicker({ onDateRangeChange }) {
-  const inputs = useSelector((state) => state.inputs);
+function CustomDatePicker({ onDateRangeChange, inputs }) {
   const datepickerRef = useRef();
-  const [showDatePicker, setShowDatePiceker] = useState(false);
-  // const [dateRange, setDateRange] = useState([
-  //   {
-  //     startDate: null,
-  //     endDate: null,
-  //     key: "selection",
-  //   },
-  // ]);
-  const dispatch = useDispatch();
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
-  //call useClickOutside Hook
   useClickOutside(datepickerRef, () => {
     if (showDatePicker) {
-      setShowDatePiceker(false);
+      setShowDatePicker(false);
     }
   });
 
-  const handleDateRangeChange = (ranges) => {
-    // Serialize the dates or other non-serializable data in ranges.selection
-    const serializedSelection = {
-      startDate: ranges.selection.startDate.toString(),
-      endDate: ranges.selection.endDate.toString(),
-      key: ranges.selection.key,
-    };
-
-    // Dispatch action with serialized payload
-    dispatch(setDateRange([serializedSelection]));
-
-    // Call onDateRangeChange callback if provided
-    if (onDateRangeChange) {
-      onDateRangeChange(serializedSelection);
-    }
-  };
-
   const handleToggleDatePicker = () => {
-    setShowDatePiceker(!showDatePicker);
+    setShowDatePicker(!showDatePicker);
   };
 
   return (
@@ -62,8 +30,8 @@ function CustomDatePicker({ onDateRangeChange }) {
           <div ref={datepickerRef}>
             <DateRangePicker
               ranges={inputs.dateRange}
-              onChange={handleDateRangeChange}
-              className={"style.CustomDatePicker,static top-1/2"}
+              onChange={onDateRangeChange}
+              className={"style.CustomDatePicker,static top-1/2 z-10"}
             />
           </div>
         </div>

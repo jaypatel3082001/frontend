@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useMemo, useCallback } from "react";
 import { ReactComponent as Sortbyname } from "../../../svgfile/sortbyname.svg";
 
 function Tableheader({ sortOrder, setSortOrder }) {
+  const toggleSortOrder = useCallback(() => {
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+  }, [sortOrder, setSortOrder]);
+
+  const rotatedClass = useMemo(
+    () => (sortOrder === "asc" ? "rotate-180" : ""),
+    [sortOrder]
+  );
+
   return (
     <thead>
       <tr className="border-b border-gray-400 text-black font-bold uppercase text-sm leading-normal w-full">
@@ -11,11 +20,11 @@ function Tableheader({ sortOrder, setSortOrder }) {
         <th className="py-3 border-x-2 border-gray-300 text-left lg:w-full">
           <div
             className="flex justify-center items-center cursor-pointer"
-            onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
+            onClick={toggleSortOrder}
           >
             <div>Quize Name</div>
             <div className="ml-2">
-              <Sortbyname className={sortOrder === "asc" ? "rotate-180" : ""} />
+              <Sortbyname className={rotatedClass} />
             </div>
           </div>
         </th>

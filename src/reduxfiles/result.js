@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { setTotalCount } from "./sectionSlice";
 
 const initialState = {
   openpop: false,
@@ -34,7 +33,7 @@ const InputSlice4 = createSlice({
     toggleModal: (state, action) => {
       state.openpop = action.payload;
     },
-    setDateRange: (state, action) => {
+    setDateRangeresult: (state, action) => {
       return {
         ...state,
         dateRange: action.payload,
@@ -42,6 +41,9 @@ const InputSlice4 = createSlice({
     },
     setIsloading: (state, action) => {
       state.Tablemanuplation.isLoading = action.payload;
+    },
+    setTotalCount: (state, action) => {
+      state.Tablemanuplation.totalCount = action.payload;
     },
     setData: (state, action) => {
       state.Tablemanuplation.data = action.payload;
@@ -61,9 +63,7 @@ const InputSlice4 = createSlice({
     setIdstores: (state, action) => {
       state.Tablemanuplation.idstores = action.payload;
     },
-    setTotalCount: (state, action) => {
-      state.Tablemanuplation.totalCount = action.payload;
-    },
+
     setDisplay: (state, action) => {
       state.Tablemanuplation.display = action.payload;
     },
@@ -77,9 +77,10 @@ export const {
   closeModal,
   setFadeTransition,
   AllModalClose,
-  setDateRange,
+  setDateRangeresult,
   setData,
   setIdstores,
+  setTotalCount,
   setIsloading,
   setIdstore,
   setCurrentPage,

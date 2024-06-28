@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentPage } from "../../../reduxfiles/quizeSlice";
 
@@ -6,17 +6,22 @@ function Createmainpagination() {
   const dispatch = useDispatch();
   const inputs = useSelector((state) => state.inputs2);
 
-  const handlePageChange = (pageNumber) => {
-    if (
-      pageNumber !== "..." &&
-      pageNumber >= 1 &&
-      pageNumber <= inputs.Tablemanuplation.totalPage
-    ) {
-      dispatch(setCurrentPage(pageNumber));
-    }
-  };
+  // Memoized handlePageChange function
+  const handlePageChange = useCallback(
+    (pageNumber) => {
+      if (
+        pageNumber !== "..." &&
+        pageNumber >= 1 &&
+        pageNumber <= inputs.Tablemanuplation.totalPage
+      ) {
+        dispatch(setCurrentPage(pageNumber));
+      }
+    },
+    [dispatch, inputs.Tablemanuplation.totalPage]
+  );
 
-  const getPageNumbers = () => {
+  // Memoized getPageNumbers function
+  const getPageNumbers = useCallback(() => {
     const pages = [];
 
     if (inputs.Tablemanuplation.totalPage <= 5) {
@@ -63,14 +68,15 @@ function Createmainpagination() {
     }
 
     return pages;
-  };
+  }, [inputs.Tablemanuplation.totalPage, inputs.Tablemanuplation.currentPage]);
 
-  const pages = getPageNumbers();
+  // Memoized pages array
+  const pages = useMemo(() => getPageNumbers(), [getPageNumbers]);
 
   return (
     <div className="pagination m-2">
       <div
-        className={`btn pagination-number font-bold ${
+        className={`btn pagination-number font-bold  ${
           inputs.Tablemanuplation.currentPage === 1 ? "disabled" : ""
         }`}
         onClick={() =>

@@ -4,6 +4,7 @@ import inputReducer from "./reduxfiles/InputSlice";
 import inputReducer2 from "./reduxfiles/quizeSlice";
 import inputReducer3 from "./reduxfiles/sectionSlice";
 import inputReducer4 from "./reduxfiles/result";
+import inputReducer5 from "./reduxfiles/resultstudentSlice";
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     inputs2: inputReducer2,
     inputs3: inputReducer3,
     inputs4: inputReducer4,
+    inputs5: inputReducer5,
   },
 });
 

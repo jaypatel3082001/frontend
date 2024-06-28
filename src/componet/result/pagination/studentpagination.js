@@ -1,12 +1,12 @@
 import React, { useMemo, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentPage } from "../../../reduxfiles/InputSlice";
+import { setCurrentPage } from "../../../reduxfiles/quizeSlice";
 
 function Createmainpagination() {
   const dispatch = useDispatch();
-  const inputs = useSelector((state) => state.inputs);
+  const inputs = useSelector((state) => state.inputs5);
 
-  // Memoize the handlePageChange function
+  // Memoized event handler
   const handlePageChange = useCallback(
     (pageNumber) => {
       if (
@@ -20,8 +20,16 @@ function Createmainpagination() {
     [dispatch, inputs.Tablemanuplation.totalPage]
   );
 
-  // Memoize the getPageNumbers function
-  const getPageNumbers = useMemo(() => {
+  // Memoized function to calculate pages array
+  const pages = useMemo(
+    () => getPageNumbers(),
+    [inputs.Tablemanuplation.currentPage, inputs.Tablemanuplation.totalPage]
+  );
+  console.log(
+    "inputs.Tablemanuplation.totalPage",
+    inputs.Tablemanuplation.totalPage
+  );
+  function getPageNumbers() {
     const pages = [];
 
     if (inputs.Tablemanuplation.totalPage <= 5) {
@@ -68,7 +76,7 @@ function Createmainpagination() {
     }
 
     return pages;
-  }, [inputs.Tablemanuplation.totalPage, inputs.Tablemanuplation.currentPage]);
+  }
 
   return (
     <div className="pagination m-2">
@@ -83,7 +91,7 @@ function Createmainpagination() {
       >
         Prev
       </div>
-      {getPageNumbers.map((page, index) =>
+      {pages.map((page, index) =>
         typeof page === "number" ? (
           <div
             key={index}

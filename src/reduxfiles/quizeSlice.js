@@ -33,7 +33,7 @@ const InputSlice2 = createSlice({
     toggleModal: (state, action) => {
       state.openpop = action.payload;
     },
-    setDateRange: (state, action) => {
+    setDateRangequize: (state, action) => {
       return {
         ...state,
         dateRange: action.payload,
@@ -73,7 +73,7 @@ export const {
   closeModal,
   setFadeTransition,
   AllModalClose,
-  setDateRange,
+  setDateRangequize,
   setData,
   setIdstores,
   setIsloading,

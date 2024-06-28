@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
 import { useLocation, useNavigate, Link } from "react-router-dom";
@@ -6,25 +6,30 @@ import { useLocation, useNavigate, Link } from "react-router-dom";
 function Quizform({ setIsLoggedIn }) {
   const location = useLocation();
   const navigate = useNavigate();
+
   const [inputquizdata, setInputquizdata] = useState({
     quizename: "",
   });
+
   useEffect(() => {
     if (location.state && location.state.itemToEdit) {
       setInputquizdata(location.state.itemToEdit);
     }
   }, [location.state]);
-  const handleChange = (e) => {
+
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setInputquizdata((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-  };
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const createApi = "https://quiz-krishang.vercel.app/quize/create";
     const updateApi = `https://quiz-krishang.vercel.app/quize/update/${inputquizdata._id}`;
+
     try {
       const api = inputquizdata._id ? updateApi : createApi;
       const response = await fetch(api, {
@@ -34,28 +39,33 @@ function Quizform({ setIsLoggedIn }) {
         },
         body: JSON.stringify(inputquizdata),
       });
-      setInputquizdata({
-        _id: "",
-        question: "",
-        option1: "",
-        option2: "",
-        option3: "",
-        option4: "",
-        answer: "",
-      });
+
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
+
+      setInputquizdata({
+        quizename: "",
+      });
+
       navigate("/Quizmain");
     } catch (error) {
       console.error("Fetch operation error:", error);
     }
   };
 
+  const memoizedEndpoints = useMemo(
+    () => ({
+      createApi: "https://quiz-krishang.vercel.app/quize/create",
+      updateApi: `https://quiz-krishang.vercel.app/quize/update/${inputquizdata._id}`,
+    }),
+    [inputquizdata._id]
+  );
+
   return (
     <div className="flex">
       <Sidebar />
-      <div className="w-full ">
+      <div className="w-full">
         <div>
           <Navbar setIsLoggedIn={setIsLoggedIn} />
         </div>
@@ -79,9 +89,9 @@ function Quizform({ setIsLoggedIn }) {
           <button type="submit" className="btn btn-primary">
             Submit
           </button>
-          <Link to="/Quizmain">
-            <button type="submit" className="btn btn-primary ml-4 ">
-              cancle
+          <Link to="/Quizmain" className="ml-4">
+            <button type="button" className="btn btn-primary">
+              Cancel
             </button>
           </Link>
         </form>

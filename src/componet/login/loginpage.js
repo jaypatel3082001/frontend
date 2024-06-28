@@ -133,7 +133,7 @@ const Loginpage = ({ setIsLoggedIn }) => {
       [name]: value,
     }));
   };
-  console.log("data    ..", inputlogindata);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -146,10 +146,10 @@ const Loginpage = ({ setIsLoggedIn }) => {
         },
         body: JSON.stringify(inputlogindata),
       });
-      console.log("ress---", response);
+
       if (response.ok) {
         const result = await response.json();
-        console.log("result", result);
+
         localStorage.setItem("authToken", result.token); // Save token to localStorage
         setInputlogindata(result);
         setErrorMessage("");

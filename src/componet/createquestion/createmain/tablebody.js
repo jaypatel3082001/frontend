@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useCallback, useMemo } from "react";
 import { ReactComponent as Option } from "../../../svgfile/option.svg";
 import { ReactComponent as Popbox } from "../../../svgfile/Popbox.svg";
 import { ReactComponent as Upboxuparrow } from "../../../svgfile/boxuparrow.svg";
@@ -18,12 +18,8 @@ function Tablebody({ formatDate, offset, showQuestion }) {
   const inputs = useSelector((state) => state.inputs);
   const dispatch = useDispatch();
 
-  // ********** data featch ********************
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-  const fetchData = async () => {
+  // Memoized fetchData function
+  const fetchData = useCallback(async () => {
     try {
       dispatch(setIsloading(true));
       const response = await fetch(url);
@@ -39,47 +35,62 @@ function Tablebody({ formatDate, offset, showQuestion }) {
     } finally {
       dispatch(setIsloading(false));
     }
-  };
+  }, [dispatch]);
 
-  // ************************        edit and delete function ******************************
+  // Fetch data on component mount
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
-  const handleEditClick = (id) => {
-    const questionToUpdate = inputs.Tablemanuplation.data.find(
-      (question) => question._id === id
-    );
-    navigate("/questionadd", { state: { itemToEdit: questionToUpdate } });
-  };
+  // Memoized mapped data
+  const sortedData = useMemo(
+    () => inputs.Tablemanuplation.sortedData?.data,
+    [inputs.Tablemanuplation.sortedData?.data]
+  );
 
-  const handleDelete = async (id) => {
-    try {
-      const response = await fetch(
-        `https://quiz-krishang.vercel.app/questions/delete/${id}`,
-        {
-          method: "DELETE",
-        }
+  // Memoized event handlers
+  const handleEditClick = useCallback(
+    (id) => {
+      const questionToUpdate = sortedData.find(
+        (question) => question._id === id
       );
+      navigate("/questionadd", { state: { itemToEdit: questionToUpdate } });
+    },
+    [navigate, sortedData]
+  );
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+  const handleDelete = useCallback(
+    async (id) => {
+      try {
+        const response = await fetch(
+          `https://quiz-krishang.vercel.app/questions/delete/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        await response.json();
+        fetchData();
+      } catch (error) {
+        console.error("Fetch operation error:", error);
       }
+    },
+    [fetchData]
+  );
 
-      await response.json();
-      fetchData();
-    } catch (error) {
-      console.error("Fetch operation error:", error);
-    }
-  };
+  const handleClicktd = useCallback(
+    (id) => {
+      dispatch(setDisplay(!inputs.Tablemanuplation.display));
+      dispatch(setIdstore(id));
+    },
+    [dispatch, inputs.Tablemanuplation.display]
+  );
 
-  // ************* show edit and delete box display *************************
-
-  const handleClicktd = (id) => {
-    console.log(id, "ud");
-    dispatch(setDisplay(!inputs.Tablemanuplation.display));
-    dispatch(setIdstore(id));
-  };
-
-  // ***************  outside click box close **************************
-
+  // Outside click box close
   function useClickOutside(ref, callback) {
     useEffect(() => {
       const handleClickOutside = (event) => {
@@ -112,7 +123,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
         </td>
       </tr>
     </tbody>
-  ) : inputs.Tablemanuplation.sortedData?.data?.length === 0 ? (
+  ) : sortedData?.length === 0 ? (
     <tbody>
       <tr className="border-b border-gray-400">
         <td
@@ -125,7 +136,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
     </tbody>
   ) : (
     <tbody className="text-black font-semibold">
-      {inputs.Tablemanuplation.sortedData?.data?.map((info, ind) => (
+      {sortedData?.map((info, ind) => (
         <tr key={info._id} className="border-b border-gray-400">
           <td className="text-center whitespace-nowrap hover:bg-gray-200 border-x-2 border-gray-300">
             {offset + ind + 1}

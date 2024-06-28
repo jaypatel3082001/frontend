@@ -1,27 +1,19 @@
-//to show added quize also user can delete quize
-
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
-// import { useSelector } from "react-redux";
 
 function SectionHome({ setIsLoggedIn }) {
-  // const { id } = useParams();
-  // const inputs = useSelector((state) => state.action);
-  // console.log("redux value", inputs?.sectionId);
   const id = localStorage.getItem("sectionId");
-  console.log("redux value", id);
+
   const [data, setData] = useState([]);
-  // const [del,setDel]=useState({
-  //    questionId:''
-  // })
   const navigator = useNavigate();
-  console.log("sasasas", data);
+
   useEffect(() => {
     fetchData();
   }, []);
-  const fetchData = async () => {
+
+  const fetchData = useCallback(async () => {
     try {
       const response = await fetch(
         `https://quiz-krishang.vercel.app/section/read/${id}`
@@ -34,54 +26,56 @@ function SectionHome({ setIsLoggedIn }) {
     } catch (error) {
       console.error("Fetch operation error:", error);
     }
-  };
-  const handleDelete = async (id1) => {
-    const updatedDel = { quizeId: id1 };
+  }, [id]);
 
-    await DeleteHandle(updatedDel);
-  };
-  // console.log("aaaaalllllll2222222222222",del)
-  const DeleteHandle = async (updatedDel) => {
-    try {
-      const response = await fetch(
-        `https://quiz-krishang.vercel.app/section/deletetquiz/${id}`,
+  const handleDelete = useCallback(
+    async (id1) => {
+      const updatedDel = { quizeId: id1 };
 
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedDel),
+      try {
+        const response = await fetch(
+          `https://quiz-krishang.vercel.app/section/deletetquiz/${id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedDel),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
         }
-      );
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+        await response.json();
+
+        navigator(0);
+      } catch (error) {
+        console.error("Fetch operation error:", error);
       }
+    },
+    [id, navigator]
+  );
 
-      await response.json();
-      // fetchData();
-      navigator(0);
-    } catch (error) {
-      console.error("Fetch operation error:", error);
-    }
-  };
-  console.log("data  h", data);
-  const handleQuize = (id) => {
+  const handleQuize = useCallback((id) => {
     localStorage.setItem("QuizeId", id);
-  };
+  }, []);
+
+  const sectionIds = useMemo(
+    () => data.data?.sectioninfo?.map((info) => info._id),
+    [data.data?.sectioninfo]
+  );
 
   return (
     <div className="flex">
       <Sidebar />
-      <div className="w-full ">
-        <div>
-          <Navbar setIsLoggedIn={setIsLoggedIn} />
-        </div>
+      <div className="w-full">
+        <Navbar setIsLoggedIn={setIsLoggedIn} />
         <div className="flex flex-col justify-between mt-5">
           <div></div>
-          <div className=" flex items-center flex-col p-2  bg-blue-300">
-            <div>Add Quize In Section</div>
+          <div className="flex items-center flex-col p-2 bg-blue-300">
+            <div>Add Quiz In Section</div>
             <Link to={`/SectionHome/Sectionmain/quizelist`}>
               <button className="bg-red-300 w-fit mt-1" type="submit">
                 <svg
@@ -97,14 +91,14 @@ function SectionHome({ setIsLoggedIn }) {
           </div>
 
           <div className="bg-slate-300 m-5 rounded-md">
-            <h1 className="fw-bold text-2xl flex justify-center border-b-2 w-full p-2">
-              Added the Question
+            <h1 className="font-bold text-2xl flex justify-center border-b-2 w-full p-2">
+              Added Questions
             </h1>
             {data.data?.sectioninfo?.map((info, ind) => (
               <div key={info._id} className="border-red-600 m-10">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h1 className="text-3xl mb-2 font-bold">Quize {ind + 1}</h1>
+                    <h1 className="text-3xl mb-2 font-bold">Quiz {ind + 1}</h1>
                   </div>
                   <div className="flex">
                     <div

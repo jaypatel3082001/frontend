@@ -24,7 +24,7 @@ function Quizestart({ id }) {
 
   const url = `https://quiz-krishang.vercel.app/section/getall/${id}`;
 
-  const [timeRemaining, setTimeRemaining] = useState(1); // Initial time in minutes
+  const [timeRemaining, setTimeRemaining] = useState(30); // Initial time in minutes
 
   useEffect(() => {
     const totalSeconds = timeRemaining * 60;
@@ -97,12 +97,44 @@ function Quizestart({ id }) {
     }
   };
 
+  // const handleSubmit = async () => {
+  //   const result = arrrr[0] || {
+  //     sectionId: `${id}`,
+  //     questions: [],
+  //   };
+  //   try {
+  //     const response = await fetch(
+  //       "https://quiz-krishang.vercel.app/result/create",
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //         body: JSON.stringify(result),
+  //       }
+  //     );
+  //   } catch (error) {
+  //     console.error("Error during submission", error);
+  //   }
+  //   setIssubmitted(true);
+  //   const intervalId = setTimeout(() => {
+  //     navigate("/");
+  //   }, 1000);
+  //   return () => clearInterval(intervalId);
+  // };
   const handleSubmit = async () => {
-    console.log("arrrr", arrrr);
     const result = arrrr[0] || {
       sectionId: `${id}`,
       questions: [],
     };
+
+    // Check if arrrr[0] exists and has necessary data
+    if (!arrrr[0] || !arrrr[0].sectionId || !arrrr[0].questions.length) {
+      alert("Please select an answer for all questions.");
+      return; // Exit function if data is incomplete
+    }
+
     try {
       const response = await fetch(
         "https://quiz-krishang.vercel.app/result/create",
@@ -116,19 +148,20 @@ function Quizestart({ id }) {
         }
       );
 
-      if (response.ok) {
-        console.log("Submitted successfully");
-      } else {
-        console.error("Submission error");
+      if (!response.ok) {
+        throw new Error("Failed to submit data");
       }
+
+      // Proceed with setting state and navigating
+      setIssubmitted(true);
+      const intervalId = setTimeout(() => {
+        navigate("/");
+      }, 1000);
+      return () => clearInterval(intervalId);
     } catch (error) {
       console.error("Error during submission", error);
+      // Handle error state or display an error message
     }
-    setIssubmitted(true);
-    const intervalId = setTimeout(() => {
-      navigate("/");
-    }, 1000);
-    return () => clearInterval(intervalId);
   };
 
   const handleQuestion = (e) => {
@@ -137,8 +170,10 @@ function Quizestart({ id }) {
     const qindex = parseInt(e.target.getAttribute("data-qindex"));
     const sectionName = `Section ${currentPartPage + 1}`;
     const quizeId = e.target.getAttribute("quizeId");
+    const quizename = e.target.getAttribute("quizename");
+
     const weightage = parseInt(e.target.getAttribute("weightage"));
-    console.log("arrrr", quizeId);
+
     setArrrr((prevArrrr) => {
       const existingSectionIndex = prevArrrr.findIndex(
         (section) => section.sectionId === id
@@ -162,6 +197,7 @@ function Quizestart({ id }) {
             questionId,
             qindex,
             quizeId,
+            quizename,
             weightage,
             answer,
             isAttempted: true,
@@ -179,6 +215,7 @@ function Quizestart({ id }) {
                 questionId,
                 qindex,
                 quizeId,
+                quizename,
                 weightage,
                 answer,
                 isAttempted: true,
@@ -335,15 +372,15 @@ function Quizestart({ id }) {
         </div>
 
         {data
-          .slice(
+          ?.slice(
             currentPartPage * partsPerPage,
             (currentPartPage + 1) * partsPerPage
           )
-          .map((info, partIndex) => (
+          ?.map((info, partIndex) => (
             <div key={partIndex} className="bg-white shadow-lg w-full my-2">
               <div className="border-red-600 p-2">
                 <div className="flex items-center justify-between mb-4">
-                  <h1 className="text-3xl font-bold">{info.quizename}</h1>
+                  <h1 className="text-3xl font-bold">{info?.quizename}</h1>
 
                   <div className="timer text-2xl font-extrabold ">
                     Time Remaining : - {formatTime(timeRemaining)}
@@ -358,12 +395,12 @@ function Quizestart({ id }) {
                 <div>
                   {
                     // shuffleArray(info.quizemcqs) &&
-                    info.quizemcqs
+                    info?.quizemcqs
                       ?.slice(
                         currentQuestionPage * questionsPerPage,
                         (currentQuestionPage + 1) * questionsPerPage
                       )
-                      .map((ele, questionIndex) => {
+                      ?.map((ele, questionIndex) => {
                         counter = `${currentPartPage + 1}${
                           currentQuestionPage + 1
                         }`;
@@ -401,6 +438,7 @@ function Quizestart({ id }) {
                                   <input
                                     type="radio"
                                     quizeId={info._id}
+                                    quizename={info.quizename}
                                     weightage={ele.weightage}
                                     name={`option-${partIndex}-${questionIndex}`}
                                     value={`option${index + 1}`}
@@ -413,6 +451,7 @@ function Quizestart({ id }) {
                                       existingAnswer === `option${index + 1}`
                                     }
                                     onChange={handleQuestion}
+                                    required // Ensure this input is required
                                   />
                                   <label
                                     className="ml-2 text-xl"

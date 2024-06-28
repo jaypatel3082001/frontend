@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useCallback, useRef } from "react";
 import { ReactComponent as Option } from "../../../svgfile/option.svg";
 import { ReactComponent as Popbox } from "../../../svgfile/Popbox.svg";
 import { ReactComponent as Upboxuparrow } from "../../../svgfile/boxuparrow.svg";
 import { ReactComponent as Key } from "../../../svgfile/key.svg";
 import Createmainpagination from "../pagination/createmainpagination";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setIdstore,
@@ -20,15 +20,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
   const inputs = useSelector((state) => state.inputs3);
   const dispatch = useDispatch();
 
-  // ********** data featch ********************
-  console.log(
-    "inputs.Tablemanuplation?.sortedData?",
-    inputs.Tablemanuplation.sortedData
-  );
-  useEffect(() => {
-    fetchData();
-  }, []);
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       dispatch(setIsloading(true));
       const response = await fetch(url);
@@ -44,47 +36,63 @@ function Tablebody({ formatDate, offset, showQuestion }) {
     } finally {
       dispatch(setIsloading(false));
     }
-  };
+  }, [dispatch, url]);
 
-  // ************************        edit and delete function ******************************
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
-  const handleEditClick = (id) => {
-    const sectionToUpdate = inputs.Tablemanuplation.data.find(
-      (section) => section._id === id
-    );
-    navigate("/QuizetoSectionName", { state: { itemToEdit: sectionToUpdate } });
-  };
+  const handleShowkey = useCallback(
+    (id) => {
+      localStorage.setItem("sectionId", id);
+      navigate("/userpages/quiz-start");
+    },
+    [navigate]
+  );
 
-  const handleDelete = async (id) => {
-    try {
-      const response = await fetch(
-        `https://quiz-krishang.vercel.app/section/delete/${id}`,
-        {
-          method: "DELETE",
-        }
+  const handleEditClick = useCallback(
+    (id) => {
+      const sectionToUpdate = inputs.Tablemanuplation.data.find(
+        (section) => section._id === id
       );
+      navigate("/QuizetoSectionName", {
+        state: { itemToEdit: sectionToUpdate },
+      });
+    },
+    [inputs.Tablemanuplation.data, navigate]
+  );
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+  const handleDelete = useCallback(
+    async (id) => {
+      try {
+        const response = await fetch(
+          `https://quiz-krishang.vercel.app/section/delete/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        await response.json();
+        fetchData();
+        dispatch(setCurrentPage(1));
+      } catch (error) {
+        console.error("Fetch operation error:", error);
       }
+    },
+    [fetchData, dispatch]
+  );
 
-      await response.json();
-      fetchData();
-      dispatch(setCurrentPage(1));
-    } catch (error) {
-      console.error("Fetch operation error:", error);
-    }
-  };
-
-  // ************* show edit and delete box display *************************
-
-  const handleClicktd = (id) => {
-    console.log(id, "ud");
-    dispatch(setDisplay(!inputs.Tablemanuplation.display));
-    dispatch(setIdstore(id));
-  };
-
-  // ***************  outside click box close **************************
+  const handleClicktd = useCallback(
+    (id) => {
+      dispatch(setDisplay(!inputs.Tablemanuplation.display));
+      dispatch(setIdstore(id));
+    },
+    [dispatch, inputs.Tablemanuplation.display]
+  );
 
   function useClickOutside(ref, callback) {
     useEffect(() => {
@@ -101,7 +109,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
       };
     }, [ref, callback]);
   }
-  console.log("aaaaa sort data", inputs.Tablemanuplation.sortedData);
+
   const calendarRef = useRef(null);
   useClickOutside(calendarRef, () => {
     dispatch(setDisplay(false));
@@ -130,7 +138,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
       </tr>
     </tbody>
   ) : (
-    <tbody className="text-black font-semibold">
+    <tbody className="text-black font-semibold ">
       {inputs?.Tablemanuplation?.sortedData?.data?.map((info, ind) => (
         <tr key={info._id} className="border-b border-gray-400">
           <td className="text-center whitespace-nowrap hover:bg-gray-200 border-x-2 border-gray-300">
@@ -139,8 +147,11 @@ function Tablebody({ formatDate, offset, showQuestion }) {
           <td className="py-3 px-6 text-left hover:bg-gray-200 border-x-2 border-gray-300 max-w-64">
             <div className="max-w-full truncate"> {info.sectionName}</div>
           </td>
-          <td className="hover:bg-gray-200 cursor-pointer">
-            <div className="flex justify-center ">
+          <td className="hover:bg-gray-200 cursor-pointer border-x-2 border-gray-300">
+            <div
+              className="flex justify-center "
+              onClick={() => handleShowkey(info._id)}
+            >
               <Key />
             </div>
           </td>

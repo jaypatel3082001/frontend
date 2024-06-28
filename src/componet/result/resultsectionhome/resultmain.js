@@ -2,46 +2,34 @@ import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "../../fixdata/sidebar";
 import Navbar from "../../fixdata/navbar";
-import Addquiz from "../addquestion";
-import { useDispatch, useSelector } from "react-redux";
+import Addquiz from "../../Quize/addquiz";
+import CustomDatePicker from "../../../util/CoustomDatePicker";
 import {
-  toggleModal,
   setIsloading,
   setTotalPage,
   setSortedData,
   setCurrentPage,
-  setIdstores,
-  setDateRange,
-} from "../../../reduxfiles/InputSlice";
-
-import CustomDatePicker from "../../../util/CoustomDatePicker";
-import Showquestionbox from "./showquestionbox";
+  setDateRangeresult,
+  setTotalCount,
+} from "../../../reduxfiles/result";
 import Tableheader from "./tableheader";
 import Tablebody from "./tablebody";
+
+import { useDispatch, useSelector } from "react-redux";
+// import { setTotalCount } from "../../../reduxfiles/sectionSlice";
 import { serializedSelectionDatePicker } from "../../../util/utility";
 
-function Createmain({ setIsLoggedIn }) {
+function Sectionmain({ setIsLoggedIn }) {
   const dispatch = useDispatch();
-  const inputs = useSelector((state) => state.inputs);
-  const sortByOptions = useMemo(() => [5, 10, 15, 20], []); // Memoize sortByOptions
+  const inputs = useSelector((state) => state.inputs4);
+  const sortByOptions = [10, 15, 20, 25];
+  const urloFe = `https://quiz-krishang.vercel.app/search/getsearchAll`;
+  const [limit, setLimit] = useState(10);
+  const [search, setSearch] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
 
-  const urloFe = useMemo(
-    () => `https://quiz-krishang.vercel.app/search/getsearchAll`,
-    []
-  ); // Memoize urloFe
-  // ****************  date formate  ********************
+  const type = "section";
 
-  const formatDate = useCallback((dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  }, []);
-
-  const [limit, setLimit] = useState(5);
-  const sortBy = "createdAt";
-  let type = "question";
   const startDate = useMemo(
     () => formatDate(inputs.dateRange[0].startDate) + "T00:00:00.000Z",
     [inputs.dateRange]
@@ -52,50 +40,18 @@ function Createmain({ setIsLoggedIn }) {
     [inputs.dateRange]
   );
 
-  const formatstartDate = inputs.dateRange[0].startDate;
-  const formatendDate = inputs.dateRange[0].endDate;
-
-  // *********search*********
-  const [search, setSearch] = useState("");
-
-  const [sortOrder, setSortOrder] = useState("asc");
-
-  // ************pagination
-
-  const indexOfLastRow = useMemo(
-    () => inputs.Tablemanuplation.currentPage * limit,
-    [inputs.Tablemanuplation.currentPage, limit]
-  );
-  const offset = useMemo(() => indexOfLastRow - limit, [indexOfLastRow, limit]);
-
+  // Memoized total page calculation
   const totalPage = useMemo(
-    () => Math.ceil(inputs.Tablemanuplation.sortedData.totalCount / limit),
-    [inputs.Tablemanuplation.sortedData.totalCount, limit]
+    () => Math.ceil(inputs.Tablemanuplation.totalCount / limit),
+    [inputs.Tablemanuplation.totalCount, limit]
   );
+
+  // Dispatch total page on totalPage change
   useEffect(() => {
     dispatch(setTotalPage(totalPage));
   }, [dispatch, totalPage]);
 
-  //********************************************************* */
-
-  const handleLimit = useCallback(
-    (e) => {
-      setLimit(e.target.value);
-      dispatch(setCurrentPage(1));
-    },
-    [dispatch]
-  );
-
-  const handleChange = useCallback(
-    (e) => {
-      setSearch(e.target.value);
-      dispatch(setCurrentPage(1));
-    },
-    [dispatch]
-  );
-
-  // ************ sort data api **************************
-
+  // Fetch data with memoized fetch function
   const fetchsortData = useCallback(async () => {
     try {
       dispatch(setIsloading(true));
@@ -103,12 +59,12 @@ function Createmain({ setIsLoggedIn }) {
       const params = new URLSearchParams({
         search,
         limit,
-        sortBy,
+        sortBy: "createdAt",
         sortOrder,
         startDate,
         endDate,
         type,
-        offset,
+        offset: inputs.Tablemanuplation.currentPage * limit - limit,
       });
 
       const response = await fetch(`${urloFe}?${params.toString()}`);
@@ -119,6 +75,7 @@ function Createmain({ setIsLoggedIn }) {
       const result = await response.json();
 
       dispatch(setSortedData(result));
+      dispatch(setTotalCount(result.totalCount));
     } catch (error) {
       console.error("Fetch operation error:", error);
     } finally {
@@ -126,48 +83,64 @@ function Createmain({ setIsLoggedIn }) {
     }
   }, [
     dispatch,
-    search,
+    endDate,
     limit,
-    offset,
-    type,
-    sortBy,
+    search,
     sortOrder,
     startDate,
-    endDate,
-    urloFe,
+    type,
+    inputs.Tablemanuplation.currentPage,
   ]);
 
+  // Effect to fetch data on component mount and when dependencies change
   useEffect(() => {
     fetchsortData();
   }, [fetchsortData]);
 
-  // ************ show question ************************
-  const showQuestion = useCallback(
-    (id) => {
-      dispatch(setIdstores(id));
-      dispatch(toggleModal(!inputs.openpop));
-
-      localStorage.setItem("QuizeId", id);
+  // Handler to update limit and reset page
+  const handleLimit = useCallback(
+    (e) => {
+      setLimit(Number(e.target.value));
+      dispatch(setCurrentPage(1));
     },
-    [dispatch, inputs.openpop]
+    [dispatch]
   );
+
+  // Handler to update search and reset page
+  const handleChange = useCallback(
+    (e) => {
+      setSearch(e.target.value);
+      dispatch(setCurrentPage(1));
+    },
+    [dispatch]
+  );
+
+  // Function to format date
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
   const handleDateRangePicker = (ranges) => {
     const serializedSelection = serializedSelectionDatePicker(ranges);
-    dispatch(setDateRange([serializedSelection]));
+    dispatch(setDateRangeresult([serializedSelection]));
   };
   return (
-    <div className="App">
+    <div className="App bg">
       <div className="flex">
         <Sidebar />
-        <div className="w-full bg-white-200">
+        <div className="w-full bg-gray-100">
           <div>
             <Navbar setIsLoggedIn={setIsLoggedIn} />
           </div>
-          <div className="w-full px-3 bg-gray-200">
-            <div className="flex flex-col md:flex-row md:justify-between items-center mt-5 bg-gray-200 p-2 md:p-4">
+          <div className="w-full px-8 py-12 ">
+            <div className="flex flex-col md:flex-row md:justify-between items-center mt-5 bg-gray-400 p-2 md:p-4">
+              {/* Date picker and search input */}
               <div className="flex items-center">
                 <div className="mr-2 font-bold">Date :- </div>
-                <div className=" bg-white rounded-xl p-2">
+                <div className="bg-white rounded-xl p-2">
                   <div className="flex items-center">
                     <div>
                       <CustomDatePicker
@@ -177,18 +150,21 @@ function Createmain({ setIsLoggedIn }) {
                     </div>
                     <div className="flex items-center ml-2">
                       <div className="text-gray-700 font-bold">
-                        {formatendDate
-                          ? formatDate(formatstartDate)
+                        {inputs.dateRange[0].endDate
+                          ? formatDate(inputs.dateRange[0].startDate)
                           : "YY/MM/DD"}
                       </div>
                       <div className="mx-2 text-gray-500 font-bold">To</div>
                       <div className="text-gray-700 font-bold">
-                        {formatendDate ? formatDate(formatendDate) : "YY/MM/DD"}
+                        {inputs.dateRange[0].endDate
+                          ? formatDate(inputs.dateRange[0].endDate)
+                          : "YY/MM/DD"}
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+              {/* Search input */}
               <div className="flex items-center mb-2 md:mb-0">
                 <label className="font-bold ml-2">Search: </label>
                 <input
@@ -199,6 +175,7 @@ function Createmain({ setIsLoggedIn }) {
                   onChange={handleChange}
                 />
               </div>
+              {/* Limit selector */}
               <div className="">
                 <span className="fw-bold me-2">Sort by :</span>
                 <select onChange={handleLimit}>
@@ -207,24 +184,24 @@ function Createmain({ setIsLoggedIn }) {
                   ))}
                 </select>
               </div>
-              <Link to="/questionadd">
-                <button className="btn btn-primary mr-5">
-                  <Addquiz />
-                </button>
+              {/* Add Section button */}
+              <Link to="/QuizetoSectionName">
+                <div className="btn btn-primary mr-5 flex">
+                  <span>ADD SECTION</span>
+                  <span>
+                    <Addquiz />
+                  </span>
+                </div>
               </Link>
             </div>
-
-            <table className="min-w-full bg-white border border-gray-300">
+            {/* Table component */}
+            <table className="min-w-full bg-white border border border-gray-300">
               <Tableheader sortOrder={sortOrder} setSortOrder={setSortOrder} />
-
               <Tablebody
                 formatDate={formatDate}
-                offset={offset}
-                showQuestion={showQuestion}
+                offset={inputs.Tablemanuplation.currentPage * limit - limit}
               />
             </table>
-
-            <Showquestionbox showQuestion={showQuestion} />
           </div>
         </div>
       </div>
@@ -232,4 +209,4 @@ function Createmain({ setIsLoggedIn }) {
   );
 }
 
-export default Createmain;
+export default Sectionmain;

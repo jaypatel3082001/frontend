@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useCallback, useMemo } from "react";
 import { ReactComponent as Option } from "../../../svgfile/option.svg";
 import { ReactComponent as Popbox } from "../../../svgfile/Popbox.svg";
 import { ReactComponent as Upboxuparrow } from "../../../svgfile/boxuparrow.svg";
@@ -18,12 +18,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
   const inputs = useSelector((state) => state.inputs2);
   const dispatch = useDispatch();
 
-  // ********** data featch ********************
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       dispatch(setIsloading(true));
       const response = await fetch(url);
@@ -39,46 +34,52 @@ function Tablebody({ formatDate, offset, showQuestion }) {
     } finally {
       dispatch(setIsloading(false));
     }
-  };
+  }, [dispatch, url]);
 
-  // ************************        edit and delete function ******************************
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
-  const handleEditClick = (id) => {
-    const questionToUpdate = inputs.Tablemanuplation.data.find(
-      (question) => question._id === id
-    );
-    navigate("/quizform", { state: { itemToEdit: questionToUpdate } });
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      const response = await fetch(
-        `https://quiz-krishang.vercel.app/quize/delete/${id}`,
-        {
-          method: "DELETE",
-        }
+  const handleEditClick = useCallback(
+    (id) => {
+      const questionToUpdate = inputs.Tablemanuplation.data.find(
+        (question) => question._id === id
       );
+      navigate("/quizform", { state: { itemToEdit: questionToUpdate } });
+    },
+    [inputs.Tablemanuplation.data, navigate]
+  );
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+  const handleDelete = useCallback(
+    async (id) => {
+      try {
+        const response = await fetch(
+          `https://quiz-krishang.vercel.app/quize/delete/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        await response.json();
+        fetchData();
+      } catch (error) {
+        console.error("Fetch operation error:", error);
       }
+    },
+    [fetchData]
+  );
 
-      await response.json();
-      fetchData();
-    } catch (error) {
-      console.error("Fetch operation error:", error);
-    }
-  };
-
-  // ************* show edit and delete box display *************************
-
-  const handleClicktd = (id) => {
-    console.log(id, "ud");
-    dispatch(setDisplay(!inputs.Tablemanuplation.display));
-    dispatch(setIdstore(id));
-  };
-
-  // ***************  outside click box close **************************
+  const handleClicktd = useCallback(
+    (id) => {
+      dispatch(setDisplay((prevState) => !prevState));
+      dispatch(setIdstore(id));
+    },
+    [dispatch]
+  );
 
   function useClickOutside(ref, callback) {
     useEffect(() => {
@@ -195,7 +196,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
       ))}
       <tr className="bg-gray-200">
         <td></td>
-        <div className="flex justify-center ">
+        <div className="flex justify-center">
           <Createmainpagination />
         </div>
         <td></td>

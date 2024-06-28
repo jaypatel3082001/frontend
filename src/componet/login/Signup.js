@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-import Sidebar from "../fixdata/sidebar";
-import Navbar from "../fixdata/navbar";
-import "../../cssfile/Signup.css";
+import React, { useState, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import "../../cssfile/Signup.css";
 
 const Signup = ({ setIsLoggedIn }) => {
   const [inputsigndata, setInputsigndata] = useState({
@@ -14,48 +12,53 @@ const Signup = ({ setIsLoggedIn }) => {
   const [signupSuccess, setSignupSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleChange = (e) => {
+  // Memoized handleChange function using useCallback
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setInputsigndata((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-  };
+  }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // Memoized handleSubmit function using useCallback
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
 
-    const api = "https://quiz-krishang.vercel.app/auth/signup";
-    try {
-      const response = await fetch(api, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(inputsigndata),
-      });
-
-      if (response.ok) {
-        setInputsigndata({
-          username: "",
-          email: "",
-          password: "",
+      const api = "https://quiz-krishang.vercel.app/auth/signup";
+      try {
+        const response = await fetch(api, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(inputsigndata),
         });
-        setSignupSuccess(true);
-        setErrorMessage("");
-        navigate("/Loginpage");
-      } else {
-        setErrorMessage("Username or Email already exists");
+
+        if (response.ok) {
+          setInputsigndata({
+            username: "",
+            email: "",
+            password: "",
+          });
+          setSignupSuccess(true);
+          setErrorMessage("");
+          navigate("/Loginpage");
+        } else {
+          setErrorMessage("Username or Email already exists");
+        }
+      } catch (error) {
+        console.error("Fetch operation error:", error);
+        setErrorMessage("An error occurred. Please try again.");
       }
-    } catch (error) {
-      console.error("Fetch operation error:", error);
-      setErrorMessage("An error occurred. Please try again.");
-    }
-  };
+    },
+    [inputsigndata, navigate]
+  );
 
   return (
     <div className="flex">
-      <div className="w-full h-screen  bg-red-300">
+      <div className="w-full h-screen bg-red-300">
         {signupSuccess ? (
           <div
             className="alert alert-success container signup-container card signup-card"
@@ -87,7 +90,7 @@ const Signup = ({ setIsLoggedIn }) => {
                       required
                     />
                   </div>
-                  <div className="form-group  mb-3">
+                  <div className="form-group mb-3">
                     <label htmlFor="email">Email address</label>
                     <input
                       type="email"
@@ -100,7 +103,7 @@ const Signup = ({ setIsLoggedIn }) => {
                       required
                     />
                   </div>
-                  <div className="form-group  mb-3">
+                  <div className="form-group mb-3">
                     <label htmlFor="password">Password</label>
                     <input
                       type="password"
