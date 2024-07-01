@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
-import { Link } from "react-router-dom";
+
 import Sidebar from "../../fixdata/sidebar";
 import Navbar from "../../fixdata/navbar";
-import Addquiz from "../../Quize/addquiz";
+
 import CustomDatePicker from "../../../util/CoustomDatePicker";
 import {
   setIsloading,
@@ -135,7 +135,10 @@ function Sectionmain({ setIsLoggedIn }) {
           <div>
             <Navbar setIsLoggedIn={setIsLoggedIn} />
           </div>
-          <div className="w-full px-8 py-12 ">
+          <div className="flex justify-center text-3xl text-black font-bold mt-5">
+            SHOW SECTIONWISE RESULT
+          </div>
+          <div className="w-full px-8  ">
             <div className="flex flex-col md:flex-row md:justify-between items-center mt-5 bg-gray-400 p-2 md:p-4">
               {/* Date picker and search input */}
               <div className="flex items-center">
@@ -184,18 +187,9 @@ function Sectionmain({ setIsLoggedIn }) {
                   ))}
                 </select>
               </div>
-              {/* Add Section button */}
-              <Link to="/QuizetoSectionName">
-                <div className="btn btn-primary mr-5 flex">
-                  <span>ADD SECTION</span>
-                  <span>
-                    <Addquiz />
-                  </span>
-                </div>
-              </Link>
             </div>
             {/* Table component */}
-            <table className="min-w-full bg-white border border border-gray-300">
+            <table className="min-w-full bg-white  border border-gray-300">
               <Tableheader sortOrder={sortOrder} setSortOrder={setSortOrder} />
               <Tablebody
                 formatDate={formatDate}

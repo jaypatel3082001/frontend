@@ -12,7 +12,8 @@ import {
   setIsloading,
   setData,
   setCurrentPage,
-} from "../../../reduxfiles/quizeSlice";
+  setRandomkey,
+} from "../../../reduxfiles/QuizSlice";
 
 function Tablebody({ formatDate, offset, showQuestion }) {
   const url = "https://quiz-krishang.vercel.app/section/read";
@@ -44,8 +45,20 @@ function Tablebody({ formatDate, offset, showQuestion }) {
 
   const handleShowkey = useCallback(
     (id) => {
+      let result = "";
+      const characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      const charactersLength = characters.length;
+      const keyLength = 10; // Adjust as needed for the length of the key
+
+      for (let i = 0; i < keyLength; i++) {
+        result += characters.charAt(
+          Math.floor(Math.random() * charactersLength)
+        );
+      }
+      console.log("Generated Key:", result);
       localStorage.setItem("sectionId", id);
-      navigate("/userpages/quiz-start");
+      navigate(`/userpages/quiz-start`);
     },
     [navigate]
   );
@@ -55,7 +68,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
       const sectionToUpdate = inputs.Tablemanuplation.data.find(
         (section) => section._id === id
       );
-      navigate("/QuizetoSectionName", {
+      navigate("/AddQuiz", {
         state: { itemToEdit: sectionToUpdate },
       });
     },

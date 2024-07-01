@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Addquiz from "../../Quize/addquiz";
+import Addquiz from "../../Section/addsection";
 import { Link, useNavigate } from "react-router-dom";
-import { setIsloading, setData } from "../../../reduxfiles/quizeSlice";
+import { setIsloading, setData } from "../../../reduxfiles/QuizSlice";
 
 function Showquestionbox({ showQuestion }) {
   const id2 = localStorage.getItem("QuizeId");

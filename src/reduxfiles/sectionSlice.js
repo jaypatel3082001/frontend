@@ -24,6 +24,7 @@ const initialState = {
 
     // calendarRef,
   },
+  randomkey: "",
   fadeTransition: { in: false, down: false },
 };
 const InputSlice3 = createSlice({
@@ -33,7 +34,7 @@ const InputSlice3 = createSlice({
     toggleModal: (state, action) => {
       state.openpop = action.payload;
     },
-    setDateRangesection: (state, action) => {
+    setDateRangeSectione: (state, action) => {
       return {
         ...state,
         dateRange: action.payload,
@@ -66,6 +67,9 @@ const InputSlice3 = createSlice({
     setDisplay: (state, action) => {
       state.Tablemanuplation.display = action.payload;
     },
+    setRandomkey: (state, action) => {
+      state.randomkey = action.payload;
+    },
   },
 });
 
@@ -76,7 +80,7 @@ export const {
   closeModal,
   setFadeTransition,
   AllModalClose,
-  setDateRangesection,
+  setDateRangeSectione,
   setData,
   setIdstores,
   setIsloading,
@@ -86,6 +90,7 @@ export const {
   setSortedData,
   setDisplay,
   setTotalCount,
+  setRandomkey,
 } = InputSlice3.actions;
 
 // Export reducer

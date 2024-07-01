@@ -10,7 +10,7 @@ import {
   setDisplay,
   setIsloading,
   setData,
-} from "../../../reduxfiles/quizeSlice";
+} from "../../../reduxfiles/SectionSlice";
 
 function Tablebody({ formatDate, offset, showQuestion }) {
   const url = "https://quiz-krishang.vercel.app/quize/getall";
@@ -45,33 +45,30 @@ function Tablebody({ formatDate, offset, showQuestion }) {
       const questionToUpdate = inputs.Tablemanuplation.data.find(
         (question) => question._id === id
       );
-      navigate("/quizform", { state: { itemToEdit: questionToUpdate } });
+      navigate("/Sectionform", { state: { itemToEdit: questionToUpdate } });
     },
     [inputs.Tablemanuplation.data, navigate]
   );
 
-  const handleDelete = useCallback(
-    async (id) => {
-      try {
-        const response = await fetch(
-          `https://quiz-krishang.vercel.app/quize/delete/${id}`,
-          {
-            method: "DELETE",
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
+  const handleDelete = useCallback(async (id) => {
+    try {
+      const response = await fetch(
+        `https://quiz-krishang.vercel.app/quize/delete/${id}`,
+        {
+          method: "DELETE",
         }
+      );
 
-        await response.json();
-        fetchData();
-      } catch (error) {
-        console.error("Fetch operation error:", error);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
       }
-    },
-    [fetchData]
-  );
+
+      await response.json();
+      fetchData();
+    } catch (error) {
+      console.error("Fetch operation error:", error);
+    }
+  });
 
   const handleClicktd = useCallback(
     (id) => {

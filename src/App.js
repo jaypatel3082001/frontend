@@ -2,85 +2,59 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Main from "./componet/mainpage/main";
 import Createmain from "./componet/createquestion/createmain/createmain";
-import Quizmain from "./componet/Quize/quizemain/quizemain";
+import Sectionmain from "./componet/Section/sectionmain/Sectionmain";
 import QuestionAdd from "./componet/createquestion/questionadd";
-import Loginpage from "./componet/login/loginpage";
+import LoginHomepage from "./componet/login/loginHomepage";
 import Signup from "./componet/login/Signup";
 import Userpages from "./componet/User/userpages";
-import Quizform from "./componet/Quize/quizform";
+import Sectionform from "./componet/Section/Sectionform";
 import Resultmain from "./componet/result/resultsectionhome/resultmain";
-import QuestionbyQuize from "./componet/Quize/QuestionbyQuize";
-import Sectionmain from "./componet/Section/sectionhome/sectionmain";
-import QuizetoSectionName from "./componet/Section/QuizetoSectionName";
-import QuizebySection from "./componet/Section/QuizebySection";
-import SectionHome from "./componet/Section/SectionHome";
+import QuestionbyQuize from "./componet/Section/QuestionbyQuize";
+import Quizemain from "./componet/Quiz/Quizmain/Quizemain";
+import AddSection from "./componet/Quiz/addSection";
+import AddQuiz from "./componet/Quiz/addQuiz";
+import QuizeHome from "./componet/Quiz/QuizHome";
 import PrivateRoute from "./PrivateRoute";
 import ResultStudent from "./componet/result/resultbystudent/resultstudentmain";
+import Loginstudentpage from "./componet/login/loginpage";
+import LoginAdminpage from "./componet/login/adminloginpage";
+import AdminSignuppage from "./componet/login/Signup";
 import { jwtDecode } from "jwt-decode";
+import { useSelector } from "react-redux";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const token = localStorage.getItem("authToken");
-
+  const inputs = useSelector((state) => state.inputs3);
+  console.log(token, "token");
   useEffect(() => {
     if (token) {
       try {
         const decoded = jwtDecode(token); // Decodes the token (doesn't verify signature)
-        console.log("decoded.ex", decoded.exp);
-        // Example: Check token expiry
-        const currentTime = Date.now() / 1000;
-        console.log("currentTime", currentTime); // Convert current time to seconds
+        const currentTime = Date.now() / 1000; // Convert current time to seconds
+
         if (decoded.exp < currentTime) {
-          console.log("expire");
-          // Navigater("/Logingpage");
-          // Optionally, redirect to login or refresh token
+          console.log("Token has expired");
+          localStorage.removeItem("authToken");
+        } else {
+          console.log(decoded);
         }
-
-        // Example: Access token payload data
-        console.log(decoded);
-
-        // Proceed with application logic using decoded token data
       } catch (error) {
         console.log("Invalid token:", error);
-        // Handle invalid token (e.g., redirect to login)
       }
     } else {
       console.log("No token found");
     }
-  }, []);
-  if (token) {
-    try {
-      const decoded = jwtDecode(token); // Decodes the token (doesn't verify signature)
-      console.log("decoded.ex", decoded.exp);
-      // Example: Check token expiry
-      const currentTime = Date.now() / 1000;
-      console.log("currentTime", currentTime); // Convert current time to seconds
-      if (decoded.exp < currentTime) {
-        console.log("expire");
-        // Navigater("/Logingpage");
-        // Optionally, redirect to login or refresh token
-      }
-
-      // Example: Access token payload data
-      console.log(decoded);
-
-      // Proceed with application logic using decoded token data
-    } catch (error) {
-      console.log("Invalid token:", error);
-      // Handle invalid token (e.g., redirect to login)
-    }
-  } else {
-    console.log("No token found");
-  }
+  }, [token]); // Dependency array ensures useEffect runs on token or history change
 
   useEffect(() => {
-    if (token === "null") {
+    if (token === null) {
       setIsLoggedIn(false);
     } else {
       setIsLoggedIn(true);
     }
   }, [token]);
-
+  console.log("isLoggedIn", isLoggedIn);
   return (
     <Router>
       <Routes>
@@ -88,26 +62,26 @@ function App() {
           path="/"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <Main /> : <Loginpage />}
+              {isLoggedIn == true ? <Main /> : <LoginHomepage />}
             </PrivateRoute>
           }
         />
         <Route
-          path="/QuizetoSectionName"
+          path="/AddSection"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <QuizetoSectionName /> : <Loginpage />}
-              {/* <QuizetoSectionName setIsLoggedIn={setIsLoggedIn} /> */}
+              {isLoggedIn == true ? <AddSection /> : <LoginHomepage />}
+              {/* <AddSection setIsLoggedIn={setIsLoggedIn} /> */}
             </PrivateRoute>
           }
         />
-        <Route path="/Logingpage" element={<Loginpage />} />
+        <Route path="/Logingpage" element={<LoginHomepage />} />
         <Route path="/Signup" element={<Signup />} />
         <Route
           path="/createmain"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <Createmain /> : <Loginpage />}
+              {isLoggedIn == true ? <Createmain /> : <LoginHomepage />}
               {/* <Createmain /> */}
             </PrivateRoute>
           }
@@ -116,98 +90,99 @@ function App() {
           path="/questionadd"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <QuestionAdd /> : <Loginpage />}
+              {isLoggedIn == true ? <QuestionAdd /> : <LoginHomepage />}
               {/* <QuestionAdd setIsLoggedIn={setIsLoggedIn} /> */}
             </PrivateRoute>
           }
         />
         <Route
-          path="/quizform"
+          path="/Sectionform"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <Quizform /> : <Loginpage />}
-              {/* <Quizform setIsLoggedIn={setIsLoggedIn} /> */}
+              {isLoggedIn == true ? <Sectionform /> : <LoginHomepage />}
+              {/* <Sectionform setIsLoggedIn={setIsLoggedIn} /> */}
             </PrivateRoute>
           }
         />
 
         <Route
-          path="/Quizmain"
-          element={
-            <PrivateRoute>
-              {isLoggedIn == true ? <Quizmain /> : <Loginpage />}
-              {/* <Quizmain /> */}
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="Quizmain/question-list/question-select"
-          element={
-            <PrivateRoute>
-              {isLoggedIn == true ? <QuestionbyQuize /> : <Loginpage />}
-              {/* <QuestionbyQuize /> */}
-            </PrivateRoute>
-          }
-        />
-        <Route
           path="/Sectionmain"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <Sectionmain /> : <Loginpage />}
+              {isLoggedIn == true ? <Sectionmain /> : <LoginHomepage />}
               {/* <Sectionmain /> */}
             </PrivateRoute>
           }
         />
         <Route
-          path="/Sectionmain/Section-quiz-list"
+          path="Sectionmain/question-list/question-select"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <SectionHome /> : <Loginpage />}
-              {/* <SectionHome /> */}
+              {isLoggedIn == true ? <QuestionbyQuize /> : <LoginHomepage />}
+              {/* <QuestionbyQuize /> */}
             </PrivateRoute>
           }
         />
         <Route
-          path="/SectionHome/Sectionmain/quizelist"
+          path="/Quizemain"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <QuizebySection /> : <Loginpage />}
-              {/* <QuizebySection /> */}
+              {isLoggedIn == true ? <Quizemain /> : <LoginHomepage />}
+              {/* <Quizemain /> */}
             </PrivateRoute>
           }
         />
         <Route
-          path="/QuizebySection"
+          path="/Quizemain/Section-quiz-list"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <QuizebySection /> : <Loginpage />}
-              {/* <QuizebySection /> */}
+              {isLoggedIn == true ? <QuizeHome /> : <LoginHomepage />}
+              {/* <QuizeHome /> */}
             </PrivateRoute>
           }
         />
         <Route
-          path="/SectionHome"
+          path="/QuizeHome/Quizemain/quizelist"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <SectionHome /> : <Loginpage />}
-              {/* <SectionHome /> */}
+              {isLoggedIn == true ? <AddQuiz /> : <LoginHomepage />}
+              {/* <AddQuiz /> */}
             </PrivateRoute>
           }
         />
         <Route
-          path="Sectionmain/Userpage/:id"
+          path="/AddQuiz"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <Main /> : <Loginpage />}
+              {isLoggedIn == true ? <AddQuiz /> : <LoginHomepage />}
+              {/* <AddQuiz /> */}
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/QuizeHome"
+          element={
+            <PrivateRoute>
+              {isLoggedIn == true ? <QuizeHome /> : <LoginHomepage />}
+              {/* <QuizeHome /> */}
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="Quizemain/Userpage/:id"
+          element={
+            <PrivateRoute>
+              {isLoggedIn == true ? <Main /> : <LoginHomepage />}
               {/* <Main /> */}
             </PrivateRoute>
           }
         />
         <Route
-          path="/userpages/quiz-start"
+          // path={`/userpages/quiz-start/${inputs.randomkey}`}
+          path={`/userpages/quiz-start`}
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <Userpages /> : <Loginpage />}
+              {isLoggedIn == true ? <Userpages /> : <LoginHomepage />}
               {/* <Userpages /> */}
             </PrivateRoute>
           }
@@ -216,7 +191,7 @@ function App() {
           path="/userpages"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <Main /> : <Loginpage />}
+              {isLoggedIn == true ? <Main /> : <LoginHomepage />}
               {/* <Main /> */}
             </PrivateRoute>
           }
@@ -225,7 +200,7 @@ function App() {
           path="/resultmain"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <Resultmain /> : <Loginpage />}
+              {isLoggedIn == true ? <Resultmain /> : <LoginHomepage />}
             </PrivateRoute>
           }
         />
@@ -233,7 +208,31 @@ function App() {
           path="/resultstudentmain"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <ResultStudent /> : <Loginpage />}
+              {isLoggedIn == true ? <ResultStudent /> : <LoginHomepage />}
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/loginstudent"
+          element={
+            <PrivateRoute>
+              <Loginstudentpage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/loginadminpage"
+          element={
+            <PrivateRoute>
+              <LoginAdminpage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/adminsignuppage"
+          element={
+            <PrivateRoute>
+              <AdminSignuppage />
             </PrivateRoute>
           }
         />
@@ -243,25 +242,3 @@ function App() {
 }
 
 export default App;
-// App.js
-// import React from "react";
-// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import AdminLoginPage from "./componet/dummy/adminloging";
-// import Homepage from "./componet/dummy/homepage";
-// import Adminsignup from "./componet/dummy/adminsignup";
-// import StudentLoginPage from "./componet/dummy/studentloging";
-
-// function App() {
-//   return (
-//     <Router>
-//       <Routes>
-//         <Route path="/" element={<Homepage />} />
-//         <Route path="/admin-login" element={<AdminLoginPage />} />
-//         <Route path="/adminsignup" element={<Adminsignup />} />
-//         <Route path="/studentlogin" element={<StudentLoginPage />} />
-//       </Routes>
-//     </Router>
-//   );
-// }
-
-// export default App;

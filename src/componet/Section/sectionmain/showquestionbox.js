@@ -1,15 +1,22 @@
 import React, { useEffect, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Addquiz from "../../Quize/addquiz";
-import { Link, useNavigate } from "react-router-dom";
-import { setIsloading, setData } from "../../../reduxfiles/quizeSlice";
+import AddSection from "../addsection";
+import { Link } from "react-router-dom";
+import { setIsloading, setData } from "../../../reduxfiles/SectionSlice";
 
 function Showquestionbox({ showQuestion }) {
-  const id2 = localStorage.getItem("sectionId");
-  const url = `https://quiz-krishang.vercel.app/section/read`;
   const dispatch = useDispatch();
-  const inputs = useSelector((state) => state.inputs3);
-  const navigate = useNavigate();
+  const inputs = useSelector((state) => state.inputs2);
+  const id2 = localStorage.getItem("QuizeId");
+
+  const url = useMemo(
+    () => "https://quiz-krishang.vercel.app/quize/getall",
+    []
+  );
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const fetchData = useCallback(async () => {
     try {
@@ -19,6 +26,7 @@ function Showquestionbox({ showQuestion }) {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
+
       const result = await response.json();
       dispatch(setData(result.data));
     } catch (error) {
@@ -28,15 +36,13 @@ function Showquestionbox({ showQuestion }) {
     }
   }, [dispatch, url]);
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  const handleDelete = useCallback(
+    async (id1) => {
+      const updatedDel = { questionId: id1 };
 
-  const DeleteHandle = useCallback(
-    async (updatedDel) => {
       try {
         const response = await fetch(
-          `https://quiz-krishang.vercel.app/section/deletetquiz/${id2}`,
+          `https://quiz-krishang.vercel.app/quize/deletequize-question/${id2}`,
           {
             method: "PUT",
             headers: {
@@ -56,50 +62,33 @@ function Showquestionbox({ showQuestion }) {
         console.error("Fetch operation error:", error);
       }
     },
-    [fetchData, id2]
-  );
-
-  const handleDelete = useCallback(
-    async (id1) => {
-      const updatedDel = { quizeId: id1 };
-      await DeleteHandle(updatedDel);
-    },
-    [DeleteHandle]
-  );
-
-  const filteredData = useMemo(
-    () =>
-      inputs.Tablemanuplation.data?.filter(
-        (info) => inputs.Tablemanuplation.idstores === info._id
-      ),
-    [inputs.Tablemanuplation.data, inputs.Tablemanuplation.idstores]
+    [id2, fetchData]
   );
 
   return (
     <div>
-      {filteredData?.map(
+      {inputs.Tablemanuplation.data?.map(
         (info) =>
+          inputs.Tablemanuplation.idstores === info._id &&
           inputs?.openpop === true && (
             <div
               key={info._id}
-              className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-gray-800 bg-opacity-50 z-100 py-36 "
+              className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-gray-800 bg-opacity-50 z-100 py-12 "
             >
-              <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg overflow-hidden h-full">
+              <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg overflow-hidden h-full ">
                 <div className="bg-gray-800 text-white py-3 px-4 flex justify-between items-center">
                   <div>
-                    <Link to={"/QuizebySection"}>
+                    <Link to={`/Sectionmain/question-list/question-select`}>
                       <button
                         type="submit"
                         className="btn btn-primary mr-3 flex items-center"
                       >
-                        Add Section
-                        <Addquiz />
+                        Add Question
+                        <AddSection />
                       </button>
                     </Link>
                   </div>
-                  <div className="text-xl font-bold text-white">
-                    {info.sectionName}
-                  </div>
+                  <div className="text-xl font-bold">{info.quizename}</div>
                   <div
                     className="cursor-pointer flex items-center"
                     onClick={() => showQuestion(info._id)}
@@ -118,14 +107,14 @@ function Showquestionbox({ showQuestion }) {
                   </div>
                 </div>
                 <div className="p-6 overflow-y-scroll h-full">
-                  {info.sectioninfo?.map((index, ind) => (
-                    <div key={ind} className="mb-6">
+                  {info.quizemcqs?.map((index) => (
+                    <div key={index._id} className="mb-6">
                       <div>
-                        <div className="flex justify-between items-center border-y-2">
-                          <div className="font-bold text-xl mb-2 mt-4 ">
-                            S:-
-                            <span className="break-words ml-2 ">
-                              {index.quizename}
+                        <div className="flex justify-between items-center">
+                          <div className="font-bold text-xl mb-2 mt-4">
+                            Q:
+                            <span className="break-words ml-2">
+                              {index.question}
                             </span>
                           </div>
                           <div className="flex justify-end">
@@ -146,6 +135,37 @@ function Showquestionbox({ showQuestion }) {
                               </svg>
                             </div>
                           </div>
+                        </div>
+                        <div className="mb-4">
+                          <label className="flex items-end mb-2">
+                            <span className="font-extrabold">Option 1:</span>
+                            <span className="text-xl ml-2">
+                              {index.option1}
+                            </span>
+                          </label>
+                          <label className="flex items-end mb-2">
+                            <span className="font-extrabold">Option 2:</span>
+                            <span className="text-xl ml-2">
+                              {index.option2}
+                            </span>
+                          </label>
+                          <label className="flex items-end mb-2">
+                            <span className="font-extrabold">Option 3:</span>
+                            <span className="text-xl ml-2">
+                              {index.option3}
+                            </span>
+                          </label>
+                          <label className="flex items-end mb-2">
+                            <span className="font-extrabold">Option 4:</span>
+                            <span className="text-xl ml-2">
+                              {index.option4}
+                            </span>
+                          </label>
+                        </div>
+                        <div className="border-b pb-4">
+                          <span className="text-xl">
+                            Answer: {index.answer}
+                          </span>
                         </div>
                       </div>
                     </div>

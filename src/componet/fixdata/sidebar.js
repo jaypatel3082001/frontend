@@ -44,7 +44,7 @@
 //               <Link
 //                 to="/"
 //                 className={`flex items-center space-x-2 p-2 rounded-md ${
-//                   active === "/" ? "bg-gray-500" : "hover:bg-gray-300 hover:text-slate-600"
+//                   active === "/" ? "bg-gray-500" : "hover:bg-slate-400 hover:text-slate-800"
 //                 }`}
 //                 onClick={() => handleItemClick("/")}
 //               >
@@ -56,7 +56,7 @@
 //               <Link
 //                 to="/createmain"
 //                 className={`flex items-center space-x-2 p-2 rounded-md ${
-//                   active === "/createmain" ? "bg-gray-500" : "hover:bg-gray-300 hover:text-slate-600"
+//                   active === "/createmain" ? "bg-gray-500" : "hover:bg-slate-400 hover:text-slate-800"
 //                 }`}
 //                 onClick={() => handleItemClick("/createmain")}
 //               >
@@ -68,7 +68,7 @@
 //               <Link
 //                 to="/Quizmain"
 //                 className={`flex items-center space-x-2 p-2 rounded-md ${
-//                   active === "/Quizmain" ? "bg-gray-500" : "hover:bg-gray-300 hover:text-slate-600"
+//                   active === "/Quizmain" ? "bg-gray-500" : "hover:bg-slate-400 hover:text-slate-800"
 //                 }`}
 //                 onClick={() => handleItemClick("/Quizmain")}
 //               >
@@ -82,7 +82,7 @@
 //                 className={`flex items-center space-x-2 p-2 rounded-md ${
 //                   active === "/Sectionmain"
 //                     ? "bg-gray-500"
-//                     : "hover:bg-gray-300 hover:text-slate-600"
+//                     : "hover:bg-slate-400 hover:text-slate-800"
 //                 }`}
 //                 onClick={() => handleItemClick("/Sectionmain")}
 //               >
@@ -94,7 +94,7 @@
 //               <Link
 //                 to="/resultmain"
 //                 className={`flex items-center space-x-2 p-2 rounded-md ${
-//                   active === "/resultmain" ? "bg-gray-500" : "hover:bg-gray-300 hover:text-slate-600"
+//                   active === "/resultmain" ? "bg-gray-500" : "hover:bg-slate-400 hover:text-slate-800"
 //                 }`}
 //                 onClick={() => handleItemClick("/resultmain")}
 //               >
@@ -106,7 +106,7 @@
 //             <li>
 //               <div
 //                 onClick={handleLogout}
-//                 className="flex items-center text-2xl text-teal-300 dark:text-gray-500 space-x-2 p-2 rounded-md cursor-pointer hover:bg-gray-300 hover:text-slate-600"
+//                 className="flex items-center text-2xl text-teal-300 dark:text-gray-500 space-x-2 p-2 rounded-md cursor-pointer hover:bg-slate-400 hover:text-slate-800"
 //               >
 //                 <Logout />
 //                 <span className="text-base">Logout</span>
@@ -182,7 +182,7 @@ function Sidebar() {
                 className={`flex items-center space-x-2 p-2 rounded-md ${
                   active === "/createmain"
                     ? "bg-gray-500 text-white"
-                    : "hover:bg-gray-300 hover:text-slate-600"
+                    : "hover:bg-slate-400 hover:text-slate-800"
                 }`}
                 onClick={() => handleItemClick("/createmain")}
               >
@@ -194,32 +194,34 @@ function Sidebar() {
             </li>
             <li>
               <Link
-                to="/Quizmain"
-                className={`flex items-center space-x-2 p-2 rounded-md ${
-                  active === "/Quizmain"
-                    ? "bg-gray-500 text-white"
-                    : "hover:bg-gray-300 hover:text-slate-600"
-                }`}
-                onClick={() => handleItemClick("/Quizmain")}
-              >
-                <Quize fill={`${active === "/Quizmain" ? "white" : "black"}`} />
-                <span className="text-base">Quiz</span>
-              </Link>
-            </li>
-            <li>
-              <Link
                 to="/Sectionmain"
                 className={`flex items-center space-x-2 p-2 rounded-md ${
                   active === "/Sectionmain"
                     ? "bg-gray-500 text-white"
-                    : "hover:bg-gray-300 hover:text-slate-600"
+                    : "hover:bg-slate-400 hover:text-slate-800"
                 }`}
                 onClick={() => handleItemClick("/Sectionmain")}
               >
-                <Examlist
+                <Quize
                   fill={`${active === "/Sectionmain" ? "white" : "black"}`}
                 />
-                <span className="text-base">Sections</span>
+                <span className="text-base">Section</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/Quizemain"
+                className={`flex items-center space-x-2 p-2 rounded-md ${
+                  active === "/Quizemain"
+                    ? "bg-gray-500 text-white"
+                    : "hover:bg-slate-400 hover:text-slate-800"
+                }`}
+                onClick={() => handleItemClick("/Quizemain")}
+              >
+                <Examlist
+                  fill={`${active === "/Quizemain" ? "white" : "black"}`}
+                />
+                <span className="text-base">Quiz</span>
               </Link>
             </li>
             <li>
@@ -228,7 +230,7 @@ function Sidebar() {
                 className={`flex items-center space-x-2 p-2 rounded-md ${
                   active === "/resultmain"
                     ? "bg-gray-500 text-white"
-                    : "hover:bg-gray-300 hover:text-slate-600"
+                    : "hover:bg-slate-400 hover:text-slate-800"
                 }`}
                 onClick={() => handleItemClick("/resultmain")}
               >
@@ -242,7 +244,7 @@ function Sidebar() {
             <li>
               <div
                 onClick={handleLogout}
-                className="flex items-center space-x-2 p-2 rounded-md cursor-pointer hover:bg-gray-300 hover:text-slate-600"
+                className="flex items-center space-x-2 p-2 rounded-md cursor-pointer hover:bg-slate-400 hover:text-slate-800"
               >
                 <Logout />
                 <span className="text-base">Logout</span>

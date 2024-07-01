@@ -9,7 +9,7 @@ function Userpage() {
   const id = localStorage.getItem("sectionId");
   console.log("details", details);
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage?.getItem("authToken");
     if (token) {
       setDetails(jwtDecode(token)); // Use the named export
     }
@@ -50,16 +50,16 @@ function Userpage() {
                 <table className="w-full h-70 border-collapse">
                   <tbody>
                     <tr className="text-lg border-b">
-                      <td className="font-bold py-2 px-4">UserName:</td>
-                      <td className="py-2 px-4">{details.username}</td>
+                      <td className="font-bold py-2 px-4">FirstName:</td>
+                      <td className="py-2 px-4">{details.firstname}</td>
+                    </tr>
+                    <tr className="text-lg border-b">
+                      <td className="font-bold py-2 px-4">LastName:</td>
+                      <td className="py-2 px-4">{details.lastname}</td>
                     </tr>
                     <tr className="text-lg border-b">
                       <td className="font-bold py-2 px-4">Email:</td>
-                      <td className="py-2 px-4">{details.email}</td>
-                    </tr>
-                    <tr className="text-lg border-b">
-                      <td className="font-bold py-2 px-4">Section:</td>
-                      <td className="py-2 px-4">Frontend</td>
+                      <td className="py-2 px-4">{details.userEmail}</td>
                     </tr>
                   </tbody>
                 </table>

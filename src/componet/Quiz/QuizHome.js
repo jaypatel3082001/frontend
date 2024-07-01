@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
 
-function SectionHome({ setIsLoggedIn }) {
+function QuizHome({ setIsLoggedIn }) {
   const id = localStorage.getItem("sectionId");
 
   const [data, setData] = useState([]);
@@ -75,8 +75,8 @@ function SectionHome({ setIsLoggedIn }) {
         <div className="flex flex-col justify-between mt-5">
           <div></div>
           <div className="flex items-center flex-col p-2 bg-blue-300">
-            <div>Add Quiz In Section</div>
-            <Link to={`/SectionHome/Sectionmain/quizelist`}>
+            <div>Add Section In Quiz</div>
+            <Link to={`/QuizHome/Quizmain/quizelist`}>
               <button className="bg-red-300 w-fit mt-1" type="submit">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -136,4 +136,4 @@ function SectionHome({ setIsLoggedIn }) {
   );
 }
 
-export default SectionHome;
+export default QuizHome;

@@ -16,6 +16,7 @@ const initialState = {
     sortedData: [],
     totalPage: 0,
     currentPage: 1,
+    totalCount: 0,
 
     // offset,
     display: false,
@@ -63,6 +64,9 @@ const InputSlice2 = createSlice({
     setDisplay: (state, action) => {
       state.Tablemanuplation.display = action.payload;
     },
+    setTotalCount: (state, action) => {
+      state.Tablemanuplation.totalCount = action.payload;
+    },
   },
 });
 
@@ -70,6 +74,7 @@ const InputSlice2 = createSlice({
 export const {
   toggleModal,
   openModal,
+  setTotalCount,
   closeModal,
   setFadeTransition,
   AllModalClose,

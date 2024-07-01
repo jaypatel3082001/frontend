@@ -95,20 +95,20 @@ import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-function QuizetoSectionName({ setIsLoggedIn }) {
+function AddQuiz({ setIsLoggedIn }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const [inputSectiondata, setInputSectiondata] = useState({
+  const [inputQuizdata, setInputQuizdata] = useState({
     sectionName: "",
   });
   useEffect(() => {
     if (location.state && location.state.itemToEdit) {
-      setInputSectiondata(location.state.itemToEdit);
+      setInputQuizdata(location.state.itemToEdit);
     }
   }, [location.state]);
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setInputSectiondata((prevData) => ({
+    setInputQuizdata((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -116,19 +116,19 @@ function QuizetoSectionName({ setIsLoggedIn }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const createApi = "https://quiz-krishang.vercel.app/section/create";
-    const updateApi = `https://quiz-krishang.vercel.app/section/update/${inputSectiondata._id}`;
+    const updateApi = `https://quiz-krishang.vercel.app/section/update/${inputQuizdata._id}`;
     try {
-      const api = inputSectiondata._id ? updateApi : createApi;
+      const api = inputQuizdata._id ? updateApi : createApi;
       const response = await fetch(api, {
-        method: inputSectiondata._id ? "PUT" : "POST",
+        method: inputQuizdata._id ? "PUT" : "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(inputSectiondata),
+        body: JSON.stringify(inputQuizdata),
       });
-      navigate("/Sectionmain");
-      console.log("inputSectiondata", inputSectiondata);
-      setInputSectiondata({
+      navigate("/Quizemain");
+      console.log("inputQuizdata", inputQuizdata);
+      setInputQuizdata({
         sectionName: "",
       });
       if (!response.ok) {
@@ -147,26 +147,26 @@ function QuizetoSectionName({ setIsLoggedIn }) {
           <Navbar setIsLoggedIn={setIsLoggedIn} />
         </div>
         <form className="w-50 mx-auto mt-5 mb-4" onSubmit={handleSubmit}>
-          <h1 className="mb-4">Add New Section</h1>
+          <h1 className="mb-4">Add New Quiz</h1>
 
           <div className="mb-3">
             <label htmlFor="question" className="form-label">
-              SectionName
+              QuizName
             </label>
             <input
               type="text"
               name="sectionName"
-              value={inputSectiondata.sectionName}
+              value={inputQuizdata.sectionName}
               onChange={handleChange}
               className="form-control"
-              placeholder="Section*"
+              placeholder="Quiz*"
               required
             />
           </div>
           <button type="submit" className="btn btn-primary">
             Submit
           </button>
-          <Link to="/Sectionmain">
+          <Link to="/Quizemain">
             <button className="btn btn-primary ml-4">Back</button>
           </Link>
         </form>
@@ -175,4 +175,4 @@ function QuizetoSectionName({ setIsLoggedIn }) {
   );
 }
 
-export default QuizetoSectionName;
+export default AddQuiz;

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function Addquiz() {
+function AddSection() {
   return (
     <div className="flex items-center">
       <button className=" w-fit ml-2" type="submit">
@@ -20,4 +20,4 @@ function Addquiz() {
   );
 }
 
-export default Addquiz;
+export default AddSection;

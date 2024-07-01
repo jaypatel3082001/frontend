@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "../../fixdata/sidebar";
 import Navbar from "../../fixdata/navbar";
-import Addquiz from "../../Quize/addquiz";
+import AddSection from "../addsection";
 import CustomDatePicker from "../../../util/CoustomDatePicker";
 import {
   toggleModal,
@@ -11,61 +11,69 @@ import {
   setSortedData,
   setCurrentPage,
   setIdstores,
-  setDateRangequize,
-} from "../../../reduxfiles/quizeSlice";
+  setDateRangeSectione,
+} from "../../../reduxfiles/SectionSlice";
 import Tableheader from "./tableheader";
 import Tablebody from "./tablebody";
 import Showquestionbox from "./showquestionbox";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setDateRangesection,
-  setTotalCount,
-} from "../../../reduxfiles/sectionSlice";
 import { serializedSelectionDatePicker } from "../../../util/utility";
 
 function Sectionmain({ setIsLoggedIn }) {
   const dispatch = useDispatch();
-  const inputs = useSelector((state) => state.inputs3);
-  const sortByOptions = useMemo(() => [5, 10, 15, 20], []);
-  const urloFe = "https://quiz-krishang.vercel.app/search/getsearchAll";
-  const [limit, setLimit] = useState(5);
-  const [search, setSearch] = useState("");
-  const [sortOrder, setSortOrder] = useState("asc");
+  const inputs = useSelector((state) => state.inputs2);
 
+  // Memoized sortByOptions array
+  const sortByOptions = useMemo(() => [10, 15, 20, 25], []);
+
+  const urloFe = `https://quiz-krishang.vercel.app/search/getsearchAll`; //api
+  const [limit, setLimit] = useState(10);
   const sortBy = "createdAt";
-  const type = "section";
+  let type = "quiz";
 
-  const formatDate = useCallback((dateString) => {
+  // Date format function
+  function formatDate(dateString) {
     const date = new Date(dateString);
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
-  }, []);
+  }
 
-  const startDate = useMemo(
-    () => formatDate(inputs.dateRange[0].startDate) + "T00:00:00.000Z",
-    [inputs.dateRange, formatDate]
-  );
-
-  const endDate = useMemo(
-    () =>
-      formatDate(inputs.dateRange[0].endDate || new Date()) + "T23:59:59.000Z",
-    [inputs.dateRange, formatDate]
-  );
+  const startDate =
+    formatDate(inputs.dateRange[0].startDate) + "T00:00:00.000Z";
+  const endDate =
+    formatDate(inputs.dateRange[0].endDate || new Date()) + "T23:59:59.000Z";
 
   const formatstartDate = inputs.dateRange[0].startDate;
   const formatendDate = inputs.dateRange[0].endDate;
 
-  const totalPage = useMemo(
-    () => Math.ceil(inputs.Tablemanuplation.totalCount / limit),
-    [inputs.Tablemanuplation.totalCount, limit]
+  // Search state
+  const [search, setsearch] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
+
+  // Pagination calculations
+  const indexOfLastRow = inputs.Tablemanuplation.currentPage * limit;
+  const offset = indexOfLastRow - limit;
+  const totalPage = Math.ceil(
+    inputs.Tablemanuplation.sortedData.totalCount / limit
   );
 
+  // Dispatch totalPage initially
   useEffect(() => {
     dispatch(setTotalPage(totalPage));
   }, [dispatch, totalPage]);
 
+  // Handle limit change
+  const handleLimit = useCallback(
+    (e) => {
+      setLimit(e.target.value);
+      dispatch(setCurrentPage(1));
+    },
+    [dispatch]
+  );
+
+  // Fetch sorted data from API
   const fetchsortData = useCallback(async () => {
     try {
       dispatch(setIsloading(true));
@@ -78,7 +86,7 @@ function Sectionmain({ setIsLoggedIn }) {
         startDate,
         endDate,
         type,
-        offset: inputs.Tablemanuplation.currentPage * limit - limit,
+        offset,
       });
 
       const response = await fetch(`${urloFe}?${params.toString()}`);
@@ -86,10 +94,9 @@ function Sectionmain({ setIsLoggedIn }) {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      const result = await response.json();
 
+      const result = await response.json();
       dispatch(setSortedData(result));
-      dispatch(setTotalCount(result.totalCount));
     } catch (error) {
       console.error("Fetch operation error:", error);
     } finally {
@@ -97,69 +104,61 @@ function Sectionmain({ setIsLoggedIn }) {
     }
   }, [
     dispatch,
-    endDate,
-    limit,
     search,
+    limit,
+    offset,
+    type,
     sortBy,
     sortOrder,
     startDate,
-    type,
-    inputs.Tablemanuplation.currentPage,
+    endDate,
   ]);
 
+  // Fetch data on component mount and when dependencies change
   useEffect(() => {
     fetchsortData();
   }, [fetchsortData]);
 
-  const handleLimit = useCallback(
-    (e) => {
-      setLimit(Number(e.target.value));
-      dispatch(setCurrentPage(1));
-    },
-    [dispatch]
-  );
-
-  const handleChange = useCallback(
-    (e) => {
-      setSearch(e.target.value);
-      dispatch(setCurrentPage(1));
-    },
-    [dispatch]
-  );
-
+  // Show question details
   const showQuestion = useCallback(
     (id) => {
       dispatch(setIdstores(id));
       dispatch(toggleModal(!inputs.openpop));
-      localStorage.setItem("QuizeId", id);
-      localStorage.setItem("sectionId", id);
+      localStorage.setItem("SectionId", id);
     },
     [dispatch, inputs.openpop]
   );
+
+  // Handle search input change
+  const handleChange = useCallback(
+    (e) => {
+      setsearch(e.target.value);
+      dispatch(setCurrentPage(1));
+    },
+    [dispatch]
+  );
+
   const handleDateRangePicker = (ranges) => {
     const serializedSelection = serializedSelectionDatePicker(ranges);
-    dispatch(setDateRangesection([serializedSelection]));
+    dispatch(setDateRangeSectione([serializedSelection]));
   };
+
   return (
     <div className="App">
       <div className="flex">
         <Sidebar />
         <div className="w-full bg-white-200">
-          <div>
-            <Navbar setIsLoggedIn={setIsLoggedIn} />
-          </div>
-          <div className="w-full px-3 bg-gray-200">
-            <div className="flex flex-col md:flex-row md:justify-between items-center mt-5 bg-gray-200 p-2 md:p-4">
+          <Navbar setIsLoggedIn={setIsLoggedIn} />
+          <div className="w-full px-4">
+            <div className="flex flex-col md:flex-row md:justify-between items-center mt-10 bg-gray-200 p-2 md:p-4">
               <div className="flex items-center">
                 <div className="mr-2 font-bold">Date :- </div>
-                <div className="bg-white rounded-xl p-2">
+                <div className=" bg-white rounded-xl p-2">
                   <div className="flex items-center">
-                    <div>
-                      <CustomDatePicker
-                        inputs={inputs}
-                        onDateRangeChange={handleDateRangePicker}
-                      />
-                    </div>
+                    <CustomDatePicker
+                      inputs={inputs}
+                      onDateRangeChange={handleDateRangePicker}
+                    />
                     <div className="flex items-center ml-2">
                       <div className="text-gray-700 font-bold">
                         {formatendDate
@@ -192,11 +191,11 @@ function Sectionmain({ setIsLoggedIn }) {
                   ))}
                 </select>
               </div>
-              <Link to="/QuizetoSectionName">
+              <Link to="/Sectionform">
                 <div className="btn btn-primary mr-5 flex">
-                  <span>ADD SECTION</span>
+                  <span>ADD Section</span>
                   <span>
-                    <Addquiz />
+                    <AddSection />
                   </span>
                 </div>
               </Link>
@@ -206,7 +205,7 @@ function Sectionmain({ setIsLoggedIn }) {
               <Tableheader sortOrder={sortOrder} setSortOrder={setSortOrder} />
               <Tablebody
                 formatDate={formatDate}
-                offset={inputs.Tablemanuplation.currentPage * limit - limit}
+                offset={offset}
                 showQuestion={showQuestion}
               />
             </table>

@@ -124,7 +124,7 @@ import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-function QuizebySection() {
+function AddSection() {
   const [data, setData] = useState([]);
   // const { id } = useParams();
   const id = localStorage.getItem("sectionId");
@@ -136,7 +136,7 @@ function QuizebySection() {
 
   useEffect(() => {
     fetchData();
-    fetchSectionData();
+    fetchQuizData();
   }, []);
   console.log("new quize id", id);
   const fetchData = async () => {
@@ -153,7 +153,7 @@ function QuizebySection() {
     }
   };
 
-  const fetchSectionData = async () => {
+  const fetchQuizData = async () => {
     try {
       const response = await fetch(
         `https://quiz-krishang.vercel.app/section/read/${id}`
@@ -210,7 +210,7 @@ function QuizebySection() {
         console.error("Submission error");
       }
     });
-    navigator(`/Sectionmain`);
+    navigator(`/Quizemain`);
   };
   console.log("this is data   k", data);
 
@@ -259,9 +259,9 @@ function QuizebySection() {
           <button className="btn btn-primary" onClick={handleSubmit}>
             Submit
           </button>
-          <Link to="/sectionmain">
+          <Link to="/Quizemain">
             <button className="btn btn-primary ml-4" onClick={handleSubmit}>
-              Cancle
+              Back
             </button>
           </Link>
           <div />
@@ -271,4 +271,4 @@ function QuizebySection() {
   );
 }
 
-export default QuizebySection;
+export default AddSection;

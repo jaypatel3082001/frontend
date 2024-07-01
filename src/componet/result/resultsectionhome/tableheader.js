@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { ReactComponent as Sortbyname } from "../../../svgfile/sortbyname.svg";
-import { setCurrentPage } from "../../../reduxfiles/quizeSlice";
+import { setCurrentPage } from "../../../reduxfiles/QuizSlice";
 import { useDispatch } from "react-redux";
 
 function Tableheader({ sortOrder, setSortOrder }) {

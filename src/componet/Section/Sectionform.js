@@ -3,23 +3,23 @@ import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 
-function Quizform({ setIsLoggedIn }) {
+function Sectionform({ setIsLoggedIn }) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [inputquizdata, setInputquizdata] = useState({
+  const [inputSectiondata, setInputSectiondata] = useState({
     quizename: "",
   });
 
   useEffect(() => {
     if (location.state && location.state.itemToEdit) {
-      setInputquizdata(location.state.itemToEdit);
+      setInputSectiondata(location.state.itemToEdit);
     }
   }, [location.state]);
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
-    setInputquizdata((prevData) => ({
+    setInputSectiondata((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -28,27 +28,27 @@ function Quizform({ setIsLoggedIn }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const createApi = "https://quiz-krishang.vercel.app/quize/create";
-    const updateApi = `https://quiz-krishang.vercel.app/quize/update/${inputquizdata._id}`;
+    const updateApi = `https://quiz-krishang.vercel.app/quize/update/${inputSectiondata._id}`;
 
     try {
-      const api = inputquizdata._id ? updateApi : createApi;
+      const api = inputSectiondata._id ? updateApi : createApi;
       const response = await fetch(api, {
-        method: inputquizdata._id ? "PUT" : "POST",
+        method: inputSectiondata._id ? "PUT" : "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(inputquizdata),
+        body: JSON.stringify(inputSectiondata),
       });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
 
-      setInputquizdata({
+      setInputSectiondata({
         quizename: "",
       });
 
-      navigate("/Quizmain");
+      navigate("/Sectionmain");
     } catch (error) {
       console.error("Fetch operation error:", error);
     }
@@ -57,9 +57,9 @@ function Quizform({ setIsLoggedIn }) {
   const memoizedEndpoints = useMemo(
     () => ({
       createApi: "https://quiz-krishang.vercel.app/quize/create",
-      updateApi: `https://quiz-krishang.vercel.app/quize/update/${inputquizdata._id}`,
+      updateApi: `https://quiz-krishang.vercel.app/quize/update/${inputSectiondata._id}`,
     }),
-    [inputquizdata._id]
+    [inputSectiondata._id]
   );
 
   return (
@@ -70,16 +70,16 @@ function Quizform({ setIsLoggedIn }) {
           <Navbar setIsLoggedIn={setIsLoggedIn} />
         </div>
         <form className="w-50 mx-auto mt-5 mb-4" onSubmit={handleSubmit}>
-          <h1 className="mb-4">Add New Quiz</h1>
+          <h1 className="mb-4">Add New Section</h1>
 
           <div className="mb-3">
             <label htmlFor="question" className="form-label">
-              Quiz-Name
+              Section-Name
             </label>
             <input
               type="text"
               name="quizename"
-              value={inputquizdata.quizename}
+              value={inputSectiondata.quizename}
               onChange={handleChange}
               className="form-control"
               placeholder="Question*"
@@ -89,7 +89,7 @@ function Quizform({ setIsLoggedIn }) {
           <button type="submit" className="btn btn-primary">
             Submit
           </button>
-          <Link to="/Quizmain" className="ml-4">
+          <Link to="/Quizemain" className="ml-4">
             <button type="button" className="btn btn-primary">
               Cancel
             </button>
@@ -100,4 +100,4 @@ function Quizform({ setIsLoggedIn }) {
   );
 }
 
-export default Quizform;
+export default Sectionform;
