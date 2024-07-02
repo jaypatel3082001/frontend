@@ -26,7 +26,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const token = localStorage.getItem("authToken");
   const inputs = useSelector((state) => state.inputs3);
-  console.log(token, "token");
+
   useEffect(() => {
     if (token) {
       try {
@@ -34,7 +34,6 @@ function App() {
         const currentTime = Date.now() / 1000; // Convert current time to seconds
 
         if (decoded.exp < currentTime) {
-          console.log("Token has expired");
           localStorage.removeItem("authToken");
         } else {
           console.log(decoded);
@@ -54,7 +53,7 @@ function App() {
       setIsLoggedIn(true);
     }
   }, [token]);
-  console.log("isLoggedIn", isLoggedIn);
+
   return (
     <Router>
       <Routes>

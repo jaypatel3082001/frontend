@@ -42,39 +42,37 @@ function Tablebody({ formatDate, offset, showQuestion }) {
       dispatch(setIsloading(false));
     }
   }, [dispatch, url]);
-
-  const fetchDatas = useCallback(async () => {
-    const api = `https://quiz-krishang.vercel.app/key/generatekey`;
-    console.log(
-      "inputs.Tablemanuplation.idkeystores",
-      inputs.Tablemanuplation.idkeystores
-    );
-    try {
-      const response = await fetch(api, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(inputs.Tablemanuplation.idkeystores),
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-
-        dispatch(setKeyData(result));
-      } else {
-        console.log("Invalid response");
-      }
-    } catch (error) {
-      console.error("Fetch operation error:", error);
-    }
-  }, [inputs.Tablemanuplation.idkeystores]);
-
   useEffect(() => {
     fetchData();
-    fetchDatas();
-  }, [fetchData, fetchDatas]);
-  console.log(inputs.Tablemanuplation.keydata, "fsfs");
+  }, [fetchData]);
+
+  // const fetchDatas = useCallback(async () => {
+  //   const api = `https://quiz-krishang.vercel.app/key/generatekey`;
+  //   console.log(
+  //     "inputs.Tablemanuplation.idkeystores",
+  //     inputs.Tablemanuplation.keydata
+  //   );
+  //   try {
+  //     const response = await fetch(api, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(inputs.Tablemanuplation.idkeystores),
+  //     });
+
+  //     if (response.ok) {
+  //       const result = await response.json();
+
+  //       dispatch(setKeyData(result));
+  //     } else {
+  //       console.log("Invalid response");
+  //     }
+  //   } catch (error) {
+  //     console.error("Fetch operation error:", error);
+  //   }
+  // }, [inputs.Tablemanuplation.idkeystores]);
+
   const handleShowkey = useCallback(
     (id) => {
       console.log("id", id);
@@ -82,9 +80,12 @@ function Tablebody({ formatDate, offset, showQuestion }) {
       dispatch(setIdkeystores({ sectionId: `${id}` }));
 
       dispatch(toggleModalkey(!inputs.keyopenpop));
-      localStorage.setItem("keyQuizeId", id);
+      // localStorage.setItem("keyQuizeId", id);
+
+      // Call fetchDatas after dispatching actions
+      // fetchDatas(); // No need for async/await here if you're not using its result immediately
     },
-    [dispatch, inputs.openpop]
+    [dispatch, inputs.keyopenpop]
   );
 
   const handleEditClick = useCallback(
