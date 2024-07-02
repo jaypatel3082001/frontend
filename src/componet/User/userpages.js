@@ -40,7 +40,7 @@ function Userpage() {
       if (element) {
         element.requestFullscreen().catch((error) => {
           // alert("Error while requesting fullscreen: " + error.message);
-          // console.error("Error while requesting fullscreen:", error);
+          // console.error("Error while requesting fullssscreen:", error);
         });
       }
     };
