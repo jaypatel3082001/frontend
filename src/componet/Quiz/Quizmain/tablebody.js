@@ -7,12 +7,16 @@ import Createmainpagination from "../pagination/createmainpagination";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  setIdstores,
   setIdstore,
   setDisplay,
   setIsloading,
   setData,
   setCurrentPage,
-  setRandomkey,
+  toggleModal,
+  toggleModalkey,
+  setIdkeystores,
+  setKeyData,
 } from "../../../reduxfiles/QuizSlice";
 
 function Tablebody({ formatDate, offset, showQuestion }) {
@@ -39,28 +43,48 @@ function Tablebody({ formatDate, offset, showQuestion }) {
     }
   }, [dispatch, url]);
 
+  const fetchDatas = useCallback(async () => {
+    const api = `https://quiz-krishang.vercel.app/key/generatekey`;
+    console.log(
+      "inputs.Tablemanuplation.idkeystores",
+      inputs.Tablemanuplation.idkeystores
+    );
+    try {
+      const response = await fetch(api, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(inputs.Tablemanuplation.idkeystores),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+
+        dispatch(setKeyData(result));
+      } else {
+        console.log("Invalid response");
+      }
+    } catch (error) {
+      console.error("Fetch operation error:", error);
+    }
+  }, [inputs.Tablemanuplation.idkeystores]);
+
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
-
+    fetchDatas();
+  }, [fetchData, fetchDatas]);
+  console.log(inputs.Tablemanuplation.keydata, "fsfs");
   const handleShowkey = useCallback(
     (id) => {
-      let result = "";
-      const characters =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-      const charactersLength = characters.length;
-      const keyLength = 10; // Adjust as needed for the length of the key
+      console.log("id", id);
 
-      for (let i = 0; i < keyLength; i++) {
-        result += characters.charAt(
-          Math.floor(Math.random() * charactersLength)
-        );
-      }
-      console.log("Generated Key:", result);
-      localStorage.setItem("sectionId", id);
-      navigate(`/userpages/quiz-start`);
+      dispatch(setIdkeystores({ sectionId: `${id}` }));
+
+      dispatch(toggleModalkey(!inputs.keyopenpop));
+      localStorage.setItem("keyQuizeId", id);
     },
-    [navigate]
+    [dispatch, inputs.openpop]
   );
 
   const handleEditClick = useCallback(

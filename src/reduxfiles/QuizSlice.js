@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   openpop: false,
+  keyopenpop: false,
   dateRange: [
     {
       startDate: null,
@@ -13,11 +14,12 @@ const initialState = {
     isLoading: false,
 
     data: [],
+    keydata: [],
     sortedData: [],
     totalPage: 0,
     currentPage: 1,
     totalCount: 0,
-
+    idkeystores: null,
     // offset,
     display: false,
     idstore: null,
@@ -34,6 +36,9 @@ const InputSlice2 = createSlice({
     toggleModal: (state, action) => {
       state.openpop = action.payload;
     },
+    toggleModalkey: (state, action) => {
+      state.keyopenpop = action.payload;
+    },
     setDateRangequize: (state, action) => {
       return {
         ...state,
@@ -45,6 +50,9 @@ const InputSlice2 = createSlice({
     },
     setData: (state, action) => {
       state.Tablemanuplation.data = action.payload;
+    },
+    setKeyData: (state, action) => {
+      state.Tablemanuplation.keydata = action.payload;
     },
     setSortedData: (state, action) => {
       state.Tablemanuplation.sortedData = action.payload;
@@ -61,6 +69,9 @@ const InputSlice2 = createSlice({
     setIdstores: (state, action) => {
       state.Tablemanuplation.idstores = action.payload;
     },
+    setIdkeystores: (state, action) => {
+      state.Tablemanuplation.idkeystores = action.payload;
+    },
     setDisplay: (state, action) => {
       state.Tablemanuplation.display = action.payload;
     },
@@ -73,6 +84,8 @@ const InputSlice2 = createSlice({
 // Export actions
 export const {
   toggleModal,
+  toggleModalkey,
+  setIdkeystores,
   openModal,
   setTotalCount,
   closeModal,
@@ -80,6 +93,7 @@ export const {
   AllModalClose,
   setDateRangequize,
   setData,
+  setKeyData,
   setIdstores,
   setIsloading,
   setIdstore,

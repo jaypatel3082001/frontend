@@ -21,6 +21,11 @@ function Userpage() {
   useEffect(() => {
     // Function to disable keyboard events
     const disableKeyboard = (event) => {
+      if (event.key == "q") {
+        requestFullscreen();
+        alert("dssd");
+        event.preventDefault();
+      }
       event.preventDefault();
     };
 

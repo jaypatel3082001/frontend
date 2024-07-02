@@ -359,36 +359,6 @@ function Quizmain({ setIsLoggedIn }) {
     dispatch(setDateRangequize([serializedSelection]));
   };
 
-  useEffect(() => {
-    // Event listeners to prevent keyboard input
-    const disableKeyboard = (event) => {
-      event.preventDefault();
-    };
-
-    // Event listener to prevent right-click
-    const disableRightClick = (event) => {
-      event.preventDefault();
-    };
-
-    // Event listener to prevent fullscreen mode
-    const disableFullscreen = () => {
-      if (document.fullscreenElement) {
-        document.exitFullscreen();
-      }
-    };
-
-    document.addEventListener("keydown", disableKeyboard);
-    document.addEventListener("contextmenu", disableRightClick);
-    document.addEventListener("fullscreenchange", disableFullscreen);
-
-    return () => {
-      // Cleanup: Remove event listeners
-      document.removeEventListener("keydown", disableKeyboard);
-      document.removeEventListener("contextmenu", disableRightClick);
-      document.removeEventListener("fullscreenchange", disableFullscreen);
-    };
-  }, []);
-
   return (
     <div className="App">
       <div className="flex">

@@ -22,7 +22,8 @@ function Quizestart({ id }) {
 
   const partsPerPage = 1; // Number of parts per page
   const questionsPerPage = 1; // Number of questions per page
-
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [showBox, setShowBox] = useState(false);
   const url = `https://quiz-krishang.vercel.app/section/getall/${id}`;
 
   const [timeRemaining, setTimeRemaining] = useState(30); // Initial time in minutes
@@ -66,104 +67,41 @@ function Quizestart({ id }) {
     return shuffledArray;
   };
   //*********************************************************** */
-  // useEffect(() => {
-  //   // Function to disable keyboard events
-  //   const disableKeyboard = (event) => {
-  //     event.preventDefault();
-  //   };
-
-  //   // Add event listeners for keydown and keypress
-
-  //   const disableRightClick = (event) => {
-  //     event.preventDefault();
-  //   };
-
-  //   const addEventListeners = () => {
-  //     document.addEventListener("contextmenu", disableRightClick);
-  //     document.addEventListener("keydown", disableKeyboard);
-  //     document.addEventListener("keypress", disableKeyboard);
-  //   };
-
-  //   const requestFullscreen = () => {
-  //     const element = document.getElementById("fullscreen");
-  //     element.requestFullscreen();
-  //   };
-
-  //   addEventListeners();
-  //   requestFullscreen();
-  // }, []);
   useEffect(() => {
-    // Function to disable keyboard events
-    const disableKeyboard = (event) => {
-      event.preventDefault();
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen();
+    }
+  });
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(document.fullscreenElement !== null);
     };
 
-    // Function to disable right click (context menu)
-    const disableRightClick = (event) => {
-      event.preventDefault();
-    };
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
 
-    const addEventListeners = () => {
-      document.addEventListener("contextmenu", disableRightClick);
-      document.addEventListener("keydown", disableKeyboard);
-      document.addEventListener("keypress", disableKeyboard);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
     };
+  }, []);
 
-    const requestFullscreen = () => {
-      const element = document.getElementById("fullscreen");
-      if (element) {
-        element.requestFullscreen().catch((error) => {
-          // alert("Error while requesting fullscreen: " + error.message);
-          // console.error("Error while requesting fullscreen:", error);
-        });
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (isFullscreen) {
+        setShowBox(true);
       }
     };
 
-    addEventListeners();
-    requestFullscreen();
-  }, []);
-  // useEffect(() => {
-  //   const disableKeyboard = (event) => {
-  //     // Prevent any key press from performing its default action
-  //     event.preventDefault();
-  //   };
+    document.addEventListener("keydown", handleKeyPress);
 
-  //   const disableRightClick = (event) => {
-  //     event.preventDefault();
-  //   };
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [isFullscreen]);
 
-  //   const addEventListeners = () => {
-  //     document.addEventListener("contextmenu", disableRightClick);
-  //     document.addEventListener("keydown", disableKeyboard);
-  //   };
-  //   const requestFullscreen = () => {
-  //     const element = document.getElementById("fullscreen");
-  //     if (element) {
-  //       if (element.requestFullscreen) {
-  //         element.requestFullscreen().catch((err) => {
-  //           alert(`Failed to enter fullscreen: ${err.message}`);
-  //         });
-  //       } else if (element.webkitRequestFullscreen) {
-  //         /* Safari */
-  //         element.webkitRequestFullscreen().catch((err) => {
-  //           alert(`Failed to enter fullscreen: ${err.message}`);
-  //         });
-  //       } else if (element.msRequestFullscreen) {
-  //         /* IE11 */
-  //         element.msRequestFullscreen().catch((err) => {
-  //           alert(`Failed to enter fullscreen: ${err.message}`);
-  //         });
-  //       } else {
-  //         alert("Fullscreen API is not supported");
-  //       }
-  //     } else {
-  //       alert('Element with ID "fullscreen" not found');
-  //     }
-  //   };
-
-  //   addEventListeners();
-  //   requestFullscreen();
-  // }, []);
+  const handleStayAway = () => {
+    setShowBox(false);
+  };
 
   //************************************************************************************* */
   useEffect(() => {
@@ -371,6 +309,26 @@ function Quizestart({ id }) {
   ) : issubmitted ? (
     <div className="flex items-center justify-center absolute left-0 h-full top-0 w-full bg-slate-300 text-5xl font-extrabold">
       Thankyou ...
+    </div>
+  ) : showBox ? (
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div className="bg-white p-4 rounded shadow-lg">
+        <p>What would you like to do?</p>
+        <div className="mt-4 flex justify-end">
+          <button
+            onClick={handleStayAway}
+            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
+          >
+            Stay Away
+          </button>
+          <button
+            onClick={handleSubmit}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
     </div>
   ) : (
     <div
