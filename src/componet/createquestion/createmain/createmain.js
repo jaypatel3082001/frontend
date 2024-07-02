@@ -12,7 +12,7 @@ import {
   setCurrentPage,
   setIdstores,
   setDateRange,
-} from "../../../reduxfiles/InputSlice";
+} from "../../../reduxfiles/inputredux";
 
 import CustomDatePicker from "../../../util/CoustomDatePicker";
 import Showquestionbox from "./showquestionbox";

@@ -10,7 +10,7 @@ import {
   setDisplay,
   setIsloading,
   setData,
-} from "../../../reduxfiles/InputSlice";
+} from "../../../reduxfiles/inputredux";
 
 function Tablebody({ formatDate, offset, showQuestion }) {
   const url = "https://quiz-krishang.vercel.app/questions/getallquestions";

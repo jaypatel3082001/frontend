@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddSection from "../addsection";
 import { Link } from "react-router-dom";
-import { setIsloading, setData } from "../../../reduxfiles/Sectionslice";
+import { setIsloading, setData } from "../../../reduxfiles/sectionredux";
 
 function Showquestionbox({ showQuestion }) {
   const dispatch = useDispatch();

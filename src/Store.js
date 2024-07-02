@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 // import inputReducer from './slice'; // Adjust path if necessary
-import inputReducer from "./reduxfiles/InputSlice";
-import inputReducer2 from "./reduxfiles/Sectionslice";
-import inputReducer3 from "./reduxfiles/QuizSlice";
+import inputReducer from "./reduxfiles/inputredux";
+import inputReducer2 from "./reduxfiles/sectionredux";
+import inputReducer3 from "./reduxfiles/quizredux";
 import inputReducer4 from "./reduxfiles/result";
 import inputReducer5 from "./reduxfiles/resultstudentSlice";
 

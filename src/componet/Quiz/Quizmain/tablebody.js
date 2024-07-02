@@ -17,7 +17,7 @@ import {
   toggleModalkey,
   setIdkeystores,
   setKeyData,
-} from "../../../reduxfiles/QuizSlice";
+} from "../../../reduxfiles/quizredux";
 
 function Tablebody({ formatDate, offset, showQuestion }) {
   const url = "https://quiz-krishang.vercel.app/section/read";
