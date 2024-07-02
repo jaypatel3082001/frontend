@@ -66,31 +66,55 @@ function Quizestart({ id }) {
     return shuffledArray;
   };
   //*********************************************************** */
+  // useEffect(() => {
+  //   // Function to disable keyboard events
+  //   const disableKeyboard = (event) => {
+  //     event.preventDefault();
+  //   };
+
+  //   // Add event listeners for keydown and keypress
+
+  //   const disableRightClick = (event) => {
+  //     event.preventDefault();
+  //   };
+
+  //   const addEventListeners = () => {
+  //     document.addEventListener("contextmenu", disableRightClick);
+  //     document.addEventListener("keydown", disableKeyboard);
+  //     document.addEventListener("keypress", disableKeyboard);
+  //   };
+
+  //   const requestFullscreen = () => {
+  //     const element = document.getElementById("fullscreen");
+  //     element.requestFullscreen();
+  //   };
+
+  //   addEventListeners();
+  //   requestFullscreen();
+  // }, []);
   useEffect(() => {
-    const handleKeyDown = (event) => {
+    // Function to disable keyboard events
+    const disableKeyboard = (event) => {
       event.preventDefault();
-      // if (event.key === "F11" || event.key === "Escape") {
-      //   event.preventDefault();
-      //   alert(`You pressed ${event.key}, but it's disabled.`);
-      // }
     };
 
-    window.addEventListener("keypress", handleKeyDown);
-
-    // const disableRightClick = (event) => {
-    //   event.preventDefault();
-    // };
+    // Function to disable right click (context menu)
+    const disableRightClick = (event) => {
+      event.preventDefault();
+    };
 
     const addEventListeners = () => {
-      document.addEventListener("keypress", handleKeyDown);
-      // document.addEventListener("contextmenu", disableRightClick);
+      document.addEventListener("contextmenu", disableRightClick);
+      document.addEventListener("keydown", disableKeyboard);
+      document.addEventListener("keypress", disableKeyboard);
     };
 
     const requestFullscreen = () => {
       const element = document.getElementById("fullscreen");
       if (element) {
-        element.requestFullscreen().catch((err) => {
-          console.error("Failed to enter fullscreen:", err);
+        element.requestFullscreen().catch((error) => {
+          // alert("Error while requesting fullscreen: " + error.message);
+          // console.error("Error while requesting fullscreen:", error);
         });
       }
     };
@@ -98,6 +122,48 @@ function Quizestart({ id }) {
     addEventListeners();
     requestFullscreen();
   }, []);
+  // useEffect(() => {
+  //   const disableKeyboard = (event) => {
+  //     // Prevent any key press from performing its default action
+  //     event.preventDefault();
+  //   };
+
+  //   const disableRightClick = (event) => {
+  //     event.preventDefault();
+  //   };
+
+  //   const addEventListeners = () => {
+  //     document.addEventListener("contextmenu", disableRightClick);
+  //     document.addEventListener("keydown", disableKeyboard);
+  //   };
+  //   const requestFullscreen = () => {
+  //     const element = document.getElementById("fullscreen");
+  //     if (element) {
+  //       if (element.requestFullscreen) {
+  //         element.requestFullscreen().catch((err) => {
+  //           alert(`Failed to enter fullscreen: ${err.message}`);
+  //         });
+  //       } else if (element.webkitRequestFullscreen) {
+  //         /* Safari */
+  //         element.webkitRequestFullscreen().catch((err) => {
+  //           alert(`Failed to enter fullscreen: ${err.message}`);
+  //         });
+  //       } else if (element.msRequestFullscreen) {
+  //         /* IE11 */
+  //         element.msRequestFullscreen().catch((err) => {
+  //           alert(`Failed to enter fullscreen: ${err.message}`);
+  //         });
+  //       } else {
+  //         alert("Fullscreen API is not supported");
+  //       }
+  //     } else {
+  //       alert('Element with ID "fullscreen" not found');
+  //     }
+  //   };
+
+  //   addEventListeners();
+  //   requestFullscreen();
+  // }, []);
 
   //************************************************************************************* */
   useEffect(() => {

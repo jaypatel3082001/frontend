@@ -18,9 +18,41 @@ function Userpage() {
   const handleQuize = () => {
     setIsstart(true);
   };
+  useEffect(() => {
+    // Function to disable keyboard events
+    const disableKeyboard = (event) => {
+      event.preventDefault();
+    };
 
+    // Function to disable right click (context menu)
+    const disableRightClick = (event) => {
+      event.preventDefault();
+    };
+
+    const addEventListeners = () => {
+      document.addEventListener("contextmenu", disableRightClick);
+      document.addEventListener("keydown", disableKeyboard);
+      document.addEventListener("keypress", disableKeyboard);
+    };
+
+    const requestFullscreen = () => {
+      const element = document.getElementById("fullscreen");
+      if (element) {
+        element.requestFullscreen().catch((error) => {
+          // alert("Error while requesting fullscreen: " + error.message);
+          // console.error("Error while requesting fullscreen:", error);
+        });
+      }
+    };
+
+    addEventListeners();
+    requestFullscreen();
+  }, []);
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen font-sans p-5 bg-gray-100">
+    <div
+      className="flex flex-col justify-center items-center min-h-screen font-sans p-5 bg-gray-100"
+      id="fullscreen"
+    >
       <div className="w-3/5 rounded-3xl p-4 shadow-lg flex flex-col justify-between items-center bg-white">
         <div className="w-full bg-gradient-to-r from-gray-700 to-black rounded-2xl p-4 shadow-lg h-full">
           <Link to="/Logingpage">

@@ -6,7 +6,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 function QuestionbyQuize() {
   const [data, setData] = useState([]);
   // const { id } = useParams();
-  const id = localStorage.getItem("QuizeId");
+  const id = localStorage.getItem("SectionId");
   const [arrrr, setArrrr] = useState([]);
   const navigator = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +21,7 @@ function QuestionbyQuize() {
   console.log("new quize id", id);
   const fetchData = async () => {
     try {
-      //  setIsLoading(true);
+      // setIsLoading(true);
       const response = await fetch(url);
 
       if (!response.ok) {
@@ -82,8 +82,8 @@ function QuestionbyQuize() {
       } else {
         console.error("Submission error");
       }
+      navigator(`/Sectionmain`);
     });
-    navigator(`/Sectionmain`);
   };
 
   return (
