@@ -16,7 +16,7 @@ import Tableheader from "./tableheader";
 import Tablebody from "./tablebody";
 
 import { useDispatch, useSelector } from "react-redux";
-// import { setTotalCount } from "../../../reduxfiles/sectionSlice";
+
 import { serializedSelectionDatePicker } from "../../../util/utility";
 
 function Sectionmain({ setIsLoggedIn }) {
