@@ -100,11 +100,11 @@ function Quizestart({ id }) {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    toggleFullscreen();
     const handleKeyDown = (event) => {
       event.preventDefault();
       event.stopPropagation();
       setShowModal(true);
+      toggleFullscreen();
     };
 
     window.addEventListener("keydown", handleKeyDown, true);
