@@ -77,7 +77,6 @@ function Quizestart({ id }) {
     toggleFullscreen();
     const handleContextMenu = (event) => {
       event.preventDefault();
-      // Your context menu logic here
     };
 
     window.addEventListener("contextmenu", handleContextMenu);
@@ -86,9 +85,10 @@ function Quizestart({ id }) {
   useEffect(() => {
     const handleKeyDown = (event) => {
       event.preventDefault();
+      event.stopPropagation();
     };
 
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown, true);
   }, []);
 
   //************************************************************************************* */
