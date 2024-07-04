@@ -177,9 +177,7 @@ function Quizestart({ id }) {
 
       // Proceed with setting state and navigating
       setIssubmitted(true);
-      const intervalId = setTimeout(() => {
-        navigate("/");
-      }, 1000);
+      const intervalId = setTimeout(() => {}, 1000);
       return () => clearInterval(intervalId);
     } catch (error) {
       console.error("Error during submission", error);
