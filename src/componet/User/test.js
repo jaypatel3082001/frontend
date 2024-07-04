@@ -8,6 +8,7 @@ const Test = ({ onStayAway, onSubmit }) => {
     };
 
     window.addEventListener("keydown", handleKeyDown, true);
+    window.addEventListener("keypress", handleKeyDown, true);
   }, []);
   return (
     <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50">
