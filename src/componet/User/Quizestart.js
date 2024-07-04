@@ -86,18 +86,15 @@ function Quizestart({ id }) {
   }, []);
 
   useEffect(() => {
-    const handleKeyPress = (e) => {
-      if (isFullscreen) {
-        setShowBox(true);
+    const handleKeyDown = (event) => {
+      if (event.key === "F11" || event.key === "Escape" || event.key === "r") {
+        event.preventDefault();
       }
     };
 
-    document.addEventListener("keydown", handleKeyPress);
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyPress);
-    };
-  }, [isFullscreen]);
+    // Add event listener when component mounts
+    window.addEventListener("keydown", handleKeyDown);
+  });
 
   const handleStayAway = () => {
     setShowBox(false);
