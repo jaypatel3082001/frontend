@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const Test = ({ onStayAway, onSubmit }) => {
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+    };
+
+    window.addEventListener("keydown", handleKeyDown, true);
+  }, []);
   return (
     <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50">
       <div className="bg-white p-8 rounded-lg text-center">
