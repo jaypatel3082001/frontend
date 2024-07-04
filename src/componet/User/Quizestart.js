@@ -67,38 +67,37 @@ function Quizestart({ id }) {
     return shuffledArray;
   };
   //*********************************************************** */
-  useEffect(() => {
-    if (document.documentElement.requestFullscreen) {
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen();
     }
-  });
+  };
 
   useEffect(() => {
-    const handleFullscreenChange = () => {
-      setIsFullscreen(document.fullscreenElement !== null);
+    toggleFullscreen();
+    const handleContextMenu = (event) => {
+      event.preventDefault();
+      // Your context menu logic here
     };
 
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    window.addEventListener("contextmenu", handleContextMenu);
 
     return () => {
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      window.removeEventListener("contextmenu", handleContextMenu);
     };
   }, []);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === "F11" || event.key === "Escape" || event.key === "r") {
-        event.preventDefault();
-      }
+      // Handle key down event
     };
 
-    // Add event listener when component mounts
     window.addEventListener("keydown", handleKeyDown);
-  });
 
-  const handleStayAway = () => {
-    setShowBox(false);
-  };
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   //************************************************************************************* */
   useEffect(() => {
@@ -304,26 +303,6 @@ function Quizestart({ id }) {
   ) : issubmitted ? (
     <div className="flex items-center justify-center absolute left-0 h-full top-0 w-full bg-slate-300 text-5xl font-extrabold">
       Thankyou ...
-    </div>
-  ) : showBox ? (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white p-4 rounded shadow-lg">
-        <p>What would you like to do?</p>
-        <div className="mt-4 flex justify-end">
-          <button
-            onClick={handleStayAway}
-            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
-          >
-            Stay Away
-          </button>
-          <button
-            onClick={handleSubmit}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Submit
-          </button>
-        </div>
-      </div>
     </div>
   ) : (
     <div
