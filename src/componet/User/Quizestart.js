@@ -81,22 +81,14 @@ function Quizestart({ id }) {
     };
 
     window.addEventListener("contextmenu", handleContextMenu);
-
-    return () => {
-      window.removeEventListener("contextmenu", handleContextMenu);
-    };
   }, []);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      // Handle key down event
+      event.preventDefault();
     };
 
     window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
   }, []);
 
   //************************************************************************************* */
