@@ -87,8 +87,13 @@ function Quizestart({ id }) {
       event.preventDefault();
       event.stopPropagation();
     };
+    const handleKeyPress = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+    };
 
     window.addEventListener("keydown", handleKeyDown, true);
+    window.addEventListener("keypress", handleKeyPress, true);
   }, []);
 
   //************************************************************************************* */
