@@ -6,7 +6,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 function QuestionbyQuize() {
   const [data, setData] = useState([]);
   // const { id } = useParams();
-  const id = localStorage.getItem("SectionId");
+  const id = localStorage.getItem("Quizeid");
   const [arrrr, setArrrr] = useState([]);
   const navigator = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -139,9 +139,7 @@ function QuestionbyQuize() {
             Submit
           </button>
           <Link to="/Sectionmain">
-            <button className="btn btn-primary ml-3" onClick={handleSubmit}>
-              Back
-            </button>
+            <button className="btn btn-primary ml-3">Back</button>
           </Link>
           {/* </form> */}
         </div>

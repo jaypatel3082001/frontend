@@ -36,6 +36,7 @@ const InputSlice2 = createSlice({
     toggleModal: (state, action) => {
       state.openpop = action.payload;
     },
+
     toggleModalkey: (state, action) => {
       state.keyopenpop = action.payload;
     },

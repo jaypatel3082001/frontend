@@ -136,7 +136,7 @@ function Sidebar() {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
-    navigate("/Logingpage");
+    navigate("/");
   };
 
   const handleItemClick = (path) => {
@@ -164,15 +164,15 @@ function Sidebar() {
           <ul className="flex flex-col space-y-8">
             <li>
               <Link
-                to="/"
+                to="/Home"
                 className={`flex items-center space-x-2 p-2 rounded-md ${
-                  active === "/"
+                  active === "/Home"
                     ? "bg-slate-500 text-white"
                     : "hover:bg-gray-300 hover:text-slate-600 "
                 }`}
                 onClick={() => handleItemClick("/")}
               >
-                <Home fill={`${active === "/" ? "white" : "black"}`} />
+                <Home fill={`${active === "/Home" ? "white" : "black"}`} />
                 <span className="text-base">Home</span>
               </Link>
             </li>

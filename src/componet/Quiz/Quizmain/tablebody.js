@@ -27,7 +27,6 @@ function Tablebody({ formatDate, offset, showQuestion }) {
 
   const fetchData = useCallback(async () => {
     try {
-      dispatch(setIsloading(true));
       const response = await fetch(url);
 
       if (!response.ok) {
@@ -39,55 +38,51 @@ function Tablebody({ formatDate, offset, showQuestion }) {
     } catch (error) {
       console.error("Fetch operation error:", error);
     } finally {
-      dispatch(setIsloading(false));
     }
   }, [dispatch, url]);
+
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
-  // const fetchDatas = useCallback(async () => {
-  //   const api = `https://quiz-krishang.vercel.app/key/generatekey`;
-  //   console.log(
-  //     "inputs.Tablemanuplation.idkeystores",
-  //     inputs.Tablemanuplation.keydata
-  //   );
-  //   try {
-  //     const response = await fetch(api, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(inputs.Tablemanuplation.idkeystores),
-  //     });
+  // const handleShowkey = useCallback(
+  //   async (id) => {
+  //     dispatch(setIdkeystores({ sectionId: `${id}` }));
 
-  //     if (response.ok) {
-  //       const result = await response.json();
+  //     try {
+  //       const response = await fetch(
+  //         "https://quiz-krishang.vercel.app/key/generatekey",
+  //         {
+  //           method: "POST",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //           body: JSON.stringify({
+  //             sectionId: `${id}`,
+  //           }),
+  //         }
+  //       );
 
-  //       dispatch(setKeyData(result));
-  //     } else {
-  //       console.log("Invalid response");
+  //       if (!response.ok) {
+  //         throw new Error("Network response was not ok");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
   //     }
-  //   } catch (error) {
-  //     console.error("Fetch operation error:", error);
-  //   }
-  // }, [inputs.Tablemanuplation.idkeystores]);
 
+  //     dispatch(toggleModalkey(!inputs.keyopenpop));
+  //     localStorage.setItem("keyQuizeId", id);
+  //   },
+  //   [dispatch, inputs.keyopenpop]
+  // );
   const handleShowkey = useCallback(
-    (id) => {
-      console.log("id", id);
-
-      dispatch(setIdkeystores({ sectionId: `${id}` }));
-
+    async (id) => {
+      dispatch(setIdkeystores(id));
+      localStorage.setItem("keyQuizeId", id);
       dispatch(toggleModalkey(!inputs.keyopenpop));
-      // localStorage.setItem("keyQuizeId", id);
-
-      // Call fetchDatas after dispatching actions
-      // fetchDatas(); // No need for async/await here if you're not using its result immediately
     },
     [dispatch, inputs.keyopenpop]
   );
-
   const handleEditClick = useCallback(
     (id) => {
       const sectionToUpdate = inputs.Tablemanuplation.data.find(
@@ -120,6 +115,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
       } catch (error) {
         console.error("Fetch operation error:", error);
       }
+      navigate(0);
     },
     [fetchData, dispatch]
   );

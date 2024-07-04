@@ -147,7 +147,7 @@ function Createmain({ setIsLoggedIn }) {
       dispatch(setIdstores(id));
       dispatch(toggleModal(!inputs.openpop));
 
-      localStorage.setItem("QuizeId", id);
+      // localStorage.setItem("QuizeId", id);
     },
     [dispatch, inputs.openpop]
   );

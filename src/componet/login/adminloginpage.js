@@ -40,7 +40,7 @@ const Loginpage = ({ setIsLoggedIn }) => {
         setInputlogindata(result);
         setErrorMessage("");
         // setIsLoggedIn(true);
-        navigate("/");
+        navigate("/Home");
       } else {
         setErrorMessage("Invalid email or password");
       }

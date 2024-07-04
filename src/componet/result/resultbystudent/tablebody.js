@@ -41,14 +41,20 @@ function Tablebody({ offset, formatDate }) {
           <td className="text-center whitespace-nowrap hover:bg-gray-200 border-x-2 border-gray-300">
             {offset + ind + 1}
           </td>
-          <td className="py-3 px-6 text-left hover:bg-gray-200 border-x-2 border-gray-300 max-w-64">
-            <div className="max-w-full truncate">
+          <td className="py-3 px-6 text-left hover:bg-gray-200 border-x-2 border-gray-300 max-w-80">
+            <div className="max-w-full truncate text-center">
               {" "}
-              {info.userId ? info.userId.username : "Unknown"}
+              {info.firstname}
             </div>
           </td>
-          <td className="text-center border-x-2 border-gray-300">
-            {info.userId ? info.userId.email : "Unknown"}
+          <td className="py-3 px-6 text-left hover:bg-gray-200 border-x-2 border-gray-300 max-w-80">
+            <div className="max-w-full truncate text-center">
+              {" "}
+              {info.lastname}
+            </div>
+          </td>
+          <td className="text-center border-x-2 py-3 px-6 border-gray-300">
+            {info.userEmail}
           </td>
           <td className="text-center border-x-2 border-gray-300">
             {formatDate(info.createdAt)}

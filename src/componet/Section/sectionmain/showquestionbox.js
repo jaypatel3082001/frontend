@@ -1,13 +1,13 @@
 import React, { useEffect, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddSection from "../addsection";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { setIsloading, setData } from "../../../reduxfiles/sectionredux";
 
 function Showquestionbox({ showQuestion }) {
   const dispatch = useDispatch();
   const inputs = useSelector((state) => state.inputs2);
-  const id2 = localStorage.getItem("QuizeId");
+  const id2 = localStorage.getItem("Quizeid");
 
   const url = useMemo(
     () => "https://quiz-krishang.vercel.app/quize/getall",
@@ -36,6 +36,34 @@ function Showquestionbox({ showQuestion }) {
     }
   }, [dispatch, url]);
 
+  // const handleDelete = useCallback(
+  //   async (id1) => {
+  //     const updatedDel = { questionId: id1 };
+
+  //     try {
+  //       const response = await fetch(
+  //         `https://quiz-krishang.vercel.app/quize/deletequize-question/${id2}`,
+  //         {
+  //           method: "PUT",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //           body: JSON.stringify(updatedDel),
+  //         }
+  //       );
+
+  //       if (!response.ok) {
+  //         throw new Error("Network response was not ok");
+  //       }
+
+  //       await response.json();
+  //       fetchData();
+  //     } catch (error) {
+  //       console.error("Fetch operation error:", error);
+  //     }
+  //   },
+  //   [id2, fetchData]
+  // );
   const handleDelete = useCallback(
     async (id1) => {
       const updatedDel = { questionId: id1 };
@@ -64,7 +92,6 @@ function Showquestionbox({ showQuestion }) {
     },
     [id2, fetchData]
   );
-
   return (
     <div>
       {inputs.Tablemanuplation.data?.map(

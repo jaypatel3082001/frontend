@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Test from "./test";
 
 function Quizestart({ id }) {
   const [data, setData] = useState([]);
@@ -67,59 +66,7 @@ function Quizestart({ id }) {
     }
     return shuffledArray;
   };
-  //*********************************************************** */
-  const toggleFullscreen = () => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen();
-    }
-  };
 
-  // useEffect(() => {
-  //   toggleFullscreen();
-  //   const handleContextMenu = (event) => {
-  //     event.preventDefault();
-  //   };
-
-  //   window.addEventListener("contextmenu", handleContextMenu);
-  // }, []);
-
-  // useEffect(() => {
-  //   const handleKeyDown = (event) => {
-  //     const forbiddenKeys = ["F11", "Escape", "Alt"];
-  //     event.preventDefault();
-  //     event.stopPropagation();
-  //     if (forbiddenKeys.includes(event.key) || event.altKey) {
-  //       event.preventDefault();
-  //       event.stopPropagation();
-  //     }
-  //   };
-
-  //   window.addEventListener("keydown", handleKeyDown, true);
-  // }, []);
-
-  const [showModal, setShowModal] = useState(false);
-
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      setShowModal(true);
-      toggleFullscreen();
-    };
-
-    window.addEventListener("keydown", handleKeyDown, true);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown, true);
-    };
-  }, []);
-
-  const handleStayAway = () => {
-    setShowModal(false);
-    // Additional logic for "Stay Away" button
-  };
-
-  //************************************************************************************* */
   useEffect(() => {
     fetchData();
   }, [url]);
@@ -324,8 +271,6 @@ function Quizestart({ id }) {
     <div className="flex items-center justify-center absolute left-0 h-full top-0 w-full bg-slate-300 text-5xl font-extrabold">
       Thankyou ...
     </div>
-  ) : showModal ? (
-    <Test onStayAway={handleStayAway} onSubmit={handleSubmit} />
   ) : (
     <div
       className="absolute left-0 h-full bg-blue-100 top-0 w-full"

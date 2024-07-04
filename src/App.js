@@ -44,7 +44,7 @@ function App() {
     } else {
       console.log("No token found");
     }
-  }, [token]); // Dependency array ensures useEffect runs on token or history change
+  }, [token]);
 
   useEffect(() => {
     if (token === null) {
@@ -58,7 +58,7 @@ function App() {
     <Router>
       <Routes>
         <Route
-          path="/"
+          path="/Home"
           element={
             <PrivateRoute>
               {isLoggedIn == true ? <Main /> : <LoginHomepage />}
@@ -74,7 +74,7 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route path="/Logingpage" element={<LoginHomepage />} />
+        <Route path="/" element={<LoginHomepage />} />
         <Route path="/Signup" element={<Signup />} />
         <Route
           path="/createmain"

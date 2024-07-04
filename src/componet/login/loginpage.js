@@ -42,8 +42,7 @@ const Loginpage = ({ setIsLoggedIn }) => {
         localStorage.setItem("authToken", result.token); // Save token to localStorage
         setInputlogindata(result);
         setErrorMessage("");
-        console.log("result", result);
-        // setIsLoggedIn(true);
+
         navigate("/userpages/quiz-start");
       } else {
         setErrorMessage("Invalid email or password");
@@ -52,7 +51,7 @@ const Loginpage = ({ setIsLoggedIn }) => {
       console.error("Fetch operation error:", error);
       setErrorMessage("An error occurred. Please try again.");
     }
-    // navigate(0);
+    navigate(0);
   };
 
   return (
@@ -107,7 +106,7 @@ const Loginpage = ({ setIsLoggedIn }) => {
               Email:
             </label>
             <input
-              type="userEmail"
+              type="email"
               id="userEmail"
               name="userEmail"
               onChange={handleChange}

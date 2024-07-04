@@ -124,7 +124,7 @@ function Sectionmain({ setIsLoggedIn }) {
     (id) => {
       dispatch(setIdstores(id));
       dispatch(toggleModal(!inputs.openpop));
-      localStorage.setItem("SectionId", id);
+      localStorage.setItem("Quizeid", id);
     },
     [dispatch, inputs.openpop]
   );
