@@ -145,7 +145,7 @@ function Sidebar() {
   };
 
   return (
-    <div className="h-screen bg-slate-200 w-40 md:w-40 lg:w-32 xl:w-64 text-black font-bold">
+    <div className="h-screen bg-blue-100 w-40 md:w-40 lg:w-32 xl:w-64 text-black font-bold">
       <div className="ml-8">
         <div className="sidebar-header flex items-center py-4">
           <div>

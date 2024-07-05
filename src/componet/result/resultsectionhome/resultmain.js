@@ -136,10 +136,10 @@ function Sectionmain({ setIsLoggedIn }) {
             <Navbar setIsLoggedIn={setIsLoggedIn} />
           </div>
           <div className="flex justify-center text-3xl text-black font-bold mt-5">
-            SHOW SECTIONWISE RESULT
+            SHOW RESULT
           </div>
           <div className="w-full px-8  ">
-            <div className="flex flex-col md:flex-row md:justify-between items-center mt-5 bg-gray-400 p-2 md:p-4">
+            <div className="flex flex-col md:flex-row md:justify-between items-center mt-5 bg-blue-300 p-2 md:p-4">
               {/* Date picker and search input */}
               <div className="flex items-center">
                 <div className="mr-2 font-bold">Date :- </div>
@@ -189,7 +189,7 @@ function Sectionmain({ setIsLoggedIn }) {
               </div>
             </div>
             {/* Table component */}
-            <table className="min-w-full bg-white  border border-gray-300">
+            <table className="min-w-full bg-white  border border-gray-300 ">
               <Tableheader sortOrder={sortOrder} setSortOrder={setSortOrder} />
               <Tablebody
                 formatDate={formatDate}

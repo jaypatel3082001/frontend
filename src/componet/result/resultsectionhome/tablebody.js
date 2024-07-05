@@ -59,7 +59,7 @@ function Tablebody({ offset }) {
               </td>
 
               <td
-                className="text-center cursor-pointer border-x-2 border-gray-300 hover:bg-gray-200 relative"
+                className="text-center cursor-pointer  border-gray-300 hover:bg-gray-200 "
                 onClick={() => {
                   handleResult(info._id);
                 }}
@@ -70,7 +70,7 @@ function Tablebody({ offset }) {
               </td>
             </tr>
           ))}
-          <tr className="bg-gray-400">
+          <tr className="bg-blue-300">
             <td></td>
             <td>
               <div className="flex justify-center ">
