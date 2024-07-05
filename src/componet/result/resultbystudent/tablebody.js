@@ -10,24 +10,24 @@ function Tablebody({ offset, formatDate }) {
     [inputs.Tablemanuplation.sortedData]
   );
 
-  console.log("sortedDataaahhhaaaaaaaaa", sortedData);
+  console.log("sortedDataaahhhaaaaaaaaa", sortedData.totalCount);
 
   return inputs.Tablemanuplation.isLoading ? (
     <tbody>
       <tr className="border-b border-gray-400">
         <td
-          colSpan="5"
+          colSpan="6"
           className="text-center font-bold p-3 whitespace-nowrap hover:bg-gray-200 border-x-2 border-gray-300"
         >
           Loading ...
         </td>
       </tr>
     </tbody>
-  ) : sortedData.length === 0 ? (
+  ) : sortedData.data?.length === 0 ? (
     <tbody>
       <tr className="border-b border-gray-400">
         <td
-          colSpan="5"
+          colSpan="6"
           className="text-center font-bold p-3 whitespace-nowrap hover:bg-gray-200 border-x-2 border-gray-300"
         >
           No data found
