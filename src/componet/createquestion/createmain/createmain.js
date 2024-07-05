@@ -19,11 +19,12 @@ import Showquestionbox from "./showquestionbox";
 import Tableheader from "./tableheader";
 import Tablebody from "./tablebody";
 import { serializedSelectionDatePicker } from "../../../util/utility";
+import Createmainpagination from "../pagination/createmainpagination";
 
 function Createmain({ setIsLoggedIn }) {
   const dispatch = useDispatch();
   const inputs = useSelector((state) => state.inputs);
-  const sortByOptions = useMemo(() => [5, 10, 15, 20], []); // Memoize sortByOptions
+  const sortByOptions = useMemo(() => [10, 15, 20, 25], []); // Memoize sortByOptions
 
   const urloFe = useMemo(
     () => `https://quiz-krishang.vercel.app/search/getsearchAll`,
@@ -39,7 +40,7 @@ function Createmain({ setIsLoggedIn }) {
     return `${year}-${month}-${day}`;
   }, []);
 
-  const [limit, setLimit] = useState(5);
+  const [limit, setLimit] = useState(10);
   const sortBy = "createdAt";
   let type = "question";
   const startDate = useMemo(
@@ -159,11 +160,11 @@ function Createmain({ setIsLoggedIn }) {
     <div className="App">
       <div className="flex">
         <Sidebar />
-        <div className="w-full bg-white-200">
+        <div className="w-full bg-[#EEEEEE]">
           <div>
             <Navbar setIsLoggedIn={setIsLoggedIn} />
           </div>
-          <div className="w-full px-3 bg-gray-200">
+          {/* <div className="w-full px-3 bg-gray-200">
             <div className="flex flex-col md:flex-row md:justify-between items-center mt-5 bg-gray-200 p-2 md:p-4">
               <div className="flex items-center">
                 <div className="mr-2 font-bold">Date :- </div>
@@ -224,6 +225,93 @@ function Createmain({ setIsLoggedIn }) {
               />
             </table>
 
+            <Showquestionbox showQuestion={showQuestion} />
+          </div> */}
+          <div className="bg-white rounded shadow-md m-4 p-3">
+            <div className="flex justify-between items-center mb-4">
+              <div className="text-xl font-semibold">QUESTION</div>
+              <div className="flex space-x-2">
+                <button className="bg-blue-500 text-white px-4 py-2 rounded">
+                  Download
+                </button>
+              </div>
+            </div>
+            <div className="flex justify-between items-center mb-2 mt-3">
+              <div className="flex items-center">
+                <div className="mr-2 font-bold">Date :- </div>
+                <div className=" bg-white rounded-xl p-2">
+                  <div className="flex items-center">
+                    <div>
+                      <CustomDatePicker
+                        inputs={inputs}
+                        onDateRangeChange={handleDateRangePicker}
+                      />
+                    </div>
+                    <div className="flex items-center ml-2">
+                      <div className="text-gray-700 font-bold">
+                        {formatendDate
+                          ? formatDate(formatstartDate)
+                          : "YY/MM/DD"}
+                      </div>
+                      <div className="mx-2 text-gray-500 font-bold">To</div>
+                      <div className="text-gray-700 font-bold">
+                        {formatendDate ? formatDate(formatendDate) : "YY/MM/DD"}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center mb-2 md:mb-0">
+                <label className="font-bold ml-2">Search: </label>
+                <input
+                  type="text"
+                  className="w-full md:w-64 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ml-2 md:ml-4"
+                  placeholder="Search"
+                  value={search}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="">
+                <span className="fw-bold me-2">Sort by :</span>
+                <select
+                  onChange={handleLimit}
+                  className="border border-gray-800"
+                >
+                  {sortByOptions.map((sortByOption, index) => (
+                    <option key={index}>{sortByOption}</option>
+                  ))}
+                </select>
+              </div>
+              <Link to="/questionadd">
+                <div className="mr-5 cursor-pointer">
+                  <Addquiz />
+                </div>
+              </Link>
+            </div>
+
+            <div>
+              <table className="min-w-full bg-white border border-gray-200">
+                <Tableheader
+                  sortOrder={sortOrder}
+                  setSortOrder={setSortOrder}
+                />
+
+                <Tablebody
+                  formatDate={formatDate}
+                  offset={offset}
+                  showQuestion={showQuestion}
+                />
+              </table>
+            </div>
+            <div className="flex justify-between items-center mt-2 z-0">
+              <span>
+                Page {inputs.Tablemanuplation.currentPage} of {totalPage}
+              </span>
+              <div className="flex space-x-2">
+                <Createmainpagination />
+              </div>
+            </div>
             <Showquestionbox showQuestion={showQuestion} />
           </div>
         </div>

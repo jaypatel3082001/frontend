@@ -25,19 +25,36 @@ function Tableheader({ sortOrder, setSortOrder }) {
   );
 
   return (
+    // <thead>
+    //   <tr className="border-b border-gray-400 text-black font-bold uppercase text-sm leading-normal w-full">
+    //     <th className="border-x-2 border-gray-300 text-center px-6 lg:w-fit">
+    //       Question Number
+    //     </th>
+    //     {questionNameHeader}
+    //     <th className="px-5">Created Date</th>
+    //     <th
+    //       className="py-3 px-5 border-x-2 border-gray-300 text-left lg:w-fit"
+    //       colSpan="2"
+    //     >
+    //       Action
+    //     </th>
+    //   </tr>
+    // </thead>
     <thead>
-      <tr className="border-b border-gray-400 text-black font-bold uppercase text-sm leading-normal w-full">
-        <th className="border-x-2 border-gray-300 text-center px-6 lg:w-fit">
-          Question Number
+      <tr className="bg-[#c0c0c0] text-gray-600 uppercase text-sm leading-normal">
+        <th className="py-3 px-6 text-left">NUMBER</th>
+        <th className="py-3 px-6 text-left">
+          {" "}
+          <div className="flex  cursor-pointer" onClick={toggleSortOrder}>
+            <div>Question Name</div>
+            <div className="ml-2">
+              <Sortbyname className={sortOrder === "asc" ? "rotate-180" : ""} />
+            </div>
+          </div>
         </th>
-        {questionNameHeader}
-        <th className="px-5">Created Date</th>
-        <th
-          className="py-3 px-5 border-x-2 border-gray-300 text-left lg:w-fit"
-          colSpan="2"
-        >
-          Action
-        </th>
+        <th className="py-3 px-6 text-left">CREATED DATE</th>
+        <th className="py-3 px-6 text-left">SHOW</th>
+        <th className="py-3 px-6 text-left">ACTION</th>
       </tr>
     </thead>
   );

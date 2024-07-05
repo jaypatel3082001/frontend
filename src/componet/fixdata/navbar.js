@@ -11,7 +11,7 @@ function Navbar({ setIsLoggedIn }) {
   };
 
   return (
-    <div className="flex bg-blue-100 shadow-md p-4  justify-end border-b-1 border-slate-600">
+    <div className="flex bg-white p-4  justify-end border-b-1 border-slate-600">
       <div className="text-xl font-bold ">LOGO HERE</div>
     </div>
   );

@@ -145,7 +145,7 @@ function Sidebar() {
   };
 
   return (
-    <div className="h-screen bg-blue-100 w-40 md:w-40 lg:w-32 xl:w-64 text-black font-bold">
+    <div className="h-screen bg-gray-700 w-40 md:w-40 lg:w-32 xl:w-64 text-gray-400 font-bold">
       <div className="ml-8">
         <div className="sidebar-header flex items-center py-4">
           <div>
@@ -155,7 +155,10 @@ function Sidebar() {
               height="20px"
               width="20px"
             >
-              <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
+              <path
+                fill="#9ca3af"
+                d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"
+              />
             </svg>
           </div>
           <div className="ml-4 text-lg font-semibold">Admin</div>
@@ -187,7 +190,7 @@ function Sidebar() {
                 onClick={() => handleItemClick("/createmain")}
               >
                 <Qestionadd
-                  fill={`${active === "/createmain" ? "white" : "black"}`}
+                  fill={`${active === "/createmain" ? "white" : "#9ca3af"}`}
                 />
                 <span className="text-base">Add Question</span>
               </Link>
