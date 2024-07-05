@@ -127,7 +127,7 @@ function Resultstudentmain({ setIsLoggedIn }) {
         <Sidebar />
         <div className="w-full bg-[#EEEEEE] ml-64">
           <Navbar setIsLoggedIn={setIsLoggedIn} />
-          <div className="w-full px-3 bg-gray-200">
+          {/* <div className="w-full px-3 bg-gray-200">
             <div className="flex flex-col md:flex-row md:justify-between items-center mt-5 bg-gray-200 p-2 md:p-4">
               <div className="flex items-center">
                 <div className="mr-2 font-bold">Date:</div>
@@ -187,6 +187,94 @@ function Resultstudentmain({ setIsLoggedIn }) {
             <div className="flex justify-center">
               {" "}
               <Createmainpagination />
+            </div>
+          </div> */}
+          <div className="bg-white rounded shadow-md m-4 p-4 ">
+            <div className="flex justify-between items-center mb-4">
+              <div className="text-xl font-semibold">QUIZ</div>
+              <div className="flex space-x-2">
+                <button className="bg-[#004e98] text-white px-4 py-2 rounded">
+                  Download
+                </button>
+              </div>
+            </div>
+            <div className="flex justify-between items-center mb-2 mt-3">
+              <div className="flex items-center">
+                <div className="mr-2 font-bold">Date :- </div>
+                <div className=" bg-white rounded-xl p-2">
+                  <div className="flex items-center">
+                    <div>
+                      <CustomDatePicker
+                        inputs={inputs}
+                        onDateRangeChange={handleDateRangePicker}
+                      />
+                    </div>
+                    <div className="flex items-center ml-2">
+                      <div className="text-gray-700 font-bold">
+                        {inputs.dateRange[0].startDate
+                          ? formatDate(inputs.dateRange[0].startDate)
+                          : "YY/MM/DD"}
+                      </div>
+                      <div className="mx-2 text-gray-500 font-bold">To</div>
+                      <div className="text-gray-700 font-bold">
+                        {inputs.dateRange[0].endDate
+                          ? formatDate(inputs.dateRange[0].endDate)
+                          : "YY/MM/DD"}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center mb-2 md:mb-0">
+                <label className="font-bold ml-2">Search: </label>
+                <input
+                  type="text"
+                  className="w-full md:w-64 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ml-2 md:ml-4"
+                  placeholder="Search"
+                  value={search}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="">
+                <span className="fw-bold me-2">Sort by :</span>
+                <select
+                  onChange={handleLimit}
+                  className="border border-gray-800"
+                >
+                  {sortByOptions.map((sortByOption, index) => (
+                    <option key={index}>{sortByOption}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <table className="min-w-full bg-white border border-gray-200">
+                <Tableheader
+                  sortOrder={sortOrder}
+                  setSortOrder={setSortOrder}
+                />
+
+                <Tablebody
+                  formatDate={formatDate}
+                  offset={inputs.Tablemanuplation.currentPage * limit - limit}
+                  showQuestion={showQuestion}
+                />
+              </table>
+            </div>
+            <div className="flex justify-between items-center mt-2 z-0">
+              <span>
+                Page{" "}
+                {inputs.Tablemanuplation.sortedData?.data?.length === 0
+                  ? 0
+                  : inputs.Tablemanuplation.currentPage}{" "}
+                of {totalPage}
+              </span>
+
+              <div className="flex space-x-2">
+                <Createmainpagination />
+              </div>
             </div>
           </div>
         </div>

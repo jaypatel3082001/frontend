@@ -110,7 +110,6 @@ function Showquestionbox({ showQuestion }) {
                         type="submit"
                         className="btn btn-primary mr-3 flex items-center"
                       >
-                        Add Question
                         <AddSection />
                       </button>
                     </Link>
@@ -189,8 +188,8 @@ function Showquestionbox({ showQuestion }) {
                             </span>
                           </label>
                         </div>
-                        <div className="border-b pb-4">
-                          <span className="text-xl">
+                        <div className="border-b pb-4 text-left">
+                          <span className="text-xl ">
                             Answer: {index.answer}
                           </span>
                         </div>

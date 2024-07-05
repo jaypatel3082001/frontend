@@ -133,7 +133,7 @@ function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [active, setActive] = useState(location.pathname);
-  console.log("active", active);
+
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     navigate("/");
@@ -175,7 +175,7 @@ function Sidebar() {
                 }`}
                 onClick={() => handleItemClick("/Home")}
               >
-                <Home fill={`${active === "/Home" ? "black" : "white"}`} />
+                <Home />
 
                 <span className="text-base">Home</span>
               </Link>
@@ -190,9 +190,7 @@ function Sidebar() {
                 }`}
                 onClick={() => handleItemClick("/createmain")}
               >
-                <Qestionadd
-                  fill={`${active === "/createmain" ? "black" : "white"}`}
-                />
+                <Qestionadd />
 
                 <span className="text-base">Add Question</span>
               </Link>
@@ -207,9 +205,7 @@ function Sidebar() {
                 }`}
                 onClick={() => handleItemClick("/Sectionmain")}
               >
-                <Quize
-                  fill={`${active === "/Sectionmain" ? "black" : "white"}`}
-                />
+                <Quize />
 
                 <span className="text-base">Section</span>
               </Link>
@@ -224,9 +220,7 @@ function Sidebar() {
                 }`}
                 onClick={() => handleItemClick("/Quizemain")}
               >
-                <Examlist
-                  fill={`${active === "/Quizemain" ? "black" : "white"}`}
-                />
+                <Examlist />
 
                 <span className="text-base">Quiz</span>
               </Link>
@@ -241,9 +235,7 @@ function Sidebar() {
                 }`}
                 onClick={() => handleItemClick("/resultmain")}
               >
-                <Result
-                  fill={`${active === "/resultmain" ? "black" : "white"}`}
-                />
+                <Result />
 
                 <span className="text-base">Result</span>
               </Link>

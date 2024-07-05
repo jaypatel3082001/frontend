@@ -126,7 +126,12 @@ function QuestionbyQuize() {
                               onChange={handleQuestion}
                             />
                           </div>
-                          <div className="fw-bold text-xl">{info.question}</div>
+                          <div className="fw-bold text-xl">
+                            {" "}
+                            {info.question?.length <= 40
+                              ? info.question
+                              : `${info.question?.substring(0, 40)}.....`}
+                          </div>
                         </div>
                       </td>
                     </tr>

@@ -89,9 +89,9 @@ function Sectionform({ setIsLoggedIn }) {
           <button type="submit" className="btn btn-primary">
             Submit
           </button>
-          <Link to="/Quizemain" className="ml-4">
+          <Link to="/Sectionmain" className="ml-4">
             <button type="button" className="btn btn-primary">
-              Cancel
+              Back
             </button>
           </Link>
         </form>

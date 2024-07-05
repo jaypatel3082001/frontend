@@ -24,65 +24,49 @@ function Tablebody({ offset }) {
     Navigate("/resultstudentmain");
   };
 
-  return (
+  return isLoading ? (
     <tbody>
-      {isLoading ? (
-        <tr className="border-b border-gray-400">
-          <td
-            colSpan="5"
-            className="text-center font-bold p-3 whitespace-nowrap hover:bg-gray-200 border-x-2 border-gray-300"
-          >
-            Loading ...
+      <tr className="border-b border-gray-400">
+        <td
+          colSpan="5"
+          className="text-center font-bold p-3 whitespace-nowrap hover:bg-gray-200 border-x-2 border-gray-300"
+        >
+          Loading ...
+        </td>
+      </tr>
+    </tbody>
+  ) : sortedData?.length === 0 ? (
+    <tbody>
+      <tr className="border-b border-gray-400">
+        <td
+          colSpan="5"
+          className="text-center font-bold p-3 whitespace-nowrap hover:bg-gray-200 border-x-2 border-gray-300"
+        >
+          No data found
+        </td>
+      </tr>
+    </tbody>
+  ) : (
+    <tbody className="text-gray-600 text-md font-semibold w-full">
+      {sortedData?.map((info, ind) => (
+        <tr
+          key={ind}
+          className="border-b border-gray-200 hover:bg-gray-200 w-full"
+        >
+          <td className="py-3 px-6 text-left flex items-center">
+            {offset + ind + 1}
           </td>
-        </tr>
-      ) : sortedData?.length === 0 ? (
-        <tr className="border-b border-gray-400">
-          <td
-            colSpan="5"
-            className="text-center font-bold p-3 whitespace-nowrap hover:bg-gray-200 border-x-2 border-gray-300"
-          >
-            No data found
-          </td>
-        </tr>
-      ) : (
-        <>
-          {sortedData?.map((info, ind) => (
-            <tr
-              key={info._id}
-              className="border-b border-gray-400 font-semibold"
+          <td className="py-3 px-6 text-left">{info.sectionName}</td>
+          <td className="py-3 px-6 text-left">
+            <button
+              className="text-blue-600 hover:text-blue-900"
+              onClick={() => handleResult(info._id)}
             >
-              <td className="text-center whitespace-nowrap hover:bg-gray-200 border-x-2 border-gray-300">
-                {offset + ind + 1}
-              </td>
-              <td className="py-3 px-6 text-left hover:bg-gray-200 border-x-2 border-gray-300 max-w-64">
-                <div className="max-w-full truncate">{info.sectionName}</div>
-              </td>
-
-              <td
-                className="text-center cursor-pointer  border-gray-300 hover:bg-gray-200 "
-                onClick={() => {
-                  handleResult(info._id);
-                }}
-              >
-                <div className="flex justify-center">
-                  <Popbox />
-                </div>
-              </td>
-            </tr>
-          ))}
-          <tr className="bg-blue-300">
-            <td></td>
-            <td>
-              <div className="flex justify-center ">
-                <Createmainpagination />
-              </div>
-            </td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </>
-      )}
+              <Popbox />
+            </button>
+          </td>
+        </tr>
+      ))}
     </tbody>
   );
 }

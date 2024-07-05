@@ -7,22 +7,22 @@ function Tableheader({ sortOrder, setSortOrder }) {
   };
 
   // Memoize the JSX for better performance
-  const questionNameHeader = useMemo(
-    () => (
-      <th className="py-3 border-x-2 border-gray-300 text-left lg:w-full">
-        <div
-          className="flex justify-center items-center cursor-pointer"
-          onClick={toggleSortOrder}
-        >
-          <div>Question Name</div>
-          <div className="ml-2">
-            <Sortbyname className={sortOrder === "asc" ? "rotate-180" : ""} />
-          </div>
-        </div>
-      </th>
-    ),
-    [sortOrder, toggleSortOrder]
-  );
+  // const questionNameHeader = useMemo(
+  //   () => (
+  //     <th className="py-3 border-x-2 border-gray-300 text-left lg:w-full">
+  //       <div
+  //         className="flex justify-center items-center cursor-pointer"
+  //         onClick={toggleSortOrder}
+  //       >
+  //         <div>Question Name</div>
+  //         <div className="ml-2">
+  //           <Sortbyname className={sortOrder === "asc" ? "rotate-180" : ""} />
+  //         </div>
+  //       </div>
+  //     </th>
+  //   ),
+  //   [sortOrder, toggleSortOrder]
+  // );
 
   return (
     // <thead>

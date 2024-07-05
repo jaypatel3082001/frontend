@@ -157,10 +157,10 @@ function Createmain({ setIsLoggedIn }) {
     dispatch(setDateRange([serializedSelection]));
   };
   return (
-    <div className="App">
+    <div className="App bg-[#EEEEEE]">
       <div className="flex">
         <Sidebar />
-        <div className="w-full bg-[#EEEEEE] ml-64">
+        <div className="w-full  ml-64 ">
           <div>
             <Navbar setIsLoggedIn={setIsLoggedIn} />
           </div>
