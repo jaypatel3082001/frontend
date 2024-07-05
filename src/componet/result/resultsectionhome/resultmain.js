@@ -131,7 +131,7 @@ function Sectionmain({ setIsLoggedIn }) {
     <div className="App bg">
       <div className="flex">
         <Sidebar />
-        <div className="w-full bg-gray-100">
+        <div className="w-full bg-[#EEEEEE] ml-64">
           <div>
             <Navbar setIsLoggedIn={setIsLoggedIn} />
           </div>

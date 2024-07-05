@@ -136,86 +136,6 @@ function Tablebody({ formatDate, offset, showQuestion }) {
       </tr>
     </tbody>
   ) : (
-    // <tbody className="text-black font-semibold">
-    //   {sortedData?.map((info, ind) => (
-    //     <tr key={info._id} className="border-b border-gray-400">
-    //       <td className="text-center whitespace-nowrap hover:bg-gray-200 border-x-2 border-gray-300">
-    //         {offset + ind + 1}
-    //       </td>
-    //       <td className="py-3 px-6 text-left hover:bg-gray-200 border-x-2 border-gray-300 max-w-64">
-    //         <div className="max-w-full truncate">{info.question}</div>
-    //       </td>
-    //       <td className="text-center">{formatDate(info.createdAt)}</td>
-    //       <td
-    //         className="text-center cursor-pointer border-x-2 border-gray-300 hover:bg-gray-200"
-    //         onClick={() => showQuestion(info._id)}
-    //       >
-    //         <div className="flex justify-center">
-    //           <Popbox />
-    //         </div>
-    //       </td>
-    //       <td
-    //         className="text-center cursor-pointer border-x-2 border-gray-300 hover:bg-gray-200 relative"
-    //         onClick={() => handleClicktd(info._id)}
-    //       >
-    //         <div className="flex justify-center">
-    //           <Option />
-    //         </div>
-    //         {inputs.Tablemanuplation.display &&
-    //           inputs.Tablemanuplation.idstore === info._id && (
-    //             <div
-    //               ref={calendarRef}
-    //               role="tooltip"
-    //               className="absolute shadow show popover bs-popover-bottom bg-white border rounded"
-    //               style={{
-    //                 top: "100%",
-    //                 left: "46%",
-    //                 transform: "translateX(-50%)",
-    //               }}
-    //             >
-    //               <div
-    //                 className="popover-arrow"
-    //                 style={{
-    //                   position: "absolute",
-    //                   top: "-8px",
-    //                   left: "50%",
-    //                   transform: "translateX(-50%)",
-    //                 }}
-    //               >
-    //                 <Upboxuparrow />
-    //               </div>
-    //               <div className="d-flex flex-column p-2 popover-body">
-    //                 <ul className="action-menu-list space-y-2">
-    //                   <li
-    //                     className="cursor-pointer hover:bg-gray-200 p-1 rounded"
-    //                     onClick={() => handleEditClick(info._id)}
-    //                   >
-    //                     Edit
-    //                   </li>
-    //                   <li
-    //                     className="cursor-pointer hover:bg-gray-200 p-1 rounded"
-    //                     onClick={() => handleDelete(info._id)}
-    //                   >
-    //                     Delete
-    //                   </li>
-    //                 </ul>
-    //               </div>
-    //             </div>
-    //           )}
-    //       </td>
-    //     </tr>
-    //   ))}
-    //   <tr className="bg-gray-200">
-    //     <td></td>
-    //     <div className="flex justify-center ">
-    //       <Createmainpagination />
-    //     </div>
-    //     <td></td>
-    //     <td></td>
-    //     <td></td>
-    //   </tr>
-    // </tbody>
-
     <tbody className="text-gray-600 text-md font-semibold w-full">
       {sortedData?.map((row, index) => (
         <tr
@@ -225,7 +145,11 @@ function Tablebody({ formatDate, offset, showQuestion }) {
           <td className="py-3 px-6 text-left flex items-center">
             {offset + index + 1}
           </td>
-          <td className="py-3 px-6 text-left">{row.question}</td>
+          <td className="py-3 px-6 text-left">
+            {row.question?.length <= 80
+              ? row.question
+              : `${row.question?.substring(0, 80)}.....`}
+          </td>
 
           <td className="py-3 px-6 text-left">{formatDate(row.createdAt)}</td>
 
@@ -257,7 +181,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
                   className="absolute shadow-lg show bg-blue-400 z-10 border rounded   popover bs-popover-bottom "
                   style={{
                     top: "80%",
-                    left: "12%",
+                    left: "54%",
                     transform: "translateX(-50%)",
                   }}
                 >

@@ -89,7 +89,9 @@ function Createmainpagination() {
             key={index}
             onClick={() => handlePageChange(page)}
             className={`btn pagination-number font-bold ${
-              inputs.Tablemanuplation.currentPage === page ? "btn-primary" : ""
+              inputs.Tablemanuplation.currentPage === page
+                ? "bg-[#004e98] text-white"
+                : ""
             }`}
           >
             {page}

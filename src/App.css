@@ -67,3 +67,14 @@
   padding: 10px 20px;
   cursor: pointer;
 }
+
+.svg-hover svg {
+  fill: white; /* Default fill */
+}
+
+.svg-hover:hover svg {
+  fill: black; /* Hover fill */
+}
+.svg-active svg {
+  fill: black;
+}

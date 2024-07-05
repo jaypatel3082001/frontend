@@ -21,6 +21,7 @@ import LoginAdminpage from "./componet/login/adminloginpage";
 import AdminSignuppage from "./componet/login/Signup";
 import { jwtDecode } from "jwt-decode";
 import { useSelector } from "react-redux";
+import "./App.css";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

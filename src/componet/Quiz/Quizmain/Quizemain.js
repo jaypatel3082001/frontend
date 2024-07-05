@@ -142,7 +142,7 @@ function Quizmain({ setIsLoggedIn }) {
     <div className="App">
       <div className="flex">
         <Sidebar />
-        <div className="w-full bg-white-200">
+        <div className="w-full bg-[#EEEEEE] ml-64">
           <div>
             <Navbar setIsLoggedIn={setIsLoggedIn} />
           </div>

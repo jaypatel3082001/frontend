@@ -41,7 +41,7 @@ function Tableheader({ sortOrder, setSortOrder }) {
     //   </tr>
     // </thead>
     <thead>
-      <tr className="bg-[#c0c0c0] text-gray-600 uppercase text-sm leading-normal">
+      <tr className="bg-[#3a6ea5] text-white uppercase text-sm leading-normal">
         <th className="py-3 px-6 text-left">NUMBER</th>
         <th className="py-3 px-6 text-left">
           {" "}
@@ -54,7 +54,7 @@ function Tableheader({ sortOrder, setSortOrder }) {
         </th>
         <th className="py-3 px-6 text-left">CREATED DATE</th>
         <th className="py-3 px-6 text-left">SHOW</th>
-        <th className="py-3 px-6 text-left">ACTION</th>
+        <th className="py-3 px-6 ">ACTION</th>
       </tr>
     </thead>
   );

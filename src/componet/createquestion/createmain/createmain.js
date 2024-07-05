@@ -160,7 +160,7 @@ function Createmain({ setIsLoggedIn }) {
     <div className="App">
       <div className="flex">
         <Sidebar />
-        <div className="w-full bg-[#EEEEEE]">
+        <div className="w-full bg-[#EEEEEE] ml-64">
           <div>
             <Navbar setIsLoggedIn={setIsLoggedIn} />
           </div>
@@ -227,11 +227,11 @@ function Createmain({ setIsLoggedIn }) {
 
             <Showquestionbox showQuestion={showQuestion} />
           </div> */}
-          <div className="bg-white rounded shadow-md m-4 p-3">
+          <div className="bg-white rounded shadow-md m-4 p-4 ">
             <div className="flex justify-between items-center mb-4">
               <div className="text-xl font-semibold">QUESTION</div>
               <div className="flex space-x-2">
-                <button className="bg-blue-500 text-white px-4 py-2 rounded">
+                <button className="bg-[#004e98] text-white px-4 py-2 rounded">
                   Download
                 </button>
               </div>
@@ -306,8 +306,13 @@ function Createmain({ setIsLoggedIn }) {
             </div>
             <div className="flex justify-between items-center mt-2 z-0">
               <span>
-                Page {inputs.Tablemanuplation.currentPage} of {totalPage}
+                Page{" "}
+                {inputs.Tablemanuplation.sortedData?.data.length === 0
+                  ? 0
+                  : inputs.Tablemanuplation.currentPage}{" "}
+                of {totalPage}
               </span>
+
               <div className="flex space-x-2">
                 <Createmainpagination />
               </div>

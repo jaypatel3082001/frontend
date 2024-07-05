@@ -125,7 +125,7 @@ function Resultstudentmain({ setIsLoggedIn }) {
     <div className="App">
       <div className="flex">
         <Sidebar />
-        <div className="w-full bg-white-200">
+        <div className="w-full bg-[#EEEEEE] ml-64">
           <Navbar setIsLoggedIn={setIsLoggedIn} />
           <div className="w-full px-3 bg-gray-200">
             <div className="flex flex-col md:flex-row md:justify-between items-center mt-5 bg-gray-200 p-2 md:p-4">

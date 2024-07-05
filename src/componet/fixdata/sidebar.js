@@ -133,7 +133,7 @@ function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [active, setActive] = useState(location.pathname);
-
+  console.log("active", active);
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     navigate("/");
@@ -145,7 +145,7 @@ function Sidebar() {
   };
 
   return (
-    <div className="h-screen bg-gray-700 w-40 md:w-40 lg:w-32 xl:w-64 text-gray-400 font-bold">
+    <div className="h-screen bg-[#ff6700] w-40 md:w-40 lg:w-32 xl:w-64 text-gray-400 font-bold fixed">
       <div className="ml-8">
         <div className="sidebar-header flex items-center py-4">
           <div>
@@ -156,90 +156,95 @@ function Sidebar() {
               width="20px"
             >
               <path
-                fill="#9ca3af"
+                fill="#ebebeb"
                 d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"
               />
             </svg>
           </div>
-          <div className="ml-4 text-lg font-semibold">Admin</div>
+          <div className="ml-4 text-lg font-semibold text-[#ebebeb]">Admin</div>
         </div>
         <div className="mt-8">
           <ul className="flex flex-col space-y-8">
             <li>
               <Link
                 to="/Home"
-                className={`flex items-center space-x-2 p-2 rounded-md ${
+                className={`flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] svg-hover ${
                   active === "/Home"
-                    ? "bg-slate-500 text-white"
-                    : "hover:bg-gray-300 hover:text-slate-600 "
+                    ? "bg-[#F3F4F6] text-slate-800 svg-active "
+                    : "hover:bg-[#F3F4F6] hover:text-slate-800 "
                 }`}
-                onClick={() => handleItemClick("/")}
+                onClick={() => handleItemClick("/Home")}
               >
-                <Home fill={`${active === "/Home" ? "white" : "black"}`} />
+                <Home fill={`${active === "/Home" ? "black" : "white"}`} />
+
                 <span className="text-base">Home</span>
               </Link>
             </li>
             <li>
               <Link
                 to="/createmain"
-                className={`flex items-center space-x-2 p-2 rounded-md ${
+                className={`flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] svg-hover ${
                   active === "/createmain"
-                    ? "bg-gray-500 text-white"
-                    : "hover:bg-slate-400 hover:text-slate-800"
+                    ? "bg-[#F3F4F6] text-slate-800 svg-active "
+                    : "hover:bg-[#F3F4F6] hover:text-slate-800 "
                 }`}
                 onClick={() => handleItemClick("/createmain")}
               >
                 <Qestionadd
-                  fill={`${active === "/createmain" ? "white" : "#9ca3af"}`}
+                  fill={`${active === "/createmain" ? "black" : "white"}`}
                 />
+
                 <span className="text-base">Add Question</span>
               </Link>
             </li>
             <li>
               <Link
                 to="/Sectionmain"
-                className={`flex items-center space-x-2 p-2 rounded-md ${
+                className={`flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] svg-hover ${
                   active === "/Sectionmain"
-                    ? "bg-gray-500 text-white"
-                    : "hover:bg-slate-400 hover:text-slate-800"
+                    ? "bg-[#F3F4F6] text-slate-800 svg-active "
+                    : "hover:bg-[#F3F4F6] hover:text-slate-800 "
                 }`}
                 onClick={() => handleItemClick("/Sectionmain")}
               >
                 <Quize
-                  fill={`${active === "/Sectionmain" ? "white" : "black"}`}
+                  fill={`${active === "/Sectionmain" ? "black" : "white"}`}
                 />
+
                 <span className="text-base">Section</span>
               </Link>
             </li>
             <li>
               <Link
                 to="/Quizemain"
-                className={`flex items-center space-x-2 p-2 rounded-md ${
+                className={`flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] svg-hover ${
                   active === "/Quizemain"
-                    ? "bg-gray-500 text-white"
-                    : "hover:bg-slate-400 hover:text-slate-800"
+                    ? "bg-[#F3F4F6] text-slate-800 svg-active "
+                    : "hover:bg-[#F3F4F6] hover:text-slate-800 "
                 }`}
                 onClick={() => handleItemClick("/Quizemain")}
               >
                 <Examlist
-                  fill={`${active === "/Quizemain" ? "white" : "black"}`}
+                  fill={`${active === "/Quizemain" ? "black" : "white"}`}
                 />
+
                 <span className="text-base">Quiz</span>
               </Link>
             </li>
             <li>
               <Link
                 to="/resultmain"
-                className={`flex items-center space-x-2 p-2 rounded-md ${
+                className={`flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] svg-hover ${
                   active === "/resultmain"
-                    ? "bg-gray-500 text-white"
-                    : "hover:bg-slate-400 hover:text-slate-800"
+                    ? "bg-[#F3F4F6] text-slate-800 svg-active "
+                    : "hover:bg-[#F3F4F6] hover:text-slate-800 "
                 }`}
                 onClick={() => handleItemClick("/resultmain")}
               >
                 <Result
-                  fill={`${active === "/resultmain" ? "white" : "black"}`}
+                  fill={`${active === "/resultmain" ? "black" : "white"}`}
                 />
+
                 <span className="text-base">Result</span>
               </Link>
             </li>
@@ -247,7 +252,8 @@ function Sidebar() {
             <li>
               <div
                 onClick={handleLogout}
-                className="flex items-center space-x-2 p-2 rounded-md cursor-pointer hover:bg-slate-400 hover:text-slate-800"
+                className="flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] cursor-pointer hover:bg-[#F3F4F6]
+                fill-white hover:fill-black hover:text-slate-800"
               >
                 <Logout />
                 <span className="text-base">Logout</span>

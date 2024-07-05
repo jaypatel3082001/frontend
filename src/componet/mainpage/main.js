@@ -8,7 +8,7 @@ function Main({ setIsLoggedIn }) {
       <div className="flex">
         <Sidebar />
         {/* ----------navbar--------------------------- */}
-        <div className=" w-full ">
+        <div className="w-full bg-[#EEEEEE] ml-64">
           <div>
             <Navbar setIsLoggedIn={setIsLoggedIn} />
           </div>
