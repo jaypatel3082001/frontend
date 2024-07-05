@@ -307,7 +307,7 @@ function Createmain({ setIsLoggedIn }) {
             <div className="flex justify-between items-center mt-2 z-0">
               <span>
                 Page{" "}
-                {inputs.Tablemanuplation.sortedData?.data.length === 0
+                {inputs.Tablemanuplation.sortedData?.data?.length === 0
                   ? 0
                   : inputs.Tablemanuplation.currentPage}{" "}
                 of {totalPage}
