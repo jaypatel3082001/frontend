@@ -10,6 +10,7 @@ const Loginpage = ({ setIsLoggedIn }) => {
     userkey: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
+  const [showerror, setShowerror] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -43,89 +44,22 @@ const Loginpage = ({ setIsLoggedIn }) => {
         navigate("/Home");
       } else {
         setErrorMessage("Invalid email or password");
+        setShowerror(true);
       }
     } catch (error) {
-      console.error("Fetch operation error:", error);
       setErrorMessage("An error occurred. Please try again.");
     }
     navigate(0);
   };
 
   return (
-    // <div className="bg-red-300 w-full h-screen">
-    //   <div className="flex ">
-    //     <div className="w-full  bg-white-200">
-    //       <div className="container login-container">
-    //         <div className="card login-card">
-    //           <div className="card-body">
-    //             <h3 className="card-title text-center mb-4">Login</h3>
-    //             {errorMessage && (
-    //               <div className="alert alert-danger" role="alert">
-    //                 {errorMessage}
-    //               </div>
-    //             )}
-    //             <form onSubmit={handleSubmit}>
-    //               <div className="form-group mb-3">
-    //                 <label htmlFor="email" className="mb-2">
-    //                   Email address
-    //                 </label>
-    //                 <input
-    //                   type="email"
-    //                   name="email"
-    //                   onChange={handleChange}
-    //                   value={inputlogindata.email}
-    //                   className="form-control"
-    //                   id="email"
-    //                   placeholder="Enter email"
-    //                   required
-    //                 />
-    //               </div>
-    //               <div className="form-group mb-3">
-    //                 <label htmlFor="password" className="mb-2">
-    //                   Password
-    //                 </label>
-    //                 <input
-    //                   type="password"
-    //                   name="password"
-    //                   className="form-control"
-    //                   id="password"
-    //                   onChange={handleChange}
-    //                   value={inputlogindata.password}
-    //                   placeholder="Password"
-    //                   required
-    //                 />
-    //               </div>
-    //               <div className="form-group mb-3">
-    //                 <label htmlFor="userkeykey" className="mb-2">
-    //                   Userkey
-    //                 </label>
-    //                 <input
-    //                   type="text"
-    //                   name="userkey"
-    //                   className="form-control"
-    //                   id="userkey"
-    //                   onChange={handleChange}
-    //                   value={inputlogindata.userkey}
-    //                   placeholder="userkey"
-    //                 />
-    //               </div>
-    //               <div className="flex justify-between">
-    //                 <button type="submit" className="btn btn-primary btn-block">
-    //                   Login
-    //                 </button>
-    //                 <Link to="/Signup" className="font-semibold text-xl">
-    //                   Signup
-    //                 </Link>
-    //               </div>
-    //             </form>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="main bg-white rounded-lg shadow-md p-10 w-96">
+        {showerror && (
+          <div className="text-red-500 font-bold text-center mb-3">
+            Invalid email or password
+          </div>
+        )}
         <h1 className="text-green-500 text-3xl mb-6">Admin Login</h1>
 
         <form onSubmit={handleSubmit}>

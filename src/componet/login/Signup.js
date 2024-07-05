@@ -11,6 +11,7 @@ const Signup = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
   const [signupSuccess, setSignupSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showerror, setShowerror] = useState(false);
 
   // Memoized handleChange function using useCallback
   const handleChange = useCallback((e) => {
@@ -47,6 +48,7 @@ const Signup = ({ setIsLoggedIn }) => {
           navigate("/loginadminpage");
         } else {
           setErrorMessage("Username or Email already exists");
+          setShowerror(true);
         }
       } catch (error) {
         console.error("Fetch operation error:", error);
@@ -133,6 +135,11 @@ const Signup = ({ setIsLoggedIn }) => {
     // </div>
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="main bg-white rounded-lg shadow-md p-10 w-96">
+        {showerror && (
+          <div className="text-red-500 font-bold text-center mb-3">
+            Username or Email already exists
+          </div>
+        )}
         <h1 className="text-green-500 text-3xl mb-6">Admin Signup</h1>
         {signupSuccess ? (
           <div
