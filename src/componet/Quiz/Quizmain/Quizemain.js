@@ -269,7 +269,7 @@ function Quizmain({ setIsLoggedIn }) {
                   ))}
                 </select>
               </div>
-              <Link to="/Sectionform">
+              <Link to="/addQuiz">
                 <div className="mr-5 cursor-pointer">
                   <div className=" mr-5 flex">
                     <span>
@@ -309,6 +309,7 @@ function Quizmain({ setIsLoggedIn }) {
               </div>
             </div>
             <Showquestionbox showQuestion={showQuestion} />
+            <Keyshow />
           </div>
         </div>
       </div>

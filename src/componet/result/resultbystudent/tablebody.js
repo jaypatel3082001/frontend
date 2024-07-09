@@ -35,46 +35,8 @@ function Tablebody({ offset, formatDate }) {
       </tr>
     </tbody>
   ) : (
-    // <>
-    //   {sortedData.data?.map((info, ind) => (
-    //     <tr key={info._id} className="border-b border-gray-400">
-    //       <td className="text-center whitespace-nowrap hover:bg-gray-200 border-x-2 border-gray-300">
-    //         {offset + ind + 1}
-    //       </td>
-    //       <td className="py-3 px-6 text-left hover:bg-gray-200 border-x-2 border-gray-300 max-w-80">
-    //         <div className="max-w-full truncate text-center">
-    //           {" "}
-    //           {info.firstname}
-    //         </div>
-    //       </td>
-    //       <td className="py-3 px-6 text-left hover:bg-gray-200 border-x-2 border-gray-300 max-w-80">
-    //         <div className="max-w-full truncate text-center">
-    //           {" "}
-    //           {info.lastname}
-    //         </div>
-    //       </td>
-    //       <td className="text-center border-x-2 py-3 px-6 border-gray-300">
-    //         {info.userEmail}
-    //       </td>
-    //       <td className="text-center border-x-2 border-gray-300">
-    //         {formatDate(info.createdAt)}
-    //       </td>
-    //       <td className="text-center border-x-2 border-gray-300">
-    //         {info.result} / {info.TotalResult}{" "}
-    //       </td>
-    //       {info.quizewiseResult?.map((index, indexIdx) => (
-    //         <td
-    //           key={indexIdx}
-    //           className="text-center cursor-pointer border-x-2 border-gray-300 hover:bg-gray-200"
-    //         >
-    //           {index.weitage} / {info.quizewiseTotalResult[indexIdx]?.weitage}
-    //         </td>
-    //       ))}
-    //     </tr>
-    //   ))}
-    // </>
     <tbody className="text-gray-600 text-md font-semibold w-full">
-      {sortedData.data?.map((info, ind) => (
+      {sortedData?.map((info, ind) => (
         <tr
           key={ind}
           className="border-b border-gray-200 hover:bg-gray-200 w-full"
@@ -89,14 +51,34 @@ function Tablebody({ offset, formatDate }) {
 
           <td className="py-3 px-6 text-left">{formatDate(info.createdAt)}</td>
 
-          <td className="py-3 px-6 text-left">
+          <td className="py-3 px-6 text-left ">
             {info.result} / {info.TotalResult}{" "}
           </td>
-          {info.quizewiseResult?.map((index, indexIdx) => (
+          {/* {info.passResults?.map((index, indexIdx) => (
             <td key={indexIdx} className="py-3 px-6 text-left">
               {index.weitage} / {info.quizewiseTotalResult[indexIdx]?.weitage}
             </td>
-          ))}
+          ))} */}
+          {info.passResults
+            ? info.passResults.map((result, resultIdx) => (
+                <th
+                  key={`pass-${ind}-${resultIdx}`}
+                  className="py-3 px-6 text-left"
+                >
+                  {result.weitage}
+                </th>
+              ))
+            : info.failResults.map((result, resultIdx) => (
+                <th
+                  key={`fail-${ind}-${resultIdx}`}
+                  className="py-3 px-6 text-left"
+                >
+                  {result.weitage}
+                </th>
+              ))}
+          {/* <td className="py-3 px-6 text-left">
+            {info.result} / {info.TotalResult}{" "}
+          </td> */}
         </tr>
       ))}
     </tbody>

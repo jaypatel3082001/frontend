@@ -100,6 +100,9 @@ function AddQuiz({ setIsLoggedIn }) {
   const navigate = useNavigate();
   const [inputQuizdata, setInputQuizdata] = useState({
     sectionName: "",
+    totalTime: "",
+    CountResult: "",
+    PassingMarks: "",
   });
   useEffect(() => {
     if (location.state && location.state.itemToEdit) {
@@ -130,6 +133,9 @@ function AddQuiz({ setIsLoggedIn }) {
       console.log("inputQuizdata", inputQuizdata);
       setInputQuizdata({
         sectionName: "",
+        totalTime: "",
+        CountResult: "",
+        PassingMarks: "",
       });
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -162,6 +168,51 @@ function AddQuiz({ setIsLoggedIn }) {
               placeholder="Quiz*"
               required
             />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="totalTime" className="form-label">
+              Exam Time
+            </label>
+            <input
+              type="number"
+              name="totalTime"
+              value={inputQuizdata.totalTime}
+              onChange={handleChange}
+              className="form-control"
+              placeholder="Exam Time"
+              required
+            />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="PassingMarks" className="form-label">
+              Passing Marks
+            </label>
+            <input
+              type="number"
+              name="PassingMarks"
+              value={inputQuizdata.PassingMarks}
+              onChange={handleChange}
+              className="form-control"
+              placeholder="  Passing Marks "
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="CountResult" className="form-label">
+              Result Count By
+            </label>
+            <select
+              name="CountResult"
+              value={inputQuizdata.CountResult}
+              onChange={handleChange}
+              className="form-control"
+              required
+            >
+              <option value="">Select Result*</option>
+              <option value="Sectionwise">Section Wise</option>
+              <option value="Quizwise">Quiz Wise</option>
+            </select>
           </div>
           <button type="submit" className="btn btn-primary">
             Submit

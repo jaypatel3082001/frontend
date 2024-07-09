@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Quizestart({ id }) {
+function Quizestart({ id, keyid }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [issubmitted, setIssubmitted] = useState(false);
   const [arrrr, setArrrr] = useState([]);
+  console.log("arrrr", arrrr);
   const navigate = useNavigate();
   const token = localStorage.getItem("authToken");
 
@@ -22,11 +23,10 @@ function Quizestart({ id }) {
 
   const partsPerPage = 1; // Number of parts per page
   const questionsPerPage = 1; // Number of questions per page
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const [showBox, setShowBox] = useState(false);
+
   const url = `https://quiz-krishang.vercel.app/section/getall/${id}`;
 
-  const [timeRemaining, setTimeRemaining] = useState(30); // Initial time in minutes
+  const [timeRemaining, setTimeRemaining] = useState(); // Initial time in minutes
 
   useEffect(() => {
     const totalSeconds = timeRemaining * 60;
@@ -80,12 +80,30 @@ function Quizestart({ id }) {
       }
       const result = await response.json();
 
-      setData(shuffleArray(result));
+      setData(shuffleArray(result.allData));
+      setTimeRemaining(result.totalTime);
       console.log("result", result);
 
       let initialUnansweredCount = {};
 
-      result.forEach((section, index) => {
+      // setArrrr((prevArrrr) => ({
+      //   ...prevArrrr, // Spread previous state to preserve other properties if any
+      //   sectionId: id, // Assuming sectionName is defined elsewhere
+      //   keyid,
+      //   questions: result.allData.flatMap((index) =>
+      //     index.quizemcqs.map((i, qindex) => ({
+      //       quizeId: index._id,
+      //       quizename: index.quizename,
+      //       questionId: i._id,
+      //       qindex: qindex, // Ensure qindex is correctly passed here
+      //       weightage: i.weightage,
+      //       answer: "", // Initialize answer as an empty string
+      //       isAttempted: false, // Set to true if needed in the initial state
+      //     }))
+      //   ),
+      // }));
+
+      result.allData?.forEach((section, index) => {
         if (section.quizemcqs && Array.isArray(section.quizemcqs)) {
           let unansweredInSection = 0;
 
@@ -109,7 +127,10 @@ function Quizestart({ id }) {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    //*************************** */
+
+    //******************************** */
     const result = arrrr[0] || {
       sectionId: `${id}`,
       questions: [],
@@ -149,6 +170,7 @@ function Quizestart({ id }) {
   };
 
   const handleQuestion = (e) => {
+    console.log("arrrrr", arrrr);
     const answer = e.target.value;
     const questionId = e.target.getAttribute("data-question-id");
     const qindex = parseInt(e.target.getAttribute("data-qindex"));
@@ -184,6 +206,7 @@ function Quizestart({ id }) {
             quizename,
             weightage,
             answer,
+
             isAttempted: true,
           });
         }
@@ -194,6 +217,7 @@ function Quizestart({ id }) {
           ...prevArrrr,
           {
             sectionId: id,
+            keyid,
             questions: [
               {
                 questionId,
@@ -202,6 +226,7 @@ function Quizestart({ id }) {
                 quizename,
                 weightage,
                 answer,
+                keyid,
                 isAttempted: true,
               },
             ],
@@ -420,9 +445,10 @@ function Quizestart({ id }) {
                             questionIndex +
                             1 +
                             currentQuestionPage * questionsPerPage;
+
                           const existingAnswer = arrrr
-                            .find((section) => section.sectionId === id)
-                            ?.questions.find(
+                            ?.find((section) => section.sectionId === id)
+                            ?.questions?.find(
                               (q) => q.qindex === parseInt(counter)
                             )?.answer;
 
@@ -455,6 +481,7 @@ function Quizestart({ id }) {
                                       value={`option${index + 1}`}
                                       data-question-id={ele._id}
                                       data-qindex={parseInt(counter)}
+                                      required
                                       id={`option-${partIndex}-${questionIndex}-${
                                         index + 1
                                       }`}
@@ -462,7 +489,6 @@ function Quizestart({ id }) {
                                         existingAnswer === `option${index + 1}`
                                       }
                                       onChange={handleQuestion}
-                                      required // Ensure this input is required
                                     />
                                     <label
                                       className="ml-2 text-xl"

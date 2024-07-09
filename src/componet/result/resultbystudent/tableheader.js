@@ -71,12 +71,14 @@ function Tableheader({ sortOrder, setSortOrder }) {
         <th className="py-3 px-6 text-left">Email ID</th>
         <th className="py-3 px-6 text-left">Exam Date</th>
         <th className="py-3 px-6 text-left">Total Marks</th>
-        {sortedData.data &&
-          sortedData.data[0]?.quizewiseTotalResult?.map((quiz, quizIdx) => (
-            <th key={quizIdx} className="py-3 px-6 text-left">
-              {quiz.quizename}
+        {sortedData &&
+          sortedData[0]?.quizewiseTotalResult?.map((i, idx) => (
+            <th key={idx} className="py-3 px-6 text-left">
+              {i.quizename}
             </th>
           ))}
+
+        <th className="py-3 px-6 text-left">Status</th>
       </tr>
     </thead>
   );

@@ -60,6 +60,7 @@ function Keyshow() {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+    navigate(0);
   }, [dispatch, inputs.keyopenpop, formatstartDate, formatendDate, formatDate]);
 
   const closeBox = useCallback(async () => {
@@ -103,6 +104,7 @@ function Keyshow() {
     } catch (error) {
       console.error("Fetch operation error:", error);
     }
+    navigate(0);
   });
   console.log("v", keydata.data);
   return (

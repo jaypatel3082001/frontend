@@ -32,6 +32,8 @@ function Resultstudentmain({ setIsLoggedIn }) {
   const [limit, setLimit] = useState(5);
   const sortBy = "createdAt";
   let type = "result";
+  let status = "";
+  let mainstatus = "";
   console.log("sdata", inputs.Tablemanuplation.sortedData);
 
   const startDate =
@@ -47,7 +49,7 @@ function Resultstudentmain({ setIsLoggedIn }) {
   const totalPage = Math.ceil(inputs.Tablemanuplation.totalCount / limit);
 
   dispatch(setTotalPage(totalPage));
-
+  console.log(inputs.Tablemanuplation.sortedData, "asasas");
   const handleLimit = (e) => {
     setLimit(e.target.value);
     dispatch(setCurrentPage(1));
@@ -64,6 +66,8 @@ function Resultstudentmain({ setIsLoggedIn }) {
         sortOrder,
         startDate,
         endDate,
+        status,
+        mainstatus,
         type,
         offset: inputs.Tablemanuplation.currentPage * limit - limit,
       });
@@ -75,7 +79,7 @@ function Resultstudentmain({ setIsLoggedIn }) {
       }
       const result = await response.json();
       console.log("dsdd");
-      dispatch(setSortedData(result));
+      dispatch(setSortedData(result.data));
       dispatch(setTotalCount(result.totalCount));
     } catch (error) {
       console.error("Fetch operation error:", error);
@@ -90,12 +94,25 @@ function Resultstudentmain({ setIsLoggedIn }) {
     sortOrder,
     startDate,
     type,
+    status,
+    mainstatus,
     inputs.Tablemanuplation.currentPage,
   ]);
 
   useEffect(() => {
     fetchsortData();
-  }, [search, limit, offset, type, sortBy, sortOrder, startDate, endDate]);
+  }, [
+    search,
+    limit,
+    offset,
+    type,
+    status,
+    mainstatus,
+    sortBy,
+    sortOrder,
+    startDate,
+    endDate,
+  ]);
 
   const showQuestion = (id) => {
     dispatch(setIdstores(id));
@@ -259,14 +276,15 @@ function Resultstudentmain({ setIsLoggedIn }) {
                 <Tablebody
                   formatDate={formatDate}
                   offset={inputs.Tablemanuplation.currentPage * limit - limit}
-                  showQuestion={showQuestion}
+                  sho
+                  Question={showQuestion}
                 />
               </table>
             </div>
             <div className="flex justify-between items-center mt-2 z-0">
               <span>
                 Page{" "}
-                {inputs.Tablemanuplation.sortedData?.data?.length === 0
+                {inputs.Tablemanuplation.sortedData?.length === 0
                   ? 0
                   : inputs.Tablemanuplation.currentPage}{" "}
                 of {totalPage}

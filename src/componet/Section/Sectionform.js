@@ -9,6 +9,7 @@ function Sectionform({ setIsLoggedIn }) {
 
   const [inputSectiondata, setInputSectiondata] = useState({
     quizename: "",
+    quizepassingMarks: "",
   });
 
   useEffect(() => {
@@ -46,6 +47,7 @@ function Sectionform({ setIsLoggedIn }) {
 
       setInputSectiondata({
         quizename: "",
+        quizepassingMarks: "",
       });
 
       navigate("/Sectionmain");
@@ -83,6 +85,21 @@ function Sectionform({ setIsLoggedIn }) {
               onChange={handleChange}
               className="form-control"
               placeholder="Question*"
+              required
+            />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="number" className="form-label">
+              Passing Marks
+            </label>
+            <input
+              type="number"
+              name="quizepassingMarks"
+              value={inputSectiondata.quizepassingMarks}
+              onChange={handleChange}
+              className="form-control"
+              placeholder="passing marks"
               required
             />
           </div>

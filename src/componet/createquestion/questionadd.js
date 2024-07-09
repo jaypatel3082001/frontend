@@ -16,7 +16,6 @@ function QuestionAdd({ setIsLoggedIn }) {
     option3: "",
     option4: "",
     answer: "",
-    weightage: "",
   };
 
   const [inputquedata, setInputquedata] = useState(initialInputData);
@@ -160,20 +159,7 @@ function QuestionAdd({ setIsLoggedIn }) {
                 <option value="option4">{inputquedata.option4}</option>
               </select>
             </div>
-            <div className="mb-3">
-              <label htmlFor="weightage" className="form-label">
-                Weightage
-              </label>
-              <input
-                type="number"
-                name="weightage"
-                value={inputquedata.weightage}
-                onChange={handleChange}
-                className="form-control"
-                placeholder="Weightage*"
-                required
-              />
-            </div>
+
             <button type="submit" className="btn btn-primary mr-5">
               Submit
             </button>

@@ -14,7 +14,7 @@ function Userpage() {
       setDetails(jwtDecode(token)); // Use the named export
     }
   }, []);
-
+  console.log("details", details.key?._id);
   const handleQuize = () => {
     setIsstart(true);
   };
@@ -110,7 +110,7 @@ function Userpage() {
             >
               Start Exam
             </button>
-            {isstart === true && <Quizestart id={id} />}
+            {isstart === true && <Quizestart id={id} keyid={details.key._id} />}
           </div>
         </div>
       </div>
