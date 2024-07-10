@@ -50,6 +50,7 @@ const Loginpage = ({ setIsLoggedIn }) => {
       console.error("Fetch operation error:", error);
       setErrorMessage("An error occurred. Please try again.");
     }
+    navigate(0);
   };
 
   return (
