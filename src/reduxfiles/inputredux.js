@@ -27,6 +27,7 @@ import { createSlice } from "@reduxjs/toolkit";
 // Define the initial state
 const initialState = {
   openpop: false,
+  openuplod: false,
   dateRange: [
     {
       startDate: null,
@@ -38,6 +39,7 @@ const initialState = {
     isLoading: false,
 
     data: [],
+    inputquedata: [],
     sortedData: [],
     totalPage: 0,
     currentPage: 1,
@@ -60,6 +62,9 @@ const InputSlice = createSlice({
     toggleModal: (state, action) => {
       state.openpop = action.payload;
     },
+    toggleuploadModal: (state, action) => {
+      state.openuplod = action.payload;
+    },
     setDateRange: (state, action) => {
       return {
         ...state,
@@ -71,6 +76,9 @@ const InputSlice = createSlice({
     },
     setData: (state, action) => {
       state.Tablemanuplation.data = action.payload;
+    },
+    setInputquedata: (state, action) => {
+      state.Tablemanuplation.inputquedata = action.payload;
     },
     setSortedData: (state, action) => {
       state.Tablemanuplation.sortedData = action.payload;
@@ -102,6 +110,8 @@ export const {
   AllModalClose,
   setDateRange,
   setData,
+  setInputquedata,
+  toggleuploadModal,
   setIdstores,
   setIsloading,
   setIdstore,

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Sidebar from "../../fixdata/sidebar";
 import Navbar from "../../fixdata/navbar";
 import Addquiz from "../addquestion";
+import * as XLSX from "xlsx";
 import { useDispatch, useSelector } from "react-redux";
 import {
   toggleModal,
@@ -12,10 +13,12 @@ import {
   setCurrentPage,
   setIdstores,
   setDateRange,
+  toggleuploadModal,
 } from "../../../reduxfiles/inputredux";
 
 import CustomDatePicker from "../../../util/CoustomDatePicker";
 import Showquestionbox from "./showquestionbox";
+import Uplodfile from "./uplodfile";
 import Tableheader from "./tableheader";
 import Tablebody from "./tablebody";
 import { serializedSelectionDatePicker } from "../../../util/utility";
@@ -152,9 +155,49 @@ function Createmain({ setIsLoggedIn }) {
     },
     [dispatch, inputs.openpop]
   );
+
+  const showUploadbox = useCallback(() => {
+    dispatch(toggleuploadModal(!inputs.openuplod));
+  }, [dispatch, inputs.openuplod]);
+
   const handleDateRangePicker = (ranges) => {
     const serializedSelection = serializedSelectionDatePicker(ranges);
     dispatch(setDateRange([serializedSelection]));
+  };
+  const data = useMemo(
+    () => inputs.Tablemanuplation.sortedData?.data,
+    [inputs.Tablemanuplation.sortedData?.data]
+  );
+  const exportToExcel = () => {
+    // Generate a random file name
+    const fileName = `data_${Math.random().toString(36).substr(2, 9)}.xlsx`;
+
+    // Create a new workbook
+    const workbook = XLSX.utils.book_new();
+
+    // Convert the data to a worksheet
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    // Append the worksheet to the workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+    // Generate a buffer
+    const buffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+
+    // Create a Blob from the buffer
+    const blob = new Blob([buffer], { type: "application/octet-stream" });
+
+    // Create a link element
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+
+    // Append the link to the document body and click it
+    document.body.appendChild(link);
+    link.click();
+
+    // Remove the link from the document body
+    document.body.removeChild(link);
   };
   return (
     <div className="App bg-[#EEEEEE]">
@@ -169,10 +212,16 @@ function Createmain({ setIsLoggedIn }) {
             <div className="flex justify-between items-center mb-4">
               <div className="text-xl font-semibold">QUESTION</div>
               <div className="flex space-x-2">
-                <button className="bg-[#004e98] hover:bg-blue-600 text-white px-4 py-2 rounded">
+                <button
+                  className="bg-[#004e98] hover:bg-blue-600 text-white px-4 py-2 rounded"
+                  onClick={showUploadbox}
+                >
                   Import
                 </button>
-                <button className="bg-[#004e98] text-white px-4 py-2 rounded hover:bg-blue-600">
+                <button
+                  className="bg-[#004e98] text-white px-4 py-2 rounded hover:bg-blue-600"
+                  onClick={exportToExcel}
+                >
                   Export
                 </button>
               </div>
@@ -259,6 +308,7 @@ function Createmain({ setIsLoggedIn }) {
               </div>
             </div>
             <Showquestionbox showQuestion={showQuestion} />
+            <Uplodfile />
           </div>
         </div>
       </div>

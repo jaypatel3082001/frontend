@@ -2,11 +2,13 @@ import React, { useState, useEffect, useCallback } from "react";
 import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
 import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function QuestionAdd({ setIsLoggedIn }) {
   const location = useLocation();
   const { id } = useParams();
   const navigate = useNavigate();
+  const inputs = useSelector((state) => state.inputs);
 
   const initialInputData = {
     _id: "",
