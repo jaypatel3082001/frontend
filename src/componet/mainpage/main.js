@@ -446,7 +446,7 @@ function Main({ setIsLoggedIn }) {
             </div>
             <div className="bg-gray-100 shadow-lg p-4 rounded-lg w-full lg:w-1/3">
               <h2 className="text-lg font-semibold text-blue-700 mb-4">
-                Recent Exams
+                Recent Student
               </h2>
               <div className="space-y-4">
                 {Array(3)

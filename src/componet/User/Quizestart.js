@@ -6,7 +6,7 @@ function Quizestart({ id, keyid }) {
   const [isLoading, setIsLoading] = useState(false);
   const [issubmitted, setIssubmitted] = useState(false);
   const [arrrr, setArrrr] = useState([]);
-  console.log("arrrr", arrrr);
+
   const navigate = useNavigate();
   const token = localStorage.getItem("authToken");
 
@@ -66,7 +66,7 @@ function Quizestart({ id, keyid }) {
     }
     return shuffledArray;
   };
-
+  console.log("objarrrect", arrrr);
   useEffect(() => {
     fetchData();
   }, [url]);
@@ -86,22 +86,63 @@ function Quizestart({ id, keyid }) {
 
       let initialUnansweredCount = {};
 
-      // setArrrr((prevArrrr) => ({
-      //   ...prevArrrr, // Spread previous state to preserve other properties if any
-      //   sectionId: id, // Assuming sectionName is defined elsewhere
-      //   keyid,
-      //   questions: result.allData.flatMap((index) =>
-      //     index.quizemcqs.map((i, qindex) => ({
-      //       quizeId: index._id,
-      //       quizename: index.quizename,
-      //       questionId: i._id,
-      //       qindex: qindex, // Ensure qindex is correctly passed here
-      //       weightage: i.weightage,
-      //       answer: "", // Initialize answer as an empty string
-      //       isAttempted: false, // Set to true if needed in the initial state
-      //     }))
-      //   ),
-      // }));
+      setArrrr((prevArrrr) => {
+        console.log("Updating state with id:", id);
+        // Find if the section with sectionId 'id' already exists in prevArrrr
+        const existingSectionIndex = prevArrrr.findIndex(
+          (section) => section.sectionId === id
+        );
+
+        if (existingSectionIndex !== -1) {
+          const updatedArrrr = [...prevArrrr];
+          updatedArrrr[existingSectionIndex] = {
+            ...updatedArrrr[existingSectionIndex],
+            keyid,
+            questions: [
+              // ...updatedArrrr[existingSectionIndex].questions,
+              ...result.allData.flatMap((index, ind) =>
+                index.quizemcqs.map((i, ipd) => ({
+                  quizeId: index._id,
+                  quizename: index.quizename,
+                  questionId: i._id,
+                  qindex: parseInt(`${ind + 1}${ipd + 1}`),
+                  weightage: i.weightage,
+                  answer: "", // Initialize answer as empty string
+                  isAttempted: false,
+                  asas: "if", // Set to true if needed in initial state
+                }))
+              ),
+            ],
+          };
+
+          console.log("Updated state:", updatedArrrr);
+          return updatedArrrr;
+        } else {
+          // Section does not exist, add a new section
+          const newArrrr = [
+            ...prevArrrr,
+            {
+              sectionId: id,
+              keyid,
+              questions: result.allData.flatMap((index, ind) =>
+                index.quizemcqs.map((i, ipd) => ({
+                  quizeId: index._id,
+                  quizename: index.quizename,
+                  questionId: i._id,
+                  qindex: parseInt(`${ind + 1}${ipd + 1}`),
+                  weightage: i.weightage,
+                  answer: "", // Initialize answer as empty string
+                  isAttempted: false,
+                  aaa: "else", // Set to true if needed in initial state
+                }))
+              ),
+            },
+          ];
+
+          console.log("New state:", newArrrr);
+          return newArrrr;
+        }
+      });
 
       result.allData?.forEach((section, index) => {
         if (section.quizemcqs && Array.isArray(section.quizemcqs)) {
@@ -168,9 +209,8 @@ function Quizestart({ id, keyid }) {
       // Handle error state or display an error message
     }
   };
-
+  console.log("arrrrr", arrrr);
   const handleQuestion = (e) => {
-    console.log("arrrrr", arrrr);
     const answer = e.target.value;
     const questionId = e.target.getAttribute("data-question-id");
     const qindex = parseInt(e.target.getAttribute("data-qindex"));
@@ -452,6 +492,12 @@ function Quizestart({ id, keyid }) {
                               (q) => q.qindex === parseInt(counter)
                             )?.answer;
 
+                          const xyz = `${
+                            partIndex + 1 + currentPartPage * partsPerPage
+                          }${qcount}`;
+
+                          console.log(existingAnswer, "existingAnswer");
+
                           return (
                             <div key={questionIndex} className="mb-4">
                               <div className="flex justify-between">
@@ -480,11 +526,7 @@ function Quizestart({ id, keyid }) {
                                       name={`option-${partIndex}-${questionIndex}`}
                                       value={`option${index + 1}`}
                                       data-question-id={ele._id}
-                                      data-qindex={parseInt(counter)}
-                                      required
-                                      id={`option-${partIndex}-${questionIndex}-${
-                                        index + 1
-                                      }`}
+                                      data-qindex={xyz}
                                       checked={
                                         existingAnswer === `option${index + 1}`
                                       }

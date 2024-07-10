@@ -286,7 +286,7 @@ function Resultstudentmain({ setIsLoggedIn }) {
                 Page{" "}
                 {inputs.Tablemanuplation.sortedData?.length === 0
                   ? 0
-                  : inputs.Tablemanuplation.currentPage}{" "}
+                  : inputs.Tablemanuplation.currentPage}
                 of {totalPage}
               </span>
 
