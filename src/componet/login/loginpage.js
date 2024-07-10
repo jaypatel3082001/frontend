@@ -38,7 +38,7 @@ const Loginpage = ({ setIsLoggedIn }) => {
       if (response.ok) {
         const result = await response.json();
         localStorage.setItem("sectionId", result.existKey.sectionId);
-        localStorage.setItem("authToken", result.token); // Save token to localStorage
+        localStorage.setItem("authTokenstu", result.token); // Save token to localStorage
         setInputlogindata(result);
         setErrorMessage("");
 
@@ -50,7 +50,6 @@ const Loginpage = ({ setIsLoggedIn }) => {
       console.error("Fetch operation error:", error);
       setErrorMessage("An error occurred. Please try again.");
     }
-    navigate(0);
   };
 
   return (

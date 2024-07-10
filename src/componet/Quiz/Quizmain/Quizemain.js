@@ -217,8 +217,11 @@ function Quizmain({ setIsLoggedIn }) {
             <div className="flex justify-between items-center mb-4">
               <div className="text-xl font-semibold">QUIZ</div>
               <div className="flex space-x-2">
-                <button className="bg-[#004e98] text-white px-4 py-2 rounded">
-                  Download
+                <button className="bg-[#004e98] hover:bg-blue-600 text-white px-4 py-2 rounded">
+                  Import
+                </button>
+                <button className="bg-[#004e98] text-white px-4 py-2 rounded hover:bg-blue-600">
+                  Export
                 </button>
               </div>
             </div>

@@ -8,7 +8,7 @@ function Quizestart({ id, keyid }) {
   const [arrrr, setArrrr] = useState([]);
 
   const navigate = useNavigate();
-  const token = localStorage.getItem("authToken");
+  const token = localStorage.getItem("authTokenstu");
 
   const [currentPartPage, setCurrentPartPage] = useState(0);
   const [currentQuestionPage, setCurrentQuestionPage] = useState(0);
@@ -25,7 +25,22 @@ function Quizestart({ id, keyid }) {
   const questionsPerPage = 1; // Number of questions per page
 
   const url = `https://quiz-krishang.vercel.app/section/getall/${id}`;
+  //*************************************************** */
 
+  const [blockedKeys, setBlockedKeys] = useState([
+    "ArrowUp",
+    "ArrowDown",
+    "F11",
+  ]); // Initially block ArrowUp and ArrowDown
+
+  const handleKeyDown = (event) => {
+    if (blockedKeys.includes(event.key)) {
+      event.preventDefault(); // Prevent default behavior for blocked keys
+      console.log(`Blocked key: ${event.key}`); // Optional: Log blocked keys for debugging
+    }
+  };
+
+  //************************************************* */
   const [timeRemaining, setTimeRemaining] = useState(); // Initial time in minutes
 
   useEffect(() => {
@@ -340,6 +355,7 @@ function Quizestart({ id, keyid }) {
     <div
       className="absolute left-0 h-full bg-blue-100 top-0 w-full"
       id="fullscreen"
+      onKeyDown={handleKeyDown}
     >
       <div className="flex flex-col h-screen justify-center items-center w-full p-8 ">
         <div className=" bg-red-50 p-8 w-full shadow-slate-600 shadow-xl rounded-lg">

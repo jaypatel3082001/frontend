@@ -25,8 +25,9 @@ import "./App.css";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isStudentLoggedIn, setStudentIsLoggedIn] = useState(false);
   const token = localStorage.getItem("authToken");
-  const inputs = useSelector((state) => state.inputs3);
+  const tokenstudent = localStorage.getItem("authTokenstu");
 
   useEffect(() => {
     if (token) {
@@ -46,12 +47,36 @@ function App() {
       console.log("No token found");
     }
   }, [token]);
+  useEffect(() => {
+    if (tokenstudent) {
+      try {
+        const decoded = jwtDecode(tokenstudent); // Decodes the token (doesn't verify signature)
+        const currentTime = Date.now() / 1000; // Convert current time to seconds
 
+        if (decoded.exp < currentTime) {
+          localStorage.removeItem("authTokenstu");
+        } else {
+          console.log(decoded);
+        }
+      } catch (error) {
+        console.log("Invalid token:", error);
+      }
+    } else {
+      console.log("No token found");
+    }
+  }, [tokenstudent]);
   useEffect(() => {
     if (token === null) {
       setIsLoggedIn(false);
     } else {
       setIsLoggedIn(true);
+    }
+  }, [token]);
+  useEffect(() => {
+    if (tokenstudent === null) {
+      setStudentIsLoggedIn(false);
+    } else {
+      setStudentIsLoggedIn(true);
     }
   }, [token]);
 
@@ -182,20 +207,20 @@ function App() {
           path={`/userpages/quiz-start`}
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <Userpages /> : <LoginHomepage />}
+              {isStudentLoggedIn == true ? <Userpages /> : <LoginHomepage />}
               {/* <Userpages /> */}
             </PrivateRoute>
           }
         />
-        <Route
+        {/* <Route
           path="/userpages"
           element={
             <PrivateRoute>
               {isLoggedIn == true ? <Main /> : <LoginHomepage />}
-              {/* <Main /> */}
+              {/* <Main /> 
             </PrivateRoute>
           }
-        />
+        /> */}
         <Route
           path="/resultmain"
           element={

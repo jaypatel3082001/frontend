@@ -9,7 +9,7 @@ function Userpage() {
   const id = localStorage.getItem("sectionId");
   console.log("details", details);
   useEffect(() => {
-    const token = localStorage?.getItem("authToken");
+    const token = localStorage?.getItem("authTokenstu");
     if (token) {
       setDetails(jwtDecode(token)); // Use the named export
     }
@@ -18,41 +18,7 @@ function Userpage() {
   const handleQuize = () => {
     setIsstart(true);
   };
-  // useEffect(() => {
-  //   // Function to disable keyboard events
-  //   const disableKeyboard = (event) => {
-  //     if (event.key == "q") {
-  //       requestFullscreen();
-  //       alert("dssd");
-  //       event.preventDefault();
-  //     }
-  //     event.preventDefault();
-  //   };
 
-  //   // Function to disable right click (context menu)
-  //   const disableRightClick = (event) => {
-  //     event.preventDefault();
-  //   };
-
-  //   const addEventListeners = () => {
-  //     document.addEventListener("contextmenu", disableRightClick);
-  //     document.addEventListener("keydown", disableKeyboard);
-  //     document.addEventListener("keypress", disableKeyboard);
-  //   };
-
-  //   const requestFullscreen = () => {
-  //     const element = document.getElementById("fullscreen");
-  //     if (element) {
-  //       element.requestFullscreen().catch((error) => {
-  //         // alert("Error while requesting fullscreen: " + error.message);
-  //         // console.error("Error while requesting fullssscreen:", error);
-  //       });
-  //     }
-  //   };
-
-  //   addEventListeners();
-  //   requestFullscreen();
-  // }, []);
   return (
     <div
       className="flex flex-col justify-center items-center min-h-screen font-sans p-5 bg-gray-100"
