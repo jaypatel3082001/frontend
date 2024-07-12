@@ -67,7 +67,7 @@ function Tablebody({ offset, formatDate, resultBy }) {
                   {" "}
                   <span
                     className={`${
-                      info.quizeWiseStatus === "fail"
+                      q.status === "fail"
                         ? "bg-red-500  px-3 py-1 text-white rounded "
                         : "bg-green-500  px-3 py-1 text-white rounded"
                     }`}
@@ -110,7 +110,7 @@ function Tablebody({ offset, formatDate, resultBy }) {
               <td className="py-3 px-6 text-left ">
                 <span
                   className={`${
-                    info.quizeWiseStatus === "fail"
+                    info.status === "fail"
                       ? "bg-red-500  px-3 py-1 text-white rounded "
                       : "bg-green-500 px-3 py-1 text-white rounded"
                   }`}

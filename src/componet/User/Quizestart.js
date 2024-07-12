@@ -27,19 +27,6 @@ function Quizestart({ id, keyid }) {
   const url = `https://quiz-krishang.vercel.app/section/getall/${id}`;
   //*************************************************** */
 
-  const [blockedKeys, setBlockedKeys] = useState([
-    "ArrowUp",
-    "ArrowDown",
-    "F11",
-  ]); // Initially block ArrowUp and ArrowDown
-
-  const handleKeyDown = (event) => {
-    if (blockedKeys.includes(event.key)) {
-      event.preventDefault(); // Prevent default behavior for blocked keys
-      console.log(`Blocked key: ${event.key}`); // Optional: Log blocked keys for debugging
-    }
-  };
-
   //************************************************* */
   const [timeRemaining, setTimeRemaining] = useState(); // Initial time in minutes
 
@@ -81,7 +68,7 @@ function Quizestart({ id, keyid }) {
     }
     return shuffledArray;
   };
-  console.log("objarrrect", arrrr);
+  console.log("objarrrect", data);
   useEffect(() => {
     fetchData();
   }, [url]);
@@ -234,7 +221,7 @@ function Quizestart({ id, keyid }) {
     const quizename = e.target.getAttribute("quizename");
 
     const weightage = parseInt(e.target.getAttribute("weightage"));
-
+    console.log(data, "dadta");
     setArrrr((prevArrrr) => {
       const existingSectionIndex = prevArrrr.findIndex(
         (section) => section.sectionId === id
@@ -355,7 +342,6 @@ function Quizestart({ id, keyid }) {
     <div
       className="absolute left-0 h-full bg-blue-100 top-0 w-full"
       id="fullscreen"
-      onKeyDown={handleKeyDown}
     >
       <div className="flex flex-col h-screen justify-center items-center w-full p-8 ">
         <div className=" bg-red-50 p-8 w-full shadow-slate-600 shadow-xl rounded-lg">

@@ -168,7 +168,7 @@ function Sidebar() {
 
   return (
     <div
-      className={`h-screen bg-[#ff6700] w-40 md:w-40 lg:w-32 xl:w-64 text-gray-400 font-bold fixed ${
+      className={`h-screen bg-[#194164] w-40 md:w-40 lg:w-32 xl:w-64 text-gray-400 font-bold fixed ${
         isSidebarOpen ? "" : "w-16 md:w-16 lg:w-16 xl:w-16"
       }`}
     >

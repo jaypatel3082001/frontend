@@ -3,20 +3,18 @@ import { ReactComponent as Option } from "../../../svgfile/option.svg";
 import { ReactComponent as Popbox } from "../../../svgfile/Popbox.svg";
 import { ReactComponent as Upboxuparrow } from "../../../svgfile/boxuparrow.svg";
 import { ReactComponent as Key } from "../../../svgfile/key.svg";
-import Createmainpagination from "../pagination/createmainpagination";
-import { Link, useNavigate } from "react-router-dom";
+
+import jsPDF from "jspdf";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { ReactComponent as Download } from "../../../svgfile/download.svg";
 import {
-  setIdstores,
   setIdstore,
   setDisplay,
-  setIsloading,
   setData,
   setCurrentPage,
-  toggleModal,
   toggleModalkey,
   setIdkeystores,
-  setKeyData,
 } from "../../../reduxfiles/quizredux";
 
 function Tablebody({ formatDate, offset, showQuestion }) {
@@ -24,7 +22,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
   const navigate = useNavigate();
   const inputs = useSelector((state) => state.inputs3);
   const dispatch = useDispatch();
-
+  console.log(inputs?.Tablemanuplation?.sortedData?.data, "www");
   const fetchData = useCallback(async () => {
     try {
       const response = await fetch(url);
@@ -45,36 +43,65 @@ function Tablebody({ formatDate, offset, showQuestion }) {
     fetchData();
   }, [fetchData]);
 
-  // const handleShowkey = useCallback(
-  //   async (id) => {
-  //     dispatch(setIdkeystores({ sectionId: `${id}` }));
+  const fetchDataAndExport = async (id) => {
+    try {
+      const response = await fetch(
+        `https://quiz-krishang.vercel.app/section/getall/${id}`
+      );
+      const data = await response.json();
+      console.log(data, "data");
 
-  //     try {
-  //       const response = await fetch(
-  //         "https://quiz-krishang.vercel.app/key/generatekey",
-  //         {
-  //           method: "POST",
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //           body: JSON.stringify({
-  //             sectionId: `${id}`,
-  //           }),
-  //         }
-  //       );
+      const formattedData = formatData(data.allData);
 
-  //       if (!response.ok) {
-  //         throw new Error("Network response was not ok");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
+      downloadPdfFile(formattedData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
-  //     dispatch(toggleModalkey(!inputs.keyopenpop));
-  //     localStorage.setItem("keyQuizeId", id);
-  //   },
-  //   [dispatch, inputs.keyopenpop]
-  // );
+  const formatData = (data) => {
+    let formattedText =
+      "                                                   EXAM PAPER\n\n";
+
+    data?.forEach((info, sectionIndex) => {
+      formattedText += `Section ${sectionIndex + 1}: ${info.quizename}\n`;
+      formattedText += "---------------------------------------------\n\n";
+
+      info.quizemcqs?.forEach((question, questionIndex) => {
+        formattedText += `Q${questionIndex + 1}: ${question.question}\n`;
+        formattedText += `  A. ${question.option1}\n`;
+        formattedText += `  B. ${question.option2}\n`;
+        formattedText += `  C. ${question.option3}\n`;
+        formattedText += `  D. ${question.option4}\n`;
+        formattedText += "\n";
+      });
+
+      formattedText += "\n";
+    });
+
+    return formattedText;
+  };
+
+  const downloadPdfFile = (formattedData) => {
+    const doc = new jsPDF();
+    const lines = formattedData.split("\n");
+    let y = 10;
+    const lineHeight = 10;
+    const pageHeight = doc.internal.pageSize.height;
+
+    lines.forEach((line, index) => {
+      if (y + lineHeight > pageHeight - 10) {
+        doc.addPage();
+        y = 10;
+      }
+      doc.text(line, 10, y);
+      y += lineHeight;
+    });
+
+    doc.save("exam-paper.pdf");
+  };
+
+  //********************************************** */
   const handleShowkey = useCallback(
     async (id) => {
       dispatch(setIdkeystores(id));
@@ -172,96 +199,6 @@ function Tablebody({ formatDate, offset, showQuestion }) {
       </tr>
     </tbody>
   ) : (
-    // <tbody className="text-black font-semibold ">
-    //   {inputs?.Tablemanuplation?.sortedData?.data?.map((info, ind) => (
-    //     <tr key={info._id} className="border-b border-gray-400">
-    //       <td className="text-center whitespace-nowrap hover:bg-gray-200 border-x-2 border-gray-300">
-    //         {offset + ind + 1}
-    //       </td>
-    //       <td className="py-3 px-6 text-left hover:bg-gray-200 border-x-2 border-gray-300 max-w-64">
-    //         <div className="max-w-full truncate"> {info.sectionName}</div>
-    //       </td>
-    //       <td className="hover:bg-gray-200 cursor-pointer border-x-2 border-gray-300">
-    //         <div
-    //           className="flex justify-center "
-    //           onClick={() => handleShowkey(info._id)}
-    //         >
-    //           <Key />
-    //         </div>
-    //       </td>
-    //       <td className="text-center border-x-2 border-gray-300 hover:bg-gray-200">
-    //         {formatDate(info.createdAt)}
-    //       </td>
-    //       <td
-    //         className="text-center cursor-pointer border-x-2 border-gray-300 hover:bg-gray-200"
-    //         onClick={() => showQuestion(info._id)}
-    //       >
-    //         <div className="flex justify-center">
-    //           <Popbox />
-    //         </div>
-    //       </td>
-    //       <td
-    //         className="text-center cursor-pointer border-x-2 border-gray-300 hover:bg-gray-200 relative"
-    //         onClick={() => handleClicktd(info._id)}
-    //       >
-    //         <div className="flex justify-center">
-    //           <Option />
-    //         </div>
-    //         {inputs?.Tablemanuplation?.display &&
-    //           inputs?.Tablemanuplation?.idstore === info._id && (
-    //             <div
-    //               ref={calendarRef}
-    //               role="tooltip"
-    //               className="absolute shadow show popover bs-popover-bottom bg-white border rounded"
-    //               style={{
-    //                 top: "100%",
-    //                 left: "46%",
-    //                 transform: "translateX(-50%)",
-    //               }}
-    //             >
-    //               <div
-    //                 className="popover-arrow"
-    //                 style={{
-    //                   position: "absolute",
-    //                   top: "-8px",
-    //                   left: "50%",
-    //                   transform: "translateX(-50%)",
-    //                 }}
-    //               >
-    //                 <Upboxuparrow />
-    //               </div>
-    //               <div className="d-flex flex-column p-2 popover-body">
-    //                 <ul className="action-menu-list space-y-2">
-    //                   <li
-    //                     className="cursor-pointer hover:bg-gray-200 p-1 rounded"
-    //                     onClick={() => handleEditClick(info._id)}
-    //                   >
-    //                     Edit
-    //                   </li>
-    //                   <li
-    //                     className="cursor-pointer hover:bg-gray-200 p-1 rounded"
-    //                     onClick={() => handleDelete(info._id)}
-    //                   >
-    //                     Delete
-    //                   </li>
-    //                 </ul>
-    //               </div>
-    //             </div>
-    //           )}
-    //       </td>
-    //     </tr>
-    //   ))}
-    //   <tr className="bg-gray-200">
-    //     <td></td>
-    //     <div className="flex justify-center ">
-    //       <Createmainpagination />
-    //     </div>
-    //     <td></td>
-    //     <td></td>
-    //     <td></td>
-    //     <td></td>
-    //   </tr>
-    // </tbody>
     <tbody className="text-gray-600 text-md font-semibold w-full">
       {inputs?.Tablemanuplation?.sortedData?.data?.map((info, ind) => (
         <tr
@@ -287,6 +224,17 @@ function Tablebody({ formatDate, offset, showQuestion }) {
             >
               <div className="flex justify-center">
                 <Popbox />
+              </div>
+            </button>
+          </td>
+
+          <td className="py-3 px-6 text-left">
+            <button
+              className="text-blue-600 hover:text-blue-900"
+              onClick={() => fetchDataAndExport(info._id)}
+            >
+              <div className="flex justify-center">
+                <Download />
               </div>
             </button>
           </td>

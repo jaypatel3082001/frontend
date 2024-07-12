@@ -23,7 +23,7 @@ import Createmainpagination from "../pagination/createmainpagination";
 function Sectionmain({ setIsLoggedIn }) {
   const dispatch = useDispatch();
   const inputs = useSelector((state) => state.inputs4);
-  const sortByOptions = [10, 15, 20, 25];
+  const sortByOptions = useMemo(() => [10, 20, 30, 40, 50, 60], []);
   const urloFe = `https://quiz-krishang.vercel.app/search/getsearchAll`;
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState("");
@@ -128,6 +128,7 @@ function Sectionmain({ setIsLoggedIn }) {
     const serializedSelection = serializedSelectionDatePicker(ranges);
     dispatch(setDateRangeresult([serializedSelection]));
   };
+
   return (
     <div className="App bg">
       <div className="flex">
@@ -137,76 +138,9 @@ function Sectionmain({ setIsLoggedIn }) {
             <Navbar setIsLoggedIn={setIsLoggedIn} />
           </div>
 
-          {/* <div className="w-full px-8  ">
-            <div className="flex flex-col md:flex-row md:justify-between items-center mt-5 bg-blue-300 p-2 md:p-4">
-              {/* Date picker and search input */}
-          {/* <div className="flex items-center">
-            <div className="mr-2 font-bold">Date :- </div>
-            <div className="bg-white rounded-xl p-2">
-              <div className="flex items-center">
-                <div>
-                  <CustomDatePicker
-                    inputs={inputs}
-                    onDateRangeChange={handleDateRangePicker}
-                  />
-                </div>
-                <div className="flex items-center ml-2">
-                  <div className="text-gray-700 font-bold">
-                    {inputs.dateRange[0].endDate
-                      ? formatDate(inputs.dateRange[0].startDate)
-                      : "YY/MM/DD"}
-                  </div>
-                  <div className="mx-2 text-gray-500 font-bold">To</div>
-                  <div className="text-gray-700 font-bold">
-                    {inputs.dateRange[0].endDate
-                      ? formatDate(inputs.dateRange[0].endDate)
-                      : "YY/MM/DD"}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
-          {/* Search input */}
-          {/* <div className="flex items-center mb-2 md:mb-0">
-            <label className="font-bold ml-2">Search: </label>
-            <input
-              type="text"
-              className="w-full md:w-64 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ml-2 md:ml-4"
-              placeholder="Search"
-              value={search}
-              onChange={handleChange}
-            />
-          </div> */}
-          {/* Limit selector */}
-          {/* <div className="">
-            <span className="fw-bold me-2">Sort by :</span>
-            <select onChange={handleLimit}>
-              {sortByOptions.map((sortByOption, index) => (
-                <option key={index}>{sortByOption}</option>
-              ))}
-            </select>
-          </div> */}
-          {/* </div>
-            Table component 
-            <table className="min-w-full bg-white  border border-gray-300 ">
-              <Tableheader sortOrder={sortOrder} setSortOrder={setSortOrder} />
-              <Tablebody
-                formatDate={formatDate}
-                offset={inputs.Tablemanuplation.currentPage * limit - limit}
-              />
-            </table>
-          </div> */}
           <div className="bg-white rounded shadow-md m-4 p-4 ">
             <div className="flex justify-between items-center mb-4">
               <div className="text-xl font-semibold">Result</div>
-              <div className="flex space-x-2">
-                <button className="bg-[#004e98] hover:bg-blue-600 text-white px-4 py-2 rounded">
-                  Import
-                </button>
-                <button className="bg-[#004e98] text-white px-4 py-2 rounded hover:bg-blue-600">
-                  Export
-                </button>
-              </div>
             </div>
             <div className="flex justify-between items-center mb-2 mt-3">
               <div className="flex items-center">

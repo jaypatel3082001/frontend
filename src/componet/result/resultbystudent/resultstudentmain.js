@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import Sidebar from "../../fixdata/sidebar";
 import Navbar from "../../fixdata/navbar";
+
 import CustomDatePicker from "../../../util/CoustomDatePicker";
 import {
   toggleModal,
@@ -14,7 +15,8 @@ import {
 } from "../../../reduxfiles/resultstudentSlice";
 import Tableheader from "./tableheader";
 import Tablebody from "./tablebody";
-
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import { setTotalCount } from "../../../reduxfiles/resultstudentSlice";
 import { serializedSelectionDatePicker } from "../../../util/utility";
 import { setDateRangeresultstudent } from "../../../reduxfiles/resultstudentSlice";
@@ -24,16 +26,15 @@ import { useNavigate } from "react-router-dom";
 function Resultstudentmain({ setIsLoggedIn }) {
   const resultsectionId = localStorage.getItem("resultsectionId");
   console.log(resultsectionId, "resultsectionId");
-  const navigator = useNavigate();
+
   const dispatch = useDispatch();
   const inputs = useSelector((state) => state.inputs5);
 
-  const sortByOptions = [5, 10, 15, 20];
+  const sortByOptions = useMemo(() => [10, 20, 30, 40, 50, 60], []);
   const urloFe = `https://quiz-krishang.vercel.app/search/getsearchsection/${resultsectionId}`;
-  const [limit, setLimit] = useState(5);
-  const [resultBy, setResult] = useState("");
+  const [limit, setLimit] = useState(10);
+  const [resultBy, setResult] = useState("Quiz");
   const sortBy = "createdAt";
-  let type = "result";
 
   let mainstatus = "";
   console.log("sdata", inputs.Tablemanuplation.sortedData);
@@ -74,7 +75,7 @@ function Resultstudentmain({ setIsLoggedIn }) {
         endDate,
         status,
         mainstatus,
-        type,
+
         offset: inputs.Tablemanuplation.currentPage * limit - limit,
       });
 
@@ -100,7 +101,7 @@ function Resultstudentmain({ setIsLoggedIn }) {
     sortOrder,
     status,
     startDate,
-    type,
+
     status,
     mainstatus,
     inputs.Tablemanuplation.currentPage,
@@ -112,7 +113,7 @@ function Resultstudentmain({ setIsLoggedIn }) {
     search,
     limit,
     offset,
-    type,
+
     status,
     mainstatus,
     sortBy,
@@ -146,6 +147,138 @@ function Resultstudentmain({ setIsLoggedIn }) {
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   }
+  // const exportToExcel = () => {
+  //   // Generate a random file name
+  //   const fileName = `Result${Math.random().toString(36).substr(2, 9)}.xlsx`;
+
+  //   // Create a new workbook
+  //   const workbook = XLSX.utils.book_new();
+
+  //   // Convert the data to a worksheet
+  //   const worksheet = XLSX.utils
+  //     .json_to_sheet
+  //     // inputs.Tablemanuplation.sortedData.firstname
+  //     // inputs.Tablemanuplation.sortedData.lastname
+  //     // inputs.Tablemanuplation.sortedData.userEmail
+  //     // inputs.Tablemanuplation.sortedData.createdAt
+  //     // inputs.Tablemanuplation.sortedData.quizewiseResult.quizename
+  //     // inputs.Tablemanuplation.sortedData.quizewiseResult.weitage
+  //     // inputs.Tablemanuplation.sortedData.quizewiseTotalResult.weitage
+  //     // inputs.Tablemanuplation.sortedData.quizeWiseStatus
+  //     // inputs.Tablemanuplation.sortedData.result
+  //     // inputs.Tablemanuplation.sortedData.totalResult
+  //     // inputs.Tablemanuplation.sortedData.status
+  //     ();
+
+  //   // Append the worksheet to the workbook
+  //   XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+  //   // Generate a buffer
+  //   const buffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+
+  //   // Create a Blob from the buffer
+  //   const blob = new Blob([buffer], { type: "application/octet-stream" });
+
+  //   // Create a link element
+  //   const link = document.createElement("a");
+  //   link.href = URL.createObjectURL(blob);
+  //   link.download = fileName;
+
+  //   // Append the link to the document body and click it
+  //   document.body.appendChild(link);
+  //   link.click();
+
+  //   // Remove the link from the document body
+  //   document.body.removeChild(link);
+  // };
+
+  const fetchDataAndExport = async () => {
+    try {
+      // Assuming you fetch data here
+      const data = inputs?.Tablemanuplation?.sortedData;
+
+      // Format data into HTML table
+      const formattedData = formatData(data);
+
+      // Download PDF file
+      downloadPdfFile(formattedData);
+    } catch (error) {
+      console.error("Error fetching or exporting data:", error);
+    }
+  };
+
+  const formatData = (data) => {
+    let formattedHTML =
+      '<table border="1">\n' +
+      "<thead>\n" +
+      "<tr>\n" +
+      "<th>Name</th>\n" +
+      "<th>Email</th>\n" +
+      "<th>CreatedAt</th>\n";
+
+    // Check if data.quizewiseResult exists and is an array
+    if (Array.isArray(data) && data.length > 0) {
+      formattedHTML += data
+        .map((info) => {
+          return info.quizewiseResult
+            .map((index) => `<th>${index.quizename}</th>`)
+            .join("\n");
+        })
+        .join("\n");
+    }
+
+    formattedHTML +=
+      "<th>Result</th>\n" +
+      "<th>Status</th>\n" +
+      "</tr>\n" +
+      "</thead>\n" +
+      "<tbody>\n";
+
+    data?.forEach((info) => {
+      formattedHTML += "<tr>\n";
+      formattedHTML += `<td>${info.firstname} ${info.lastname}</td>\n`;
+      formattedHTML += `<td>${info.userEmail}</td>\n`;
+      formattedHTML += `<td>${info.createdAt}</td>\n`;
+      formattedHTML += "<td>\n";
+
+      info.quizewiseResult?.forEach((index) => {
+        formattedHTML += `<p>: ${index.weitage}/${info.quizewiseTotalResult.weitage}</p>\n`;
+        formattedHTML += `<p>Status: ${index.quizeWiseStatus}</p>\n`;
+      });
+
+      formattedHTML += "</td>\n";
+      formattedHTML += `<td>${info.result}</td>\n`;
+      formattedHTML += `<td>${info.status}</td>\n`;
+      formattedHTML += "</tr>\n";
+    });
+
+    formattedHTML += "</tbody>\n</table>\n";
+
+    return formattedHTML;
+  };
+  const downloadPdfFile = (formattedData) => {
+    try {
+      const doc = new jsPDF();
+
+      // Convert HTML string to HTML element
+      const element = document.createElement("div");
+      element.innerHTML = formattedData;
+
+      // Check if element contains a table
+      const table = element.querySelector("table");
+      if (!table) {
+        throw new Error("No table found in HTML content.");
+      }
+
+      // Use jspdf-autotable to generate PDF from HTML element
+      doc.autoTable({ html: table });
+
+      // Save PDF file
+      doc.save("exam-paper.pdf");
+    } catch (error) {
+      console.error("Error while downloading PDF:", error);
+    }
+  };
 
   return (
     <div className="App">
@@ -158,10 +291,10 @@ function Resultstudentmain({ setIsLoggedIn }) {
             <div className="flex justify-between items-center mb-4">
               <div className="text-xl font-semibold">QUIZ</div>
               <div className="flex space-x-2">
-                <button className="bg-[#004e98] hover:bg-blue-600 text-white px-4 py-2 rounded">
-                  Import
-                </button>
-                <button className="bg-[#004e98] text-white px-4 py-2 rounded hover:bg-blue-600">
+                <button
+                  className="bg-[#004e98] hover:bg-blue-600 text-white px-4 py-2 rounded"
+                  onClick={fetchDataAndExport}
+                >
                   Export
                 </button>
               </div>

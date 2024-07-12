@@ -14,12 +14,10 @@ function Keyshow() {
   const navigate = useNavigate();
   const [iskey, isSetKey] = useState(false);
   const [keydata, setKeydata] = useState([]);
+  const [error, setError] = useState("");
 
   const Featchapi = `https://quiz-krishang.vercel.app/key/update/${inputs.Tablemanuplation.idkeystores}`;
-  console.log(
-    "inputs.Tablemanuplation.idkeystores",
-    inputs.Tablemanuplation.idkeystores
-  );
+
   const handleDateRangePicker = (ranges) => {
     const serializedSelection = serializedSelectionDatePicker(ranges);
     dispatch(setDateRangequize([serializedSelection]));
@@ -55,12 +53,13 @@ function Keyshow() {
 
       if (!response.ok) {
         isSetKey(true);
+
         throw new Error("Network response was not ok");
       }
+      navigate(0);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-    navigate(0);
   }, [dispatch, inputs.keyopenpop, formatstartDate, formatendDate, formatDate]);
 
   const closeBox = useCallback(async () => {
@@ -136,6 +135,11 @@ function Keyshow() {
                   </div>
                 ) : (
                   <div></div>
+                )}
+                {error && (
+                  <div className="alert alert-danger" role="alert">
+                    {error}
+                  </div>
                 )}
                 <div className="flex items-center justify-center">
                   <div className="mr-2 font-bold">Date :- </div>

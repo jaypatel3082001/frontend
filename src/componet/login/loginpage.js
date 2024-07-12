@@ -51,19 +51,17 @@ const Loginpage = ({ setIsLoggedIn }) => {
       console.error("Fetch operation error:", error);
       setErrorMessage("An error occurred. Please try again.");
     }
-    navigate(0);
   };
 
   return (
-    <div>
-      {errorMessage && (
-        <div className="alert alert-danger" role="alert">
-          {errorMessage}
-        </div>
-      )}
-
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <div className="main bg-white rounded-lg shadow-md p-10 w-96">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="main bg-white rounded-lg shadow-md p-10 w-96">
+        <div>
+          {errorMessage && (
+            <div className="alert alert-danger" role="alert">
+              {errorMessage}
+            </div>
+          )}
           <h1 className="text-green-500 text-3xl mb-6">Student Login</h1>
 
           <form onSubmit={handleSubmit}>

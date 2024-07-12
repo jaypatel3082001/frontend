@@ -27,7 +27,7 @@ import Createmainpagination from "../pagination/createmainpagination";
 function Createmain({ setIsLoggedIn }) {
   const dispatch = useDispatch();
   const inputs = useSelector((state) => state.inputs);
-  const sortByOptions = useMemo(() => [10, 15, 20, 25], []); // Memoize sortByOptions
+  const sortByOptions = useMemo(() => [10, 20, 30, 40, 50, 60], []);
 
   const urloFe = useMemo(
     () => `https://quiz-krishang.vercel.app/search/getsearchAll`,
@@ -208,7 +208,7 @@ function Createmain({ setIsLoggedIn }) {
             <Navbar setIsLoggedIn={setIsLoggedIn} />
           </div>
 
-          <div className="bg-white rounded shadow-md m-4 p-4 ">
+          <div className="bg-white  rounded shadow-md m-4 p-4 ">
             <div className="flex justify-between items-center mb-4">
               <div className="text-xl font-semibold">QUESTION</div>
               <div className="flex space-x-2">
@@ -274,14 +274,14 @@ function Createmain({ setIsLoggedIn }) {
                 </select>
               </div>
               <Link to="/questionadd">
-                <div className="mr-5 cursor-pointer">
+                <div className="mr-5 cursor-pointer ">
                   <Addquiz />
                 </div>
               </Link>
             </div>
 
             <div>
-              <table className="min-w-full bg-white border border-gray-200">
+              <table className="min-w-full bg-white ">
                 <Tableheader
                   sortOrder={sortOrder}
                   setSortOrder={setSortOrder}

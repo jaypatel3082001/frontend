@@ -13,6 +13,7 @@ function Tableheader({ sortOrder, setSortOrder, resultBy, setStatus, status }) {
     dispatch(setCurrentPage(1));
   };
   const handleresult = () => {
+    console.log("status", status);
     setStatus((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
     dispatch(setCurrentPage(1));
   };
