@@ -208,7 +208,7 @@ function Createmain({ setIsLoggedIn }) {
             <Navbar setIsLoggedIn={setIsLoggedIn} />
           </div>
 
-          <div className="bg-white  rounded shadow-md m-4 p-4 ">
+          <div className="bg-slate-50  rounded shadow-md m-4 p-4 ">
             <div className="flex justify-between items-center mb-4">
               <div className="text-xl font-semibold">QUESTION</div>
               <div className="flex space-x-2">
@@ -229,7 +229,7 @@ function Createmain({ setIsLoggedIn }) {
             <div className="flex justify-between items-center mb-2 mt-5">
               <div className="flex items-center">
                 <div className="mr-2 font-bold">Date :- </div>
-                <div className=" bg-white rounded-xl p-2">
+                <div className=" bg-white   border rounded p-2">
                   <div className="flex items-center">
                     <div>
                       <CustomDatePicker
@@ -238,12 +238,12 @@ function Createmain({ setIsLoggedIn }) {
                       />
                     </div>
                     <div className="flex items-center ml-2">
-                      <div className="text-gray-700 font-bold">
+                      <div className="text-gray-700 font-bold ">
                         {formatendDate
                           ? formatDate(formatstartDate)
                           : "YY/MM/DD"}
                       </div>
-                      <div className="mx-2 text-gray-500 font-bold">To</div>
+                      <div className="mx-2 text-black font-bold">To</div>
                       <div className="text-gray-700 font-bold">
                         {formatendDate ? formatDate(formatendDate) : "YY/MM/DD"}
                       </div>

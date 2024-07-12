@@ -18,7 +18,7 @@ function Userpage() {
   const handleQuize = () => {
     setIsstart(true);
   };
-  //*********************************** */
+  // //*********************************** */
   useEffect(() => {
     // Function to handle right-click prevention
     const handleContextMenu = (e) => {

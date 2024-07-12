@@ -42,19 +42,29 @@ function Tableheader({ sortOrder, setSortOrder }) {
     // </thead>
     <thead>
       <tr className="bg-[#3a6ea5] text-white uppercase text-sm leading-normal">
-        <th className="py-3 px-6 text-left">NUMBER</th>
-        <th className="py-3 px-6 text-left">
+        <th className="py-3 px-6 bg-blue-100 text-blue-700 border">NUMBER</th>
+        <th className="py-3 px-6 bg-green-100 text-green-700 border">
           {" "}
-          <div className="flex  cursor-pointer" onClick={toggleSortOrder}>
+          <div
+            className="flex justify-center  cursor-pointer"
+            onClick={toggleSortOrder}
+          >
             <div>Question Name</div>
             <div className="ml-2">
-              <Sortbyname className={sortOrder === "asc" ? "rotate-180" : ""} />
+              <Sortbyname
+                fill="green"
+                className={sortOrder === "asc" ? "rotate-180" : ""}
+              />
             </div>
           </div>
         </th>
-        <th className="py-3 px-6 text-left">CREATED DATE</th>
-        <th className="py-3 px-6 text-left">SHOW</th>
-        <th className="py-3 px-6 ">ACTION</th>
+        <th className="py-3 px-6 bg-yellow-100 text-yellow-700 border">
+          CREATED DATE
+        </th>
+        <th className="py-3 px-6 bg-purple-100 text-purple-700 border">SHOW</th>
+        <th className="py-3 px-6  bg-pink-100 text-pink-700 border  ">
+          ACTION
+        </th>
       </tr>
     </thead>
   );

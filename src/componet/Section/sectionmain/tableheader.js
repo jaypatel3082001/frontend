@@ -50,6 +50,7 @@ function Tableheader({ sortOrder, setSortOrder }) {
           </div>
         </th>
         <th className="py-3 px-6 text-left">CREATED DATE</th>
+        <th className="py-3 px-6 text-left">Section Code</th>
         <th className="py-3 px-6 text-left">SHOW</th>
         <th className="py-3 px-6 ">ACTION</th>
       </tr>

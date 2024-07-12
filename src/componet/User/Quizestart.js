@@ -150,7 +150,7 @@ function Quizestart({ id, keyid }) {
         if (section.quizemcqs && Array.isArray(section.quizemcqs)) {
           let unansweredInSection = 0;
 
-          section.quizemcqs.forEach((mcq) => {
+          section.quizemcqs?.forEach((mcq) => {
             // Adjust the condition as per your logic to determine if a question is unanswered
             if (mcq.answer) {
               unansweredInSection++;

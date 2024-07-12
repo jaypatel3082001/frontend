@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useCallback, useMemo } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { ReactComponent as Option } from "../../../svgfile/option.svg";
 import { ReactComponent as Popbox } from "../../../svgfile/Popbox.svg";
 import { ReactComponent as Upboxuparrow } from "../../../svgfile/boxuparrow.svg";
@@ -17,7 +23,15 @@ function Tablebody({ formatDate, offset, showQuestion }) {
   const navigate = useNavigate();
   const inputs = useSelector((state) => state.inputs2);
   const dispatch = useDispatch();
-
+  const [copied, setCopied] = useState(false);
+  const [copiedText, setCopiedText] = useState("");
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setCopiedText(text);
+      setTimeout(() => setCopied(false), 2000); // Reset the copied state after 2 seconds
+    });
+  };
   const fetchData = useCallback(async () => {
     try {
       dispatch(setIsloading(true));
@@ -135,6 +149,29 @@ function Tablebody({ formatDate, offset, showQuestion }) {
           <td className="py-3 px-6 text-left">{info.quizename}</td>
 
           <td className="py-3 px-6 text-left">{formatDate(info.createdAt)}</td>
+          <td
+            className="py-3 px-6 text-left  cursor-pointer"
+            onClick={() => copyToClipboard(info.uniqsecid)}
+          >
+            {info.uniqsecid}
+            {copied && (
+              <p className="text-green-500">
+                {" "}
+                <div
+                  ref={calendarRef}
+                  role="tooltip"
+                  className="absolute shadow-lg show bg-blue-400 z-10 border rounded   popover bs-popover-bottom "
+                  style={{
+                    top: "80%",
+                    left: "54%",
+                    transform: "translateX(-50%)",
+                  }}
+                >
+                  Copied {copiedText}!
+                </div>
+              </p>
+            )}
+          </td>
 
           <td className="py-3 px-6 text-left">
             <button
