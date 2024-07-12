@@ -15,7 +15,7 @@ import {
 } from "../../../reduxfiles/resultstudentSlice";
 import Tableheader from "./tableheader";
 import Tablebody from "./tablebody";
-import jsPDF from "jspdf";
+import * as XLSX from "xlsx";
 import "jspdf-autotable";
 import { setTotalCount } from "../../../reduxfiles/resultstudentSlice";
 import { serializedSelectionDatePicker } from "../../../util/utility";
@@ -147,137 +147,45 @@ function Resultstudentmain({ setIsLoggedIn }) {
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   }
-  // const exportToExcel = () => {
-  //   // Generate a random file name
-  //   const fileName = `Result${Math.random().toString(36).substr(2, 9)}.xlsx`;
+  console.log(inputs?.Tablemanuplation?.sortedData, "aa");
+  const exportToExcel = () => {
+    // Generate a random file name
+    const fileName = `data_${Math.random().toString(36).substr(2, 9)}.xlsx`;
+    const jsonData = inputs?.Tablemanuplation?.sortedData.map((item) => ({
+      firstname: item.firstname,
+      lastname: item.lastname,
+      userEmail: item.userEmail,
+      createdAt: item.createdAt,
+      result: `${item.result} / ${item.TotalPassing}`,
+      status: item.status,
+    }));
 
-  //   // Create a new workbook
-  //   const workbook = XLSX.utils.book_new();
+    // Create a new workbook
+    const workbook = XLSX.utils.book_new();
 
-  //   // Convert the data to a worksheet
-  //   const worksheet = XLSX.utils
-  //     .json_to_sheet
-  //     // inputs.Tablemanuplation.sortedData.firstname
-  //     // inputs.Tablemanuplation.sortedData.lastname
-  //     // inputs.Tablemanuplation.sortedData.userEmail
-  //     // inputs.Tablemanuplation.sortedData.createdAt
-  //     // inputs.Tablemanuplation.sortedData.quizewiseResult.quizename
-  //     // inputs.Tablemanuplation.sortedData.quizewiseResult.weitage
-  //     // inputs.Tablemanuplation.sortedData.quizewiseTotalResult.weitage
-  //     // inputs.Tablemanuplation.sortedData.quizeWiseStatus
-  //     // inputs.Tablemanuplation.sortedData.result
-  //     // inputs.Tablemanuplation.sortedData.totalResult
-  //     // inputs.Tablemanuplation.sortedData.status
-  //     ();
+    // Convert the data to a worksheet
+    const worksheet = XLSX.utils.json_to_sheet(jsonData);
 
-  //   // Append the worksheet to the workbook
-  //   XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    // Append the worksheet to the workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
 
-  //   // Generate a buffer
-  //   const buffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+    // Generate a buffer
+    const buffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
 
-  //   // Create a Blob from the buffer
-  //   const blob = new Blob([buffer], { type: "application/octet-stream" });
+    // Create a Blob from the buffer
+    const blob = new Blob([buffer], { type: "application/octet-stream" });
 
-  //   // Create a link element
-  //   const link = document.createElement("a");
-  //   link.href = URL.createObjectURL(blob);
-  //   link.download = fileName;
+    // Create a link element
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
 
-  //   // Append the link to the document body and click it
-  //   document.body.appendChild(link);
-  //   link.click();
+    // Append the link to the document body and click it
+    document.body.appendChild(link);
+    link.click();
 
-  //   // Remove the link from the document body
-  //   document.body.removeChild(link);
-  // };
-
-  const fetchDataAndExport = async () => {
-    try {
-      // Assuming you fetch data here
-      const data = inputs?.Tablemanuplation?.sortedData;
-
-      // Format data into HTML table
-      const formattedData = formatData(data);
-
-      // Download PDF file
-      downloadPdfFile(formattedData);
-    } catch (error) {
-      console.error("Error fetching or exporting data:", error);
-    }
-  };
-
-  const formatData = (data) => {
-    let formattedHTML =
-      '<table border="1">\n' +
-      "<thead>\n" +
-      "<tr>\n" +
-      "<th>Name</th>\n" +
-      "<th>Email</th>\n" +
-      "<th>CreatedAt</th>\n";
-
-    // Check if data.quizewiseResult exists and is an array
-    if (Array.isArray(data) && data.length > 0) {
-      formattedHTML += data
-        .map((info) => {
-          return info.quizewiseResult
-            .map((index) => `<th>${index.quizename}</th>`)
-            .join("\n");
-        })
-        .join("\n");
-    }
-
-    formattedHTML +=
-      "<th>Result</th>\n" +
-      "<th>Status</th>\n" +
-      "</tr>\n" +
-      "</thead>\n" +
-      "<tbody>\n";
-
-    data?.forEach((info) => {
-      formattedHTML += "<tr>\n";
-      formattedHTML += `<td>${info.firstname} ${info.lastname}</td>\n`;
-      formattedHTML += `<td>${info.userEmail}</td>\n`;
-      formattedHTML += `<td>${info.createdAt}</td>\n`;
-      formattedHTML += "<td>\n";
-
-      info.quizewiseResult?.forEach((index) => {
-        formattedHTML += `<p>: ${index.weitage}/${info.quizewiseTotalResult.weitage}</p>\n`;
-        formattedHTML += `<p>Status: ${index.quizeWiseStatus}</p>\n`;
-      });
-
-      formattedHTML += "</td>\n";
-      formattedHTML += `<td>${info.result}</td>\n`;
-      formattedHTML += `<td>${info.status}</td>\n`;
-      formattedHTML += "</tr>\n";
-    });
-
-    formattedHTML += "</tbody>\n</table>\n";
-
-    return formattedHTML;
-  };
-  const downloadPdfFile = (formattedData) => {
-    try {
-      const doc = new jsPDF();
-
-      // Convert HTML string to HTML element
-      const element = document.createElement("div");
-      element.innerHTML = formattedData;
-
-      // Check if element contains a table
-      const table = element.querySelector("table");
-      if (!table) {
-        throw new Error("No table found in HTML content.");
-      }
-
-      // Use jspdf-autotable to generate PDF from HTML element
-      doc.autoTable({ html: table });
-
-      // Save PDF file
-      doc.save("exam-paper.pdf");
-    } catch (error) {
-      console.error("Error while downloading PDF:", error);
-    }
+    // Remove the link from the document body
+    document.body.removeChild(link);
   };
 
   return (
@@ -293,7 +201,7 @@ function Resultstudentmain({ setIsLoggedIn }) {
               <div className="flex space-x-2">
                 <button
                   className="bg-[#004e98] hover:bg-blue-600 text-white px-4 py-2 rounded"
-                  onClick={fetchDataAndExport}
+                  onClick={exportToExcel}
                 >
                   Export
                 </button>

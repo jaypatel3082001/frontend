@@ -213,13 +213,13 @@ function Createmain({ setIsLoggedIn }) {
               <div className="text-xl font-semibold">QUESTION</div>
               <div className="flex space-x-2">
                 <button
-                  className="bg-[#004e98] hover:bg-blue-600 text-white px-4 py-2 rounded"
+                  className="bg-[#8A6FDF] hover:bg-blue-600 text-white px-4 py-2 rounded"
                   onClick={showUploadbox}
                 >
                   Import
                 </button>
                 <button
-                  className="bg-[#004e98] text-white px-4 py-2 rounded hover:bg-blue-600"
+                  className="bg-[#8A6FDF] text-white px-4 py-2 rounded hover:bg-blue-600"
                   onClick={exportToExcel}
                 >
                   Export
