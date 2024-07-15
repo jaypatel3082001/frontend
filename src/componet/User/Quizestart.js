@@ -524,7 +524,7 @@ function Quizestart({ id, keyid }) {
                                     <input
                                       type="radio"
                                       sectionId={ele._id}
-                                      sectionname={ele.quizename}
+                                      sectionname={ele.quizname}
                                       weightage={ele.weightage}
                                       name={`option-${partIndex}-${questionIndex}`}
                                       value={`option${index + 1}`}
