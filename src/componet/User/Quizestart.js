@@ -523,8 +523,8 @@ function Quizestart({ id, keyid }) {
                                   <div key={index} className="border-2 p-2 ">
                                     <input
                                       type="radio"
-                                      quizeId={info._id}
-                                      quizename={info.quizename}
+                                      sectionId={ele._id}
+                                      sectionname={ele.quizename}
                                       weightage={ele.weightage}
                                       name={`option-${partIndex}-${questionIndex}`}
                                       value={`option${index + 1}`}
