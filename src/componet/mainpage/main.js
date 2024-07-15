@@ -31,7 +31,7 @@ function Main({ setIsLoggedIn }) {
         throw new Error("Network response was not ok");
       }
       const result = await response.json();
-
+      console.log(result, "result");
       setTopStudent(result);
     } catch (error) {
       console.error("Fetch operation error:", error);
@@ -121,7 +121,7 @@ function Main({ setIsLoggedIn }) {
                         {index.email}
                       </td>
                       <td className="border px-4 py-2 bg-purple-50 text-purple-700">
-                        {index.quizname}
+                        {index.QuizName}
                       </td>
                       <td className="border px-4 py-2 bg-pink-50 text-pink-700">
                         {index.result}/{index.TotalResult}

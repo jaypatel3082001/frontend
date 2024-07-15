@@ -83,8 +83,10 @@ function Keyshow() {
   }, [Featchapi]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    if (inputs?.keyopenpop) {
+      fetchData();
+    }
+  }, [inputs?.keyopenpop, fetchData]);
 
   const handleDelete = useCallback(async (id) => {
     try {

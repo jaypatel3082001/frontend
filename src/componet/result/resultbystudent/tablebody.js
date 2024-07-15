@@ -18,7 +18,7 @@ function Tablebody({ offset, formatDate, resultBy }) {
       <tbody>
         <tr className="border-b border-gray-400">
           <td
-            colSpan="7"
+            colSpan="6"
             className="text-center font-bold p-3 whitespace-nowrap hover:bg-gray-200 border-x-2 border-gray-300"
           >
             Loading ...
@@ -86,6 +86,9 @@ function Tablebody({ offset, formatDate, resultBy }) {
               >
                 {" "}
                 {info.sectionWiseStatus.toUpperCase()}
+              </td>
+              <td className="py-3 px-6 ">
+                <Download />
               </td>
             </tr>
           ))}
