@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
+import { ReactComponent as Download } from "../../../svgfile/download.svg";
 
 function Tablebody({ offset, formatDate, resultBy }) {
   const inputs = useSelector((state) => state.inputs5);
@@ -127,6 +128,9 @@ function Tablebody({ offset, formatDate, resultBy }) {
                 }`}
               >
                 {info.status.toUpperCase()}
+              </td>
+              <td className="py-3 px-6 ">
+                <Download />
               </td>
             </tr>
           ))}

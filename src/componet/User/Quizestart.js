@@ -595,7 +595,7 @@ function Quizestart({ id, keyid }) {
                   className={`btn btn-primary font-bold${
                     currentQuestionPage ===
                     Math.ceil(
-                      (data[currentPartPage]?.quizemcqs?.length || 0) /
+                      (data[currentPartPage]?.sectionmcqs?.length || 0) /
                         questionsPerPage
                     ) -
                       1
@@ -607,7 +607,7 @@ function Quizestart({ id, keyid }) {
                       Math.min(
                         prev + 1,
                         Math.ceil(
-                          (data[currentPartPage]?.quizemcqs?.length || 0) /
+                          (data[currentPartPage]?.sectionmcqs?.length || 0) /
                             questionsPerPage
                         ) - 1
                       )
@@ -616,7 +616,7 @@ function Quizestart({ id, keyid }) {
                   disabled={
                     currentQuestionPage ===
                     Math.ceil(
-                      (data[currentPartPage]?.quizemcqs?.length || 0) /
+                      (data[currentPartPage]?.sectionmcqs?.length || 0) /
                         questionsPerPage
                     ) -
                       1

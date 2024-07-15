@@ -121,7 +121,7 @@ function Main({ setIsLoggedIn }) {
                         {index.email}
                       </td>
                       <td className="border px-4 py-2 bg-purple-50 text-purple-700">
-                        {index.sectionName}
+                        {index.quizname}
                       </td>
                       <td className="border px-4 py-2 bg-pink-50 text-pink-700">
                         {index.result}/{index.TotalResult}

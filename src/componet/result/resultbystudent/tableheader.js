@@ -56,10 +56,14 @@ function Tableheader({ sortOrder, setSortOrder, resultBy, setStatus, status }) {
           <div className="flex cursor-pointer" onClick={handleresult}>
             <div>Status</div>
             <div className="ml-2">
-              <Sortbyname className={status === "asc" ? "rotate-180" : ""} />
+              <Sortbyname
+                fill="white"
+                className={status === "asc" ? "rotate-180" : ""}
+              />
             </div>
           </div>
         </th>
+        <th className="py-3 px-6 text-left">Download</th>
       </tr>
     </thead>
   );
