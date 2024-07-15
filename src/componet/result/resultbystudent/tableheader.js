@@ -27,13 +27,16 @@ function Tableheader({ sortOrder, setSortOrder, resultBy, setStatus, status }) {
   );
   return (
     <thead>
-      <tr className="bg-[#3a6ea5] text-white uppercase text-sm leading-normal">
+      <tr className="bg-[#8A6FDF]  text-white uppercase text-sm leading-normal">
         <th className="py-3 px-6 text-left">NUMBER</th>
         <th className="py-3 px-6 text-left">
           <div className="flex cursor-pointer" onClick={handleSorting}>
             <div>Name</div>
             <div className="ml-2">
-              <Sortbyname className={sortOrder === "asc" ? "rotate-180" : ""} />
+              <Sortbyname
+                fill="white"
+                className={sortOrder === "asc" ? "rotate-180" : ""}
+              />
             </div>
           </div>
         </th>
@@ -41,9 +44,9 @@ function Tableheader({ sortOrder, setSortOrder, resultBy, setStatus, status }) {
         <th className="py-3 px-6 text-left">Exam Date</th>
         {resultBy === "Section" ? (
           sortedData &&
-          sortedData[0]?.quizewiseTotalResult?.map((i, idx) => (
+          sortedData[0]?.sectionwiseTotalResult?.map((i, idx) => (
             <th key={idx} className="py-3 px-6 text-left">
-              {i.quizename}
+              {i.sectionname}
             </th>
           ))
         ) : (

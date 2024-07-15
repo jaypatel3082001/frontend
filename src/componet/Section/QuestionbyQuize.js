@@ -6,14 +6,14 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 function QuestionbyQuize() {
   const [data, setData] = useState([]);
   // const { id } = useParams();
-  const id = localStorage.getItem("Quizeid");
+  const id = localStorage.getItem("ShowsectionId");
   const [arrrr, setArrrr] = useState([]);
   const navigator = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [checkedIds, setCheckedIds] = useState([]);
 
   const url = "https://quiz-krishang.vercel.app/questions/getallquestions";
-  const api = `https://quiz-krishang.vercel.app/quize/read/${id}`;
+  const api = `https://quiz-krishang.vercel.app/section/read/${id}`;
   useEffect(() => {
     fetchData();
     fetchApiData();
@@ -29,6 +29,7 @@ function QuestionbyQuize() {
       }
       const result = await response.json();
       setData(result);
+      console.log("object");
     } catch (error) {
       console.error("Fetch operation error:", error);
     }
@@ -41,7 +42,7 @@ function QuestionbyQuize() {
       }
       const result = await response.json();
       console.log("resx", result);
-      setCheckedIds(result.quizemcqs.map((question) => question._id));
+      setCheckedIds(result.sectionmcqs.map((question) => question._id));
     } catch (error) {
       console.error("Fetch operation error:", error);
     }
@@ -67,7 +68,7 @@ function QuestionbyQuize() {
     e.preventDefault();
     const awr = arrrr.map((ele) => {
       const response = fetch(
-        `https://quiz-krishang.vercel.app/quize/insert-questions/${id}`,
+        `https://quiz-krishang.vercel.app/section/insert-questions/${id}`,
         {
           method: "PUT",
           headers: {

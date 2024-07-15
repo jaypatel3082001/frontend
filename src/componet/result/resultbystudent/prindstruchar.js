@@ -1,4 +1,5 @@
 import React from "react";
+import html2pdf from "html2pdf.js";
 
 const Printpaper = () => {
   const data = {
@@ -51,20 +52,19 @@ const Printpaper = () => {
     totalMarks: 435,
     result: "Pass",
   };
+
   const fetchDataAndExport = async () => {
     // Step 1: Fetch data from the API
 
     // Step 2: Format the data to match demo.txt
     const formattedData = formatData(data);
 
-    // Step 3: Create a blob and trigger download
-    downloadTxtFile(formattedData);
+    // Step 3: Create a PDF and trigger download
+    downloadPdfFile(formattedData);
   };
 
   const formatData = (data) => {
-    // Assuming data is an array of questions and options
     let formattedText = `
-  
     <html lang="en">
       <head>
         <meta charset="UTF-8" />
@@ -78,7 +78,7 @@ const Printpaper = () => {
       <body class="font-sans">
         <div class="container mx-auto border border-black p-5 max-w-lg">
           <div class="text-center mb-5">
-            <img src="logo.png" alt="Logo" class="w-24 h-24 mx-auto" />
+            <img src="C:\Users\Admin\Desktop\logo.png" alt="Logo" class="w-24 h-24 mx-auto" />
             <h1 class="text-2xl font-bold my-2">
               CENTRAL BOARD OF HIGHER EDUCATION /CLONE
             </h1>
@@ -134,21 +134,15 @@ const Printpaper = () => {
     return formattedText;
   };
 
-  const downloadTxtFile = (formattedData) => {
-    const blob = new Blob([formattedData], { type: "text/plain" });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.style.display = "none";
-    a.href = url;
-    a.download = "demo.txt";
-    document.body.appendChild(a);
-    a.click();
-    window.URL.revokeObjectURL(url);
+  const downloadPdfFile = (formattedData) => {
+    const element = document.createElement("div");
+    element.innerHTML = formattedData;
+    html2pdf().from(element).save("marksheet.pdf");
   };
 
   return (
     <div>
-      <button onClick={fetchDataAndExport}>Export Data</button>
+      <button onClick={fetchDataAndExport}>Export Data as PDF</button>
     </div>
   );
 };

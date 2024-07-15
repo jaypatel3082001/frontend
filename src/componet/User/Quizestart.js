@@ -24,7 +24,7 @@ function Quizestart({ id, keyid }) {
   const partsPerPage = 1; // Number of parts per page
   const questionsPerPage = 1; // Number of questions per page
 
-  const url = `https://quiz-krishang.vercel.app/section/getall/${id}`;
+  const url = `https://quiz-krishang.vercel.app/quiz/getall/${id}`;
   //*************************************************** */
 
   //************************************************* */
@@ -83,6 +83,7 @@ function Quizestart({ id, keyid }) {
       const result = await response.json();
 
       setData(shuffleArray(result.allData));
+
       setTimeRemaining(result.totalTime);
       console.log("result", result);
 
@@ -90,9 +91,9 @@ function Quizestart({ id, keyid }) {
 
       setArrrr((prevArrrr) => {
         console.log("Updating state with id:", id);
-        // Find if the section with sectionId 'id' already exists in prevArrrr
+        // Find if the section with quizId 'id' already exists in prevArrrr
         const existingSectionIndex = prevArrrr.findIndex(
-          (section) => section.sectionId === id
+          (section) => section.quizId === id
         );
 
         if (existingSectionIndex !== -1) {
@@ -103,15 +104,15 @@ function Quizestart({ id, keyid }) {
             questions: [
               // ...updatedArrrr[existingSectionIndex].questions,
               ...result.allData.flatMap((index, ind) =>
-                index.quizemcqs.map((i, ipd) => ({
-                  quizeId: index._id,
-                  quizename: index.quizename,
+                index.sectionmcqs.map((i, ipd) => ({
+                  sectionId: index._id,
+                  sectionname: index.sectionname,
                   questionId: i._id,
                   qindex: parseInt(`${ind + 1}${ipd + 1}`),
                   weightage: i.weightage,
                   answer: "", // Initialize answer as empty string
                   isAttempted: false,
-                  asas: "if", // Set to true if needed in initial state
+                  // asas: "if", Set to true if needed in initial state
                 }))
               ),
             ],
@@ -124,18 +125,18 @@ function Quizestart({ id, keyid }) {
           const newArrrr = [
             ...prevArrrr,
             {
-              sectionId: id,
+              quizId: id,
               keyid,
               questions: result.allData.flatMap((index, ind) =>
-                index.quizemcqs.map((i, ipd) => ({
-                  quizeId: index._id,
-                  quizename: index.quizename,
+                index.sectionmcqs.map((i, ipd) => ({
+                  sectionId: index._id,
+                  sectionname: index.sectionname,
                   questionId: i._id,
                   qindex: parseInt(`${ind + 1}${ipd + 1}`),
                   weightage: i.weightage,
                   answer: "", // Initialize answer as empty string
                   isAttempted: false,
-                  aaa: "else", // Set to true if needed in initial state
+                  // aaa: "else",  Set to true if needed in initial state
                 }))
               ),
             },
@@ -147,10 +148,10 @@ function Quizestart({ id, keyid }) {
       });
 
       result.allData?.forEach((section, index) => {
-        if (section.quizemcqs && Array.isArray(section.quizemcqs)) {
+        if (section.sectionmcqs && Array.isArray(section.sectionmcqs)) {
           let unansweredInSection = 0;
 
-          section.quizemcqs?.forEach((mcq) => {
+          section.sectionmcqs?.forEach((mcq) => {
             // Adjust the condition as per your logic to determine if a question is unanswered
             if (mcq.answer) {
               unansweredInSection++;
@@ -175,12 +176,12 @@ function Quizestart({ id, keyid }) {
 
     //******************************** */
     const result = arrrr[0] || {
-      sectionId: `${id}`,
+      quizId: `${id}`,
       questions: [],
     };
 
     // Check if arrrr[0] exists and has necessary data
-    if (!arrrr[0] || !arrrr[0].sectionId || !arrrr[0].questions.length) {
+    if (!arrrr[0] || !arrrr[0].quizId || !arrrr[0].questions.length) {
       alert("Please select an answer for all questions.");
       return; // Exit function if data is incomplete
     }
@@ -221,61 +222,61 @@ function Quizestart({ id, keyid }) {
     const quizename = e.target.getAttribute("quizename");
 
     const weightage = parseInt(e.target.getAttribute("weightage"));
-    console.log(data, "dadta");
-    setArrrr((prevArrrr) => {
-      const existingSectionIndex = prevArrrr.findIndex(
-        (section) => section.sectionId === id
-      );
+    // console.log(data, "dadta");
+    // setArrrr((prevArrrr) => {
+    //   const existingSectionIndex = prevArrrr.findIndex(
+    //     (section) => section.quizId === id
+    //   );
 
-      if (existingSectionIndex !== -1) {
-        const updatedArrrr = [...prevArrrr];
-        const existingSection = updatedArrrr[existingSectionIndex];
-        const existingQuestionIndex = existingSection.questions.findIndex(
-          (q) => q.qindex === qindex
-        );
+    //   if (existingSectionIndex !== -1) {
+    //     const updatedArrrr = [...prevArrrr];
+    //     const existingSection = updatedArrrr[existingSectionIndex];
+    //     const existingQuestionIndex = existingSection.questions.findIndex(
+    //       (q) => q.qindex === qindex
+    //     );
 
-        if (existingQuestionIndex !== -1) {
-          existingSection.questions[existingQuestionIndex] = {
-            ...existingSection.questions[existingQuestionIndex],
-            answer,
-            isAttempted: true,
-          };
-        } else {
-          existingSection.questions.push({
-            questionId,
-            qindex,
-            quizeId,
-            quizename,
-            weightage,
-            answer,
+    //     if (existingQuestionIndex !== -1) {
+    //       existingSection.questions[existingQuestionIndex] = {
+    //         ...existingSection.questions[existingQuestionIndex],
+    //         answer,
+    //         isAttempted: true,
+    //       };
+    //     } else {
+    //       existingSection.questions.push({
+    //         questionId,
+    //         qindex,
+    //         quizeId,
+    //         quizename,
+    //         weightage,
+    //         answer,
 
-            isAttempted: true,
-          });
-        }
-        updatedArrrr[existingSectionIndex] = existingSection;
-        return updatedArrrr;
-      } else {
-        return [
-          ...prevArrrr,
-          {
-            sectionId: id,
-            keyid,
-            questions: [
-              {
-                questionId,
-                qindex,
-                quizeId,
-                quizename,
-                weightage,
-                answer,
-                keyid,
-                isAttempted: true,
-              },
-            ],
-          },
-        ];
-      }
-    });
+    //         isAttempted: true,
+    //       });
+    //     }
+    //     updatedArrrr[existingSectionIndex] = existingSection;
+    //     return updatedArrrr;
+    //   } else {
+    //     return [
+    //       ...prevArrrr,
+    //       {
+    //         quizId: id,
+    //         keyid,
+    //         questions: [
+    //           {
+    //             questionId,
+    //             qindex,
+    //             quizeId,
+    //             quizename,
+    //             weightage,
+    //             answer,
+    //             keyid,
+    //             isAttempted: true,
+    //           },
+    //         ],
+    //       },
+    //     ];
+    //   }
+    // });
 
     if (
       !alreadyAnswered[`${currentPartPage}-${currentQuestionPage}-${qindex}`]
@@ -376,7 +377,7 @@ function Quizestart({ id, keyid }) {
                 </div>
                 {Array.from({
                   length: Math.ceil(
-                    (data[currentPartPage]?.quizemcqs?.length || 0) /
+                    (data[currentPartPage]?.sectionmcqs?.length || 0) /
                       questionsPerPage
                   ),
                 }).map((_, index) => {
@@ -454,7 +455,7 @@ function Quizestart({ id, keyid }) {
               >
                 <div className="border-red-600 p-2">
                   <div className="flex items-center justify-between mb-4">
-                    <h1 className="text-3xl font-bold">{info?.quizename}</h1>
+                    <h1 className="text-3xl font-bold">{info?.sectionname}</h1>
 
                     <div className="timer text-2xl font-extrabold ">
                       Timer : -{" "}
@@ -473,7 +474,7 @@ function Quizestart({ id, keyid }) {
                   <div>
                     {
                       // shuffleArray(info.quizemcqs) &&
-                      info?.quizemcqs
+                      info?.sectionmcqs
                         ?.slice(
                           currentQuestionPage * questionsPerPage,
                           (currentQuestionPage + 1) * questionsPerPage
@@ -489,7 +490,7 @@ function Quizestart({ id, keyid }) {
                             currentQuestionPage * questionsPerPage;
 
                           const existingAnswer = arrrr
-                            ?.find((section) => section.sectionId === id)
+                            ?.find((section) => section.quizId === id)
                             ?.questions?.find(
                               (q) => q.qindex === parseInt(counter)
                             )?.answer;

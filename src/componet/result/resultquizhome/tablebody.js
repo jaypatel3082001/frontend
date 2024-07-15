@@ -23,7 +23,7 @@ function Tablebody({ offset }) {
 
     Navigate("/resultstudentmain");
   };
-
+  console.log("sortedData", sortedData);
   return isLoading ? (
     <tbody>
       <tr className="border-b border-gray-400">
@@ -56,7 +56,7 @@ function Tablebody({ offset }) {
           <td className="py-3 px-6 text-left flex items-center">
             {offset + ind + 1}
           </td>
-          <td className="py-3 px-6 text-left">{info.sectionName}</td>
+          <td className="py-3 px-6 text-left">{info.quizName}</td>
           <td className="py-3 px-6 text-left">
             <button
               className="text-blue-600 hover:text-blue-900"

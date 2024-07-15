@@ -29,7 +29,7 @@ function Sectionmain({ setIsLoggedIn }) {
   const urloFe = `https://quiz-krishang.vercel.app/search/getsearchAll`; //api
   const [limit, setLimit] = useState(10);
   const sortBy = "createdAt";
-  let type = "quiz";
+  let type = "section";
 
   // Date format function
   function formatDate(dateString) {
@@ -124,7 +124,7 @@ function Sectionmain({ setIsLoggedIn }) {
     (id) => {
       dispatch(setIdstores(id));
       dispatch(toggleModal(!inputs.openpop));
-      localStorage.setItem("Quizeid", id);
+      localStorage.setItem("ShowsectionId", id);
     },
     [dispatch, inputs.openpop]
   );

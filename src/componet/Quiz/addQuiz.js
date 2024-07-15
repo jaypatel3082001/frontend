@@ -99,9 +99,9 @@ function AddQuiz({ setIsLoggedIn }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [inputQuizdata, setInputQuizdata] = useState({
-    sectionName: "",
+    quizName: "",
     totalTime: "",
-    CountResult: "",
+
     PassingMarks: "",
   });
   useEffect(() => {
@@ -118,8 +118,8 @@ function AddQuiz({ setIsLoggedIn }) {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const createApi = "https://quiz-krishang.vercel.app/section/create";
-    const updateApi = `https://quiz-krishang.vercel.app/section/update/${inputQuizdata._id}`;
+    const createApi = "https://quiz-krishang.vercel.app/quiz/create";
+    const updateApi = `https://quiz-krishang.vercel.app/quiz/update/${inputQuizdata._id}`;
     try {
       const api = inputQuizdata._id ? updateApi : createApi;
       const response = await fetch(api, {
@@ -198,22 +198,7 @@ function AddQuiz({ setIsLoggedIn }) {
               required
             />
           </div>
-          <div className="mb-3">
-            <label htmlFor="CountResult" className="form-label">
-              Result Count By
-            </label>
-            <select
-              name="CountResult"
-              value={inputQuizdata.CountResult}
-              onChange={handleChange}
-              className="form-control"
-              required
-            >
-              <option value="">Select Result*</option>
-              <option value="Sectionwise">Section Wise</option>
-              <option value="Quizwise">Quiz Wise</option>
-            </select>
-          </div>
+
           <button type="submit" className="btn btn-primary">
             Submit
           </button>

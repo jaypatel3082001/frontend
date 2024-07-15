@@ -142,20 +142,16 @@ function Tablebody({ formatDate, offset, showQuestion }) {
           key={index}
           className={"border-b border-gray-200 hover:bg-gray-200 w-full "}
         >
-          <td className="py-3 px-6   bg-blue-50 text-blue-700 border">
-            {offset + index + 1}
-          </td>
-          <td className="py-3 px-6  bg-green-50 text-green-700 border">
+          <td className="py-3 px-6    border">{offset + index + 1}</td>
+          <td className="py-3 px-6   border">
             {row.question?.length <= 80
               ? row.question
               : `${row.question?.substring(0, 80)}.....`}
           </td>
 
-          <td className="py-3 px-6 bg-yellow-50 text-yellow-700 border">
-            {formatDate(row.createdAt)}
-          </td>
+          <td className="py-3 px-6  border">{formatDate(row.createdAt)}</td>
 
-          <td className="py-3 px-6  bg-purple-50 text-purple-700 border">
+          <td className="py-3 px-6   border">
             <button
               className="text-blue-600 hover:text-blue-900 "
               onClick={() => showQuestion(row._id)}
@@ -165,9 +161,9 @@ function Tablebody({ formatDate, offset, showQuestion }) {
               </div>
             </button>
           </td>
-          <td className="relative bg-pink-50 text-pink-700 border">
+          <td className="relative  border">
             <button
-              className="ml-4 text-blue-600 hover:text-blue-900"
+              className="ml-4 hover:text-blue-900"
               onClick={() => handleClicktd(row._id)}
             >
               <div className="flex justify-center">

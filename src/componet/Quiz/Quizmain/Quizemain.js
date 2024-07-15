@@ -33,7 +33,7 @@ function Quizmain({ setIsLoggedIn }) {
   const [sortOrder, setSortOrder] = useState("asc");
 
   const sortBy = "createdAt";
-  const type = "section";
+  const type = "quiz";
   //**************************************** */
 
   const formatDate = useCallback((dateString) => {
@@ -130,7 +130,7 @@ function Quizmain({ setIsLoggedIn }) {
       dispatch(setIdstores(id));
       dispatch(toggleModal(!inputs.openpop));
       localStorage.setItem("QuizeId", id);
-      localStorage.setItem("sectionId", id);
+      // localStorage.setItem("sectionId", id);
     },
     [dispatch, inputs.openpop]
   );

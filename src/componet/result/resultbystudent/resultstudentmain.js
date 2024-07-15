@@ -21,7 +21,6 @@ import { setTotalCount } from "../../../reduxfiles/resultstudentSlice";
 import { serializedSelectionDatePicker } from "../../../util/utility";
 import { setDateRangeresultstudent } from "../../../reduxfiles/resultstudentSlice";
 import Createmainpagination from "../pagination/studentpagination";
-import { useNavigate } from "react-router-dom";
 
 function Resultstudentmain({ setIsLoggedIn }) {
   const resultsectionId = localStorage.getItem("resultsectionId");
@@ -85,7 +84,10 @@ function Resultstudentmain({ setIsLoggedIn }) {
         throw new Error("Network response was not ok");
       }
       const result = await response.json();
-      console.log("dsdd");
+      console.log(
+        "dsdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        result
+      );
       dispatch(setSortedData(result.data));
       dispatch(setTotalCount(result.totalCount));
     } catch (error) {
@@ -200,7 +202,7 @@ function Resultstudentmain({ setIsLoggedIn }) {
               <div className="text-xl font-semibold">QUIZ</div>
               <div className="flex space-x-2">
                 <button
-                  className="bg-[#004e98] hover:bg-blue-600 text-white px-4 py-2 rounded"
+                  className="bg-[#8A6FDF]  hover:bg-[#7451f2] text-white px-4 py-2 rounded"
                   onClick={exportToExcel}
                 >
                   Export

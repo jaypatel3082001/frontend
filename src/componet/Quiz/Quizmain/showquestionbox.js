@@ -5,8 +5,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { setIsloading, setData } from "../../../reduxfiles/quizredux";
 
 function Showquestionbox({ showQuestion }) {
-  const id2 = localStorage.getItem("sectionId");
-  const url = `https://quiz-krishang.vercel.app/section/read`;
+  const id2 = localStorage.getItem("QuizeId");
+  console.log("s", id2);
+  const url = `https://quiz-krishang.vercel.app/quiz/read`;
   const dispatch = useDispatch();
   const inputs = useSelector((state) => state.inputs3);
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ function Showquestionbox({ showQuestion }) {
       }
       const result = await response.json();
       dispatch(setData(result.data));
+      console.log(result, "resulst");
     } catch (error) {
       console.error("Fetch operation error:", error);
     } finally {
@@ -36,7 +38,7 @@ function Showquestionbox({ showQuestion }) {
     async (updatedDel) => {
       try {
         const response = await fetch(
-          `https://quiz-krishang.vercel.app/section/deletetquiz/${id2}`,
+          `https://quiz-krishang.vercel.app/quiz/deletetquiz/${id2}`,
           {
             method: "PUT",
             headers: {
@@ -61,7 +63,7 @@ function Showquestionbox({ showQuestion }) {
 
   const handleDelete = useCallback(
     async (id1) => {
-      const updatedDel = { quizeId: id1 };
+      const updatedDel = { sectionId: id1 };
       await DeleteHandle(updatedDel);
     },
     [DeleteHandle]
@@ -74,6 +76,7 @@ function Showquestionbox({ showQuestion }) {
       ),
     [inputs.Tablemanuplation.data, inputs.Tablemanuplation.idstores]
   );
+  console.log("object", filteredData);
 
   return (
     <div>
@@ -98,7 +101,7 @@ function Showquestionbox({ showQuestion }) {
                     </Link>
                   </div>
                   <div className="text-xl font-bold text-white">
-                    {info.sectionName}
+                    {info.quizName}
                   </div>
                   <div
                     className="cursor-pointer flex items-center"
@@ -118,14 +121,14 @@ function Showquestionbox({ showQuestion }) {
                   </div>
                 </div>
                 <div className="p-6 overflow-y-scroll h-full">
-                  {info.sectioninfo?.map((index, ind) => (
+                  {info.quizinfo?.map((index, ind) => (
                     <div key={ind} className="mb-6">
                       <div>
                         <div className="flex justify-between items-center border-y-2">
                           <div className="font-bold text-xl mb-2 mt-4 ">
                             S:-
                             <span className="break-words ml-2 ">
-                              {index.quizename}
+                              {index.sectionname}
                             </span>
                           </div>
                           <div className="flex justify-end">

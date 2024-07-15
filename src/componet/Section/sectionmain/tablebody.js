@@ -19,7 +19,7 @@ import {
 } from "../../../reduxfiles/sectionredux";
 
 function Tablebody({ formatDate, offset, showQuestion }) {
-  const url = "https://quiz-krishang.vercel.app/quize/getall";
+  const url = "https://quiz-krishang.vercel.app/section/getall";
   const navigate = useNavigate();
   const inputs = useSelector((state) => state.inputs2);
   const dispatch = useDispatch();
@@ -67,7 +67,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
   const handleDelete = useCallback(async (id) => {
     try {
       const response = await fetch(
-        `https://quiz-krishang.vercel.app/quize/delete/${id}`,
+        `https://quiz-krishang.vercel.app/section/delete/${id}`,
         {
           method: "DELETE",
         }
@@ -146,31 +146,31 @@ function Tablebody({ formatDate, offset, showQuestion }) {
           <td className="py-3 px-6 text-left flex items-center">
             {offset + ind + 1}
           </td>
-          <td className="py-3 px-6 text-left">{info.quizename}</td>
+          <td className="py-3 px-6 text-left">{info.sectionname}</td>
 
           <td className="py-3 px-6 text-left">{formatDate(info.createdAt)}</td>
           <td
-            className="py-3 px-6 text-left  cursor-pointer"
+            className="py-3 px-6 text-left  cursor-pointer relative"
             onClick={() => copyToClipboard(info.uniqsecid)}
           >
             {info.uniqsecid}
-            {copied && (
-              <p className="text-green-500">
+            {/* {copied && (
+              <p className="text-gray-500">
                 {" "}
                 <div
                   ref={calendarRef}
                   role="tooltip"
-                  className="absolute shadow-lg show bg-blue-400 z-10 border rounded   popover bs-popover-bottom "
+                  className="absolute shadow-lg show  z-10 border rounded   popover bs-popover-bottom "
                   style={{
-                    top: "80%",
-                    left: "54%",
+                    top: "40%",
+                    left: "42%",
                     transform: "translateX(-50%)",
                   }}
                 >
-                  Copied {copiedText}!
+                  Copied {copiedText}
                 </div>
               </p>
-            )}
+            )} */}
           </td>
 
           <td className="py-3 px-6 text-left">

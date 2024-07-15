@@ -18,7 +18,7 @@ import {
 } from "../../../reduxfiles/quizredux";
 
 function Tablebody({ formatDate, offset, showQuestion }) {
-  const url = "https://quiz-krishang.vercel.app/section/read";
+  const url = "https://quiz-krishang.vercel.app/quiz/read";
   const navigate = useNavigate();
   const inputs = useSelector((state) => state.inputs3);
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
   const fetchDataAndExport = async (id) => {
     try {
       const response = await fetch(
-        `https://quiz-krishang.vercel.app/section/getall/${id}`
+        `https://quiz-krishang.vercel.app/quiz/getall/${id}`
       );
       const data = await response.json();
       console.log(data, "data");
@@ -126,7 +126,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
     async (id) => {
       try {
         const response = await fetch(
-          `https://quiz-krishang.vercel.app/section/delete/${id}`,
+          `https://quiz-krishang.vercel.app/quiz/delete/${id}`,
           {
             method: "DELETE",
           }
@@ -208,7 +208,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
           <td className="py-3 px-6 text-left flex items-center">
             {offset + ind + 1}
           </td>
-          <td className="py-3 px-6 text-left">{info.sectionName}</td>
+          <td className="py-3 px-6 text-left">{info.quizName}</td>
           <td className="py-3 px-6 text-left">
             <div className=" " onClick={() => handleShowkey(info._id)}>
               <Key />

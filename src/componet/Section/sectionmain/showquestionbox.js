@@ -7,10 +7,11 @@ import { setIsloading, setData } from "../../../reduxfiles/sectionredux";
 function Showquestionbox({ showQuestion }) {
   const dispatch = useDispatch();
   const inputs = useSelector((state) => state.inputs2);
-  const id2 = localStorage.getItem("Quizeid");
+  const id2 = localStorage.getItem("ShowsectionId");
+  const navigate = useNavigate();
 
   const url = useMemo(
-    () => "https://quiz-krishang.vercel.app/quize/getall",
+    () => "https://quiz-krishang.vercel.app/section/getall",
     []
   );
 
@@ -29,6 +30,7 @@ function Showquestionbox({ showQuestion }) {
 
       const result = await response.json();
       dispatch(setData(result.data));
+      console.log(result.data, "result");
     } catch (error) {
       console.error("Fetch operation error:", error);
     } finally {
@@ -70,7 +72,7 @@ function Showquestionbox({ showQuestion }) {
 
       try {
         const response = await fetch(
-          `https://quiz-krishang.vercel.app/quize/deletequize-question/${id2}`,
+          `https://quiz-krishang.vercel.app/section/deletequize-question/${id2}`,
           {
             method: "PUT",
             headers: {
@@ -114,7 +116,7 @@ function Showquestionbox({ showQuestion }) {
                       </button>
                     </Link>
                   </div>
-                  <div className="text-xl font-bold">{info.quizename}</div>
+                  <div className="text-xl font-bold">{info.sectionname}</div>
                   <div
                     className="cursor-pointer flex items-center"
                     onClick={() => showQuestion(info._id)}
@@ -133,7 +135,7 @@ function Showquestionbox({ showQuestion }) {
                   </div>
                 </div>
                 <div className="p-6 overflow-y-scroll h-full">
-                  {info.quizemcqs?.map((index) => (
+                  {info.sectionmcqs?.map((index) => (
                     <div key={index._id} className="mb-6">
                       <div>
                         <div className="flex justify-between items-center">

@@ -37,7 +37,7 @@ const Loginpage = ({ setIsLoggedIn }) => {
 
       if (response.ok) {
         const result = await response.json();
-        localStorage.setItem("sectionId", result.existKey.sectionId);
+        localStorage.setItem("paperQuizId", result.existKey.quizId);
         localStorage.setItem("authTokenstu", result.token); // Save token to localStorage
         setInputlogindata(result);
         setErrorMessage("");

@@ -29,7 +29,7 @@ function Sectionmain({ setIsLoggedIn }) {
   const [search, setSearch] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
 
-  const type = "section";
+  const type = "quiz";
 
   const startDate = useMemo(
     () => formatDate(inputs.dateRange[0].startDate) + "T00:00:00.000Z",

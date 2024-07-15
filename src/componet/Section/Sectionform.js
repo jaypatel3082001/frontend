@@ -8,8 +8,8 @@ function Sectionform({ setIsLoggedIn }) {
   const navigate = useNavigate();
 
   const [inputSectiondata, setInputSectiondata] = useState({
-    quizename: "",
-    quizepassingMarks: "",
+    sectionname: "",
+    sectionpassingMarks: "",
   });
 
   useEffect(() => {
@@ -28,8 +28,8 @@ function Sectionform({ setIsLoggedIn }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const createApi = "https://quiz-krishang.vercel.app/quize/create";
-    const updateApi = `https://quiz-krishang.vercel.app/quize/update/${inputSectiondata._id}`;
+    const createApi = "https://quiz-krishang.vercel.app/section/create";
+    const updateApi = `https://quiz-krishang.vercel.app/section/update/${inputSectiondata._id}`;
 
     try {
       const api = inputSectiondata._id ? updateApi : createApi;
@@ -58,8 +58,8 @@ function Sectionform({ setIsLoggedIn }) {
 
   const memoizedEndpoints = useMemo(
     () => ({
-      createApi: "https://quiz-krishang.vercel.app/quize/create",
-      updateApi: `https://quiz-krishang.vercel.app/quize/update/${inputSectiondata._id}`,
+      createApi: "https://quiz-krishang.vercel.app/section/create",
+      updateApi: `https://quiz-krishang.vercel.app/section/update/${inputSectiondata._id}`,
     }),
     [inputSectiondata._id]
   );
@@ -80,8 +80,8 @@ function Sectionform({ setIsLoggedIn }) {
             </label>
             <input
               type="text"
-              name="quizename"
-              value={inputSectiondata.quizename}
+              name="sectionname"
+              value={inputSectiondata.sectionname}
               onChange={handleChange}
               className="form-control"
               placeholder="Question*"
@@ -95,7 +95,7 @@ function Sectionform({ setIsLoggedIn }) {
             </label>
             <input
               type="number"
-              name="quizepassingMarks"
+              name="sectionpassingMarks"
               value={inputSectiondata.quizepassingMarks}
               onChange={handleChange}
               className="form-control"

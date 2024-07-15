@@ -208,18 +208,18 @@ function Createmain({ setIsLoggedIn }) {
             <Navbar setIsLoggedIn={setIsLoggedIn} />
           </div>
 
-          <div className="bg-slate-50  rounded shadow-md m-4 p-4 ">
+          <div className="bg-white  rounded shadow-md m-4 p-4 ">
             <div className="flex justify-between items-center mb-4">
               <div className="text-xl font-semibold">QUESTION</div>
               <div className="flex space-x-2">
                 <button
-                  className="bg-[#8A6FDF] hover:bg-blue-600 text-white px-4 py-2 rounded"
+                  className="bg-[#8A6FDF] hover:bg-[#7451f2] text-white px-4 py-2 rounded"
                   onClick={showUploadbox}
                 >
                   Import
                 </button>
                 <button
-                  className="bg-[#8A6FDF] text-white px-4 py-2 rounded hover:bg-blue-600"
+                  className="bg-[#8A6FDF] text-white px-4 py-2 rounded hover:bg-[#7451f2]"
                   onClick={exportToExcel}
                 >
                   Export

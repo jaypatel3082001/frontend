@@ -13,14 +13,17 @@ function Tableheader({ sortOrder, setSortOrder }) {
 
   return (
     <thead>
-      <tr className="bg-[#3a6ea5] text-white uppercase text-sm leading-normal">
+      <tr className="bg-[#8A6FDF]  text-white uppercase text-sm leading-normal">
         <th className="py-3 px-6 text-left">NUMBER</th>
         <th className="py-3 px-6 text-left">
           {" "}
           <div className="flex  cursor-pointer" onClick={handleSorting}>
-            <div>Section Name</div>
+            <div>Quiz Name</div>
             <div className="ml-2">
-              <Sortbyname className={sortOrder === "asc" ? "rotate-180" : ""} />
+              <Sortbyname
+                fill="white"
+                className={sortOrder === "asc" ? "rotate-180" : ""}
+              />
             </div>
           </div>
         </th>

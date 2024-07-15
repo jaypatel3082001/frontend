@@ -10,7 +10,7 @@ function Tablebody({ offset, formatDate, resultBy }) {
       : [];
   }, [inputs.Tablemanuplation.sortedData]);
 
-  console.log("sortedData", sortedData);
+  console.log("sortedData", inputs?.Tablemanuplation?.sortedData);
 
   if (inputs.Tablemanuplation.isLoading) {
     return (
@@ -62,7 +62,7 @@ function Tablebody({ offset, formatDate, resultBy }) {
                 {formatDate(info.createdAt)}
               </td>
 
-              {info.quizewiseResult?.map((q, qind) => (
+              {info.sectionwiseResult?.map((q, qind) => (
                 <td key={qind} className="py-3 px-6 text-left">
                   {" "}
                   <span
@@ -72,19 +72,19 @@ function Tablebody({ offset, formatDate, resultBy }) {
                         : "bg-green-500  px-3 py-1 text-white rounded"
                     }`}
                   >
-                    {q.weitage} / {info.quizewiseTotalResult[qind]?.weitage}
+                    {q.weitage} / {info.sectionwiseTotalResult[qind]?.weitage}
                   </span>
                 </td>
               ))}
               <td
                 className={`py-3 px-6 text-left ${
-                  info.quizeWiseStatus === "fail"
+                  info.sectionWiseStatus === "fail"
                     ? "text-red-500 font-semibold text-base"
                     : "text-green-500 font-semibold text-base"
                 }`}
               >
                 {" "}
-                {info.quizeWiseStatus.toUpperCase()}
+                {info.sectionWiseStatus.toUpperCase()}
               </td>
             </tr>
           ))}
