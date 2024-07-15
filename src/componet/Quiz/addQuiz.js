@@ -132,9 +132,9 @@ function AddQuiz({ setIsLoggedIn }) {
       navigate("/Quizemain");
       console.log("inputQuizdata", inputQuizdata);
       setInputQuizdata({
-        sectionName: "",
+        quizName: "",
         totalTime: "",
-        CountResult: "",
+
         PassingMarks: "",
       });
       if (!response.ok) {
@@ -161,8 +161,8 @@ function AddQuiz({ setIsLoggedIn }) {
             </label>
             <input
               type="text"
-              name="sectionName"
-              value={inputQuizdata.sectionName}
+              name="quizName"
+              value={inputQuizdata.quizName}
               onChange={handleChange}
               className="form-control"
               placeholder="Quiz*"

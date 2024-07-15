@@ -223,60 +223,60 @@ function Quizestart({ id, keyid }) {
 
     const weightage = parseInt(e.target.getAttribute("weightage"));
     // console.log(data, "dadta");
-    // setArrrr((prevArrrr) => {
-    //   const existingSectionIndex = prevArrrr.findIndex(
-    //     (section) => section.quizId === id
-    //   );
+    setArrrr((prevArrrr) => {
+      const existingSectionIndex = prevArrrr.findIndex(
+        (section) => section.quizId === id
+      );
 
-    //   if (existingSectionIndex !== -1) {
-    //     const updatedArrrr = [...prevArrrr];
-    //     const existingSection = updatedArrrr[existingSectionIndex];
-    //     const existingQuestionIndex = existingSection.questions.findIndex(
-    //       (q) => q.qindex === qindex
-    //     );
+      if (existingSectionIndex !== -1) {
+        const updatedArrrr = [...prevArrrr];
+        const existingSection = updatedArrrr[existingSectionIndex];
+        const existingQuestionIndex = existingSection.questions.findIndex(
+          (q) => q.qindex === qindex
+        );
 
-    //     if (existingQuestionIndex !== -1) {
-    //       existingSection.questions[existingQuestionIndex] = {
-    //         ...existingSection.questions[existingQuestionIndex],
-    //         answer,
-    //         isAttempted: true,
-    //       };
-    //     } else {
-    //       existingSection.questions.push({
-    //         questionId,
-    //         qindex,
-    //         quizeId,
-    //         quizename,
-    //         weightage,
-    //         answer,
+        if (existingQuestionIndex !== -1) {
+          existingSection.questions[existingQuestionIndex] = {
+            ...existingSection.questions[existingQuestionIndex],
+            answer,
+            isAttempted: true,
+          };
+        } else {
+          existingSection.questions.push({
+            questionId,
+            qindex,
+            quizeId,
+            quizename,
+            weightage,
+            answer,
 
-    //         isAttempted: true,
-    //       });
-    //     }
-    //     updatedArrrr[existingSectionIndex] = existingSection;
-    //     return updatedArrrr;
-    //   } else {
-    //     return [
-    //       ...prevArrrr,
-    //       {
-    //         quizId: id,
-    //         keyid,
-    //         questions: [
-    //           {
-    //             questionId,
-    //             qindex,
-    //             quizeId,
-    //             quizename,
-    //             weightage,
-    //             answer,
-    //             keyid,
-    //             isAttempted: true,
-    //           },
-    //         ],
-    //       },
-    //     ];
-    //   }
-    // });
+            isAttempted: true,
+          });
+        }
+        updatedArrrr[existingSectionIndex] = existingSection;
+        return updatedArrrr;
+      } else {
+        return [
+          ...prevArrrr,
+          {
+            quizId: id,
+            keyid,
+            questions: [
+              {
+                questionId,
+                qindex,
+                quizeId,
+                quizename,
+                weightage,
+                answer,
+                keyid,
+                isAttempted: true,
+              },
+            ],
+          },
+        ];
+      }
+    });
 
     if (
       !alreadyAnswered[`${currentPartPage}-${currentQuestionPage}-${qindex}`]

@@ -44,7 +44,7 @@ function Keyshow() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            sectionId: inputs.Tablemanuplation.idkeystores,
+            quizId: inputs.Tablemanuplation.idkeystores,
             starttime: formatDate(formatstartDate),
             endtime: formatDate(formatendDate),
           }),
