@@ -205,6 +205,7 @@ function Quizestart({ id, keyid }) {
 
       // Proceed with setting state and navigating
       setIssubmitted(true);
+      localStorage.removeItem("authTokenstu");
       const intervalId = setTimeout(() => {}, 1000);
       return () => clearInterval(intervalId);
     } catch (error) {
