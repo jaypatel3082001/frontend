@@ -218,8 +218,8 @@ function Quizestart({ id, keyid }) {
     const questionId = e.target.getAttribute("data-question-id");
     const qindex = parseInt(e.target.getAttribute("data-qindex"));
     const sectionName = `Section ${currentPartPage + 1}`;
-    const sectionId = e.target.getAttribute("quizeId");
-    const sectionname = e.target.getAttribute("quizename");
+    const sectionId = e.target.getAttribute("sectionId");
+    const sectionname = e.target.getAttribute("sectionname");
 
     const weightage = parseInt(e.target.getAttribute("weightage"));
     // console.log(data, "dadta");
