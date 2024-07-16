@@ -21,17 +21,18 @@ import Showquestionbox from "./showquestionbox";
 import { useDispatch, useSelector } from "react-redux";
 import { serializedSelectionDatePicker } from "../../../util/utility";
 import Keyshow from "./Keyshow";
-import Createmainpagination from "../pagination/createmainpagination";
+import Createmainpagination from "../pagination/quizpagination";
 
 function Quizmain({ setIsLoggedIn }) {
   const dispatch = useDispatch();
+
   const inputs = useSelector((state) => state.inputs3);
   const sortByOptions = useMemo(() => [10, 20, 30, 40, 50, 60], []);
   const urloFe = "https://quiz-krishang.vercel.app/search/getsearchAll";
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
-
+  console.log(inputs.Tablemanuplation.currentPage, "asas");
   const sortBy = "createdAt";
   const type = "quiz";
   //**************************************** */

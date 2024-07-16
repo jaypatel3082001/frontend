@@ -1,17 +1,52 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { ReactComponent as Download } from "../../../svgfile/download.svg";
+import html2pdf from "html2pdf.js";
+import ResultDatas from "./../../modules/ResultData/ResultData";
 
 function Tablebody({ offset, formatDate, resultBy }) {
   const inputs = useSelector((state) => state.inputs5);
+  const [resultdata, setResultData] = useState([]);
 
   const sortedData = useMemo(() => {
     return Array.isArray(inputs?.Tablemanuplation?.sortedData)
       ? inputs.Tablemanuplation.sortedData
       : [];
   }, [inputs.Tablemanuplation.sortedData]);
+  const ResultId = localStorage.getItem("resultIds");
+  const fetchData = useCallback(async () => {
+    console.log(ResultId, "RescccccccccccultId");
+    try {
+      const response = await fetch(
+        `https://quiz-krishang.vercel.app/result/read/${ResultId}`
+      );
 
-  console.log("sortedData", inputs?.Tablemanuplation?.sortedData);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const result = await response.json();
+
+      // setResultData();
+      return result.data;
+    } catch (error) {
+      console.error("Fetch operation error:", error);
+    }
+  }, []);
+
+  const fetchDataAndExport = async (id) => {
+    localStorage.setItem("resultIds", id);
+    const abc = await fetchData();
+    console.log("resultdatassssssssss", abc);
+    const formattedData = ResultDatas(abc);
+
+    downloadPdfFile(formattedData.props.children);
+  };
+
+  const downloadPdfFile = (formattedData) => {
+    const element = document.createElement("div");
+    element.innerHTML = formattedData;
+    html2pdf().from(element).save("marksheet.pdf");
+  };
 
   if (inputs.Tablemanuplation.isLoading) {
     return (
@@ -87,7 +122,10 @@ function Tablebody({ offset, formatDate, resultBy }) {
                 {" "}
                 {info.sectionWiseStatus.toUpperCase()}
               </td>
-              <td className="py-3 px-6 ">
+              <td
+                className="py-3 px-6"
+                onClick={() => fetchDataAndExport(info._id)}
+              >
                 <Download />
               </td>
             </tr>
@@ -132,7 +170,10 @@ function Tablebody({ offset, formatDate, resultBy }) {
               >
                 {info.status.toUpperCase()}
               </td>
-              <td className="py-3 px-6 ">
+              <td
+                className="py-3 px-6 "
+                onClick={() => fetchDataAndExport(info._id)}
+              >
                 <Download />
               </td>
             </tr>

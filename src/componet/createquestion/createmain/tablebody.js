@@ -140,7 +140,9 @@ function Tablebody({ formatDate, offset, showQuestion }) {
       {sortedData?.map((row, index) => (
         <tr
           key={index}
-          className={"border-b border-gray-200 hover:bg-gray-200 w-full "}
+          className={`border-b border-gray-200 hover:bg-gray-200 w-full ${
+            index % 2 !== 0 ? "bg-[#FAF5FF]" : "bg-slate-50"
+          }`}
         >
           <td className="py-3 px-6    border">{offset + index + 1}</td>
           <td className="py-3 px-6   border">

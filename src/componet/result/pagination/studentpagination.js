@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentPage } from "../../../reduxfiles/quizredux";
+import { setCurrentPage } from "../../../reduxfiles/result";
 
 function Createmainpagination() {
   const dispatch = useDispatch();
@@ -25,10 +25,7 @@ function Createmainpagination() {
     () => getPageNumbers(),
     [inputs.Tablemanuplation.currentPage, inputs.Tablemanuplation.totalPage]
   );
-  console.log(
-    "inputs.Tablemanuplation.totalPage",
-    inputs.Tablemanuplation.totalPage
-  );
+
   function getPageNumbers() {
     const pages = [];
 

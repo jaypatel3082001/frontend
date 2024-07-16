@@ -8,7 +8,7 @@ import React, {
 import { ReactComponent as Option } from "../../../svgfile/option.svg";
 import { ReactComponent as Popbox } from "../../../svgfile/Popbox.svg";
 import { ReactComponent as Upboxuparrow } from "../../../svgfile/boxuparrow.svg";
-import Createmainpagination from "../pagination/createmainpagination";
+
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {

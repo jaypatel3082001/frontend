@@ -24,7 +24,6 @@ import Createmainpagination from "../pagination/studentpagination";
 
 function Resultstudentmain({ setIsLoggedIn }) {
   const resultsectionId = localStorage.getItem("resultsectionId");
-  console.log(resultsectionId, "resultsectionId");
 
   const dispatch = useDispatch();
   const inputs = useSelector((state) => state.inputs5);
@@ -36,7 +35,6 @@ function Resultstudentmain({ setIsLoggedIn }) {
   const sortBy = "createdAt";
 
   let mainstatus = "";
-  console.log("sdata", inputs.Tablemanuplation.sortedData);
 
   const startDate =
     formatDate(inputs.dateRange[0].startDate) + "T00:00:00.000Z";
@@ -51,7 +49,7 @@ function Resultstudentmain({ setIsLoggedIn }) {
   const totalPage = Math.ceil(inputs.Tablemanuplation.totalCount / limit);
 
   dispatch(setTotalPage(totalPage));
-  console.log(inputs.Tablemanuplation.sortedData, "asasas");
+
   const handleLimit = (e) => {
     setLimit(e.target.value);
     dispatch(setCurrentPage(1));
@@ -84,10 +82,7 @@ function Resultstudentmain({ setIsLoggedIn }) {
         throw new Error("Network response was not ok");
       }
       const result = await response.json();
-      console.log(
-        "dsdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
-        result
-      );
+
       dispatch(setSortedData(result.data));
       dispatch(setTotalCount(result.totalCount));
     } catch (error) {
@@ -149,7 +144,7 @@ function Resultstudentmain({ setIsLoggedIn }) {
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   }
-  console.log(inputs?.Tablemanuplation?.sortedData, "aa");
+
   const exportToExcel = () => {
     // Generate a random file name
     const fileName = `data_${Math.random().toString(36).substr(2, 9)}.xlsx`;

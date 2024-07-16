@@ -18,7 +18,7 @@ import Tablebody from "./tablebody";
 import Showquestionbox from "./showquestionbox";
 import { useDispatch, useSelector } from "react-redux";
 import { serializedSelectionDatePicker } from "../../../util/utility";
-import Createmainpagination from "../pagination/createmainpagination";
+import Createmainpagination from "../pagination/sectionpagination";
 
 function Sectionmain({ setIsLoggedIn }) {
   const dispatch = useDispatch();

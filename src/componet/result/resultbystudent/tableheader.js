@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { ReactComponent as Sortbyname } from "../../../svgfile/sortbyname.svg";
-import { setCurrentPage } from "../../../reduxfiles/quizredux";
+import { setCurrentPage } from "../../../reduxfiles/resultstudentSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -13,7 +13,6 @@ function Tableheader({ sortOrder, setSortOrder, resultBy, setStatus, status }) {
     dispatch(setCurrentPage(1));
   };
   const handleresult = () => {
-    console.log("status", status);
     setStatus((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
     dispatch(setCurrentPage(1));
   };
@@ -21,10 +20,7 @@ function Tableheader({ sortOrder, setSortOrder, resultBy, setStatus, status }) {
     () => inputs?.Tablemanuplation?.sortedData,
     [inputs.Tablemanuplation.sortedData]
   );
-  console.log(
-    "sortedData.quizewiseResult",
-    inputs?.Tablemanuplation?.sortedData
-  );
+
   return (
     <thead>
       <tr className="bg-[#8A6FDF]  text-white uppercase text-sm leading-normal">

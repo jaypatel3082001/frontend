@@ -30,7 +30,7 @@ const initialState = {
   fadeTransition: { in: false, down: false },
 };
 const InputSlice2 = createSlice({
-  name: "inputs",
+  name: "inputs3",
   initialState,
   reducers: {
     toggleModal: (state, action) => {

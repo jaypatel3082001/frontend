@@ -54,12 +54,7 @@ const Printpaper = () => {
   };
 
   const fetchDataAndExport = async () => {
-    // Step 1: Fetch data from the API
-
-    // Step 2: Format the data to match demo.txt
     const formattedData = formatData(data);
-
-    // Step 3: Create a PDF and trigger download
     downloadPdfFile(formattedData);
   };
 
@@ -76,20 +71,17 @@ const Printpaper = () => {
         />
       </head>
       <body class="font-sans">
-        <div class="container mx-auto border border-black p-5 max-w-lg">
+        <div class="container mx-auto border border-black p-5 w-11/12">
           <div class="text-center mb-5">
-            <img src="C:\Users\Admin\Desktop\logo.png" alt="Logo" class="w-24 h-24 mx-auto" />
-            <h1 class="text-2xl font-bold my-2">
-              CENTRAL BOARD OF HIGHER EDUCATION /CLONE
-            </h1>
+            <img src="https://png.pngtree.com/png-clipart/20230426/original/pngtree-school-logo-design-template-png-image_9104626.png" alt="Logo" class="h-24 w-24" />
+            <h1 class="text-2xl font-bold my-2">CENTRAL BOARD OF HIGHER EDUCATION /CLONE</h1>
             <h3 class="text-xl">Central Hindu School</h3>
           </div>
           <p><strong>Student Name:</strong> ${data.studentName}</p>
           <p><strong>Email:</strong> ${data.email}</p>
           <p><strong>Date:</strong> ${data.date}</p>
           <p><strong>Exam-Name:</strong> ${data.examName}</p>
-  
-          <table class="w-full border-collapse border border-black mt-5">
+          <table class="w-full border-collapse border border-black mt-3">
             <thead>
               <tr>
                 <th class="border border-black px-2 py-1">Subject Code</th>
@@ -102,14 +94,27 @@ const Printpaper = () => {
             </thead>
             <tbody>`;
 
-    data.subjects.forEach((subject) => {
+    data.subjects.forEach((subject, index) => {
       formattedText += `
-              <tr>
-                <td class="border border-black px-2 py-1">${subject.code}</td>
+              <tr
+                key=${index}
+                class="border-b border-gray-200 hover:bg-gray-200 w-full ${
+                  index % 2 === 0 ? "bg-slate-50" : "bg-white"
+                }"
+              >
+                <td class="border border-black text-center p-2">${
+                  subject.code
+                }</td>
                 <td class="border border-black px-2 py-1">${subject.name}</td>
-                <td class="border border-black px-2 py-1">${subject.minMarks}</td>
-                <td class="border border-black px-2 py-1">${subject.maxMarks}</td>
-                <td class="border border-black px-2 py-1">${subject.obtainedMarks}</td>
+                <td class="border border-black px-2 py-1">${
+                  subject.minMarks
+                }</td>
+                <td class="border border-black px-2 py-1">${
+                  subject.maxMarks
+                }</td>
+                <td class="border border-black px-2 py-1">${
+                  subject.obtainedMarks
+                }</td>
                 <td class="border border-black px-2 py-1">${subject.remark}</td>
               </tr>`;
     });
@@ -124,7 +129,7 @@ const Printpaper = () => {
               </tr>
             </tbody>
           </table>
-          <div class="text-center mt-5">
+          <div class="text-center mt-2">
             <p><strong>Result:</strong> ${data.result}</p>
           </div>
         </div>
