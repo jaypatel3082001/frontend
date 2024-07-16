@@ -11,7 +11,7 @@ const initialState = {
   ],
   Tablemanuplation: {
     isLoading: false,
-
+    resultId: null,
     data: [],
     sortedData: [],
     totalPage: 0,
@@ -57,6 +57,9 @@ const InputSlice5 = createSlice({
     setIdstore: (state, action) => {
       state.Tablemanuplation.idstore = action.payload;
     },
+    setResultId: (state, action) => {
+      state.Tablemanuplation.resultId = action.payload;
+    },
     setIdstores: (state, action) => {
       state.Tablemanuplation.idstores = action.payload;
     },
@@ -80,6 +83,7 @@ export const {
   setDateRangeresultstudent,
   setData,
   setIdstores,
+  setResultId,
   setIsloading,
   setIdstore,
   setCurrentPage,

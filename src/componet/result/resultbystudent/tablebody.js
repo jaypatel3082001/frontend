@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { ReactComponent as Download } from "../../../svgfile/download.svg";
 import html2pdf from "html2pdf.js";
@@ -6,45 +6,66 @@ import ResultDatas from "./../../modules/ResultData/ResultData";
 
 function Tablebody({ offset, formatDate, resultBy }) {
   const inputs = useSelector((state) => state.inputs5);
-
+  const [ResultId, setResultIds] = useState();
   const sortedData = useMemo(() => {
     return Array.isArray(inputs?.Tablemanuplation?.sortedData)
       ? inputs.Tablemanuplation.sortedData
       : [];
   }, [inputs.Tablemanuplation.sortedData]);
-  const ResultId = localStorage.getItem("resultIds");
+
   const token = localStorage.getItem("authToken");
+
+  const [resultId, setResultId] = useState(null);
+  const [resultData, setResultData] = useState(null);
+
   const fetchData = useCallback(async () => {
-    console.log(ResultId, "RescccccccccccultId");
-    try {
-      const response = await fetch(
-        `https://quiz-krishang.vercel.app/result/read/${ResultId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+    if (resultId) {
+      try {
+        const response = await fetch(
+          `https://quiz-krishang.vercel.app/result/read/${resultId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
         }
-      );
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+        const result = await response.json();
+        setResultData(result.data); // Update state with the fetched data
+        return result.data;
+      } catch (error) {
+        console.error("Fetch operation error:", error);
       }
-      const result = await response.json();
-
-      // setResultData();
-      return result.data;
-    } catch (error) {
-      console.error("Fetch operation error:", error);
     }
-  }, []);
+  }, [resultId, token]);
+
+  useEffect(() => {
+    if (resultId !== null) {
+      fetchData();
+    }
+  }, [resultId, fetchData]);
 
   const fetchDataAndExport = async (id) => {
-    localStorage.setItem("resultIds", id);
-    const abc = await fetchData();
-    console.log("resultdatassssssssss", abc);
-    const formattedData = ResultDatas(abc);
+    setResultId(id);
+  };
 
-    downloadPdfFile(formattedData.props.children);
+  useEffect(() => {
+    if (resultData) {
+      formate();
+    }
+  }, [resultData]);
+
+  const formate = async () => {
+    if (resultData?.length > 0) {
+      const formattedData = ResultDatas(resultData);
+      downloadPdfFile(formattedData.props.children);
+    } else {
+      console.warn("No data to download.");
+    }
   };
 
   const downloadPdfFile = (formattedData) => {

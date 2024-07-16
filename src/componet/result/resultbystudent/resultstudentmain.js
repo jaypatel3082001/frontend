@@ -188,10 +188,7 @@ function Resultstudentmain({ setIsLoggedIn }) {
     // Remove the link from the document body
     document.body.removeChild(link);
   };
-  console.log(
-    inputs.Tablemanuplation.sortedData?.data?.length,
-    "inputs.Tablemanuplation.sortedData?.data?.length"
-  );
+
   return (
     <div className="App">
       <div className="flex">

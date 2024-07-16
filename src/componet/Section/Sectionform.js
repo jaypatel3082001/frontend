@@ -48,8 +48,8 @@ function Sectionform({ setIsLoggedIn }) {
       }
 
       setInputSectiondata({
-        quizename: "",
-        quizepassingMarks: "",
+        sectionname: "",
+        sectionpassingMarks: "",
       });
 
       navigate("/Sectionmain");
@@ -90,7 +90,7 @@ function Sectionform({ setIsLoggedIn }) {
             <input
               type="number"
               name="sectionpassingMarks"
-              value={inputSectiondata.quizepassingMarks}
+              value={inputSectiondata.sectionpassingMarks}
               onChange={handleChange}
               className="form-control"
               placeholder="passing marks"
