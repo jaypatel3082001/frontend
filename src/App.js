@@ -35,13 +35,13 @@ function App() {
         const decoded = jwtDecode(token); // Decodes the token (doesn't verify signature)
         const currentTime = Date.now() / 1000; // Convert current time to seconds
 
-        if (decoded.exp < currentTime) {
+        if (!decoded.exp || decoded.exp < currentTime) {
           localStorage.removeItem("authToken");
-        } else {
-          console.log(decoded);
+          console.log("Token expired or invalid, removed from local storage");
         }
       } catch (error) {
-        console.log("Invalid token:", error);
+        console.error("Invalid token:", error);
+        localStorage.removeItem("authToken");
       }
     } else {
       console.log("No token found");

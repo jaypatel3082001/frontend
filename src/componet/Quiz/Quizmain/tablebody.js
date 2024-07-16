@@ -74,10 +74,10 @@ function Tablebody({ formatDate, offset, showQuestion }) {
       "                                                   EXAM PAPER\n\n";
 
     data?.forEach((info, sectionIndex) => {
-      formattedText += `Section ${sectionIndex + 1}: ${info.quizename}\n`;
+      formattedText += `Section ${sectionIndex + 1}: ${info.sectionname}\n`;
       formattedText += "---------------------------------------------\n\n";
 
-      info.quizemcqs?.forEach((question, questionIndex) => {
+      info.sectionmcqs?.forEach((question, questionIndex) => {
         formattedText += `Q${questionIndex + 1}: ${question.question}\n`;
         formattedText += `  A. ${question.option1}\n`;
         formattedText += `  B. ${question.option2}\n`;
