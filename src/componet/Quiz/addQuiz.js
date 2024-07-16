@@ -98,6 +98,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 function AddQuiz({ setIsLoggedIn }) {
   const location = useLocation();
   const navigate = useNavigate();
+  const token = localStorage.getItem("authToken");
   const [inputQuizdata, setInputQuizdata] = useState({
     quizName: "",
     totalTime: "",
@@ -126,6 +127,8 @@ function AddQuiz({ setIsLoggedIn }) {
         method: inputQuizdata._id ? "PUT" : "POST",
         headers: {
           "Content-Type": "application/json",
+
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(inputQuizdata),
       });

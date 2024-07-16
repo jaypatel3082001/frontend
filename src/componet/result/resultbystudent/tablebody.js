@@ -6,7 +6,6 @@ import ResultDatas from "./../../modules/ResultData/ResultData";
 
 function Tablebody({ offset, formatDate, resultBy }) {
   const inputs = useSelector((state) => state.inputs5);
-  const [resultdata, setResultData] = useState([]);
 
   const sortedData = useMemo(() => {
     return Array.isArray(inputs?.Tablemanuplation?.sortedData)
@@ -14,11 +13,17 @@ function Tablebody({ offset, formatDate, resultBy }) {
       : [];
   }, [inputs.Tablemanuplation.sortedData]);
   const ResultId = localStorage.getItem("resultIds");
+  const token = localStorage.getItem("authToken");
   const fetchData = useCallback(async () => {
     console.log(ResultId, "RescccccccccccultId");
     try {
       const response = await fetch(
-        `https://quiz-krishang.vercel.app/result/read/${ResultId}`
+        `https://quiz-krishang.vercel.app/result/read/${ResultId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       if (!response.ok) {
@@ -68,7 +73,7 @@ function Tablebody({ offset, formatDate, resultBy }) {
       <tbody>
         <tr className="border-b border-gray-400">
           <td
-            colSpan="6"
+            colSpan="7"
             className="text-center font-bold p-3 whitespace-nowrap hover:bg-gray-200 border-x-2 border-gray-300"
           >
             No data found

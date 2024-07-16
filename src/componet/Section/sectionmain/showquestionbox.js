@@ -9,20 +9,26 @@ function Showquestionbox({ showQuestion }) {
   const inputs = useSelector((state) => state.inputs2);
   const id2 = localStorage.getItem("ShowsectionId");
   const navigate = useNavigate();
-
+  const token = localStorage.getItem("authToken");
   const url = useMemo(
     () => "https://quiz-krishang.vercel.app/section/getall",
     []
   );
 
   useEffect(() => {
-    fetchData();
+    if (inputs?.openpop === true) {
+      fetchData(); // Update data state
+    }
   }, []);
 
   const fetchData = useCallback(async () => {
     try {
       dispatch(setIsloading(true));
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -77,6 +83,7 @@ function Showquestionbox({ showQuestion }) {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(updatedDel),
           }

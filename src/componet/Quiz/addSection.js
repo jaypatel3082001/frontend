@@ -10,7 +10,7 @@ function AddSection() {
   const [arrrr, setArrrr] = useState([]);
   const navigator = useNavigate();
   const [checkedIds, setCheckedIds] = useState([]);
-
+  const token = localStorage.getItem("authToken");
   const url = "https://quiz-krishang.vercel.app/section/getall";
 
   useEffect(() => {
@@ -20,7 +20,11 @@ function AddSection() {
   console.log("new quize id", id);
   const fetchData = async () => {
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -36,7 +40,12 @@ function AddSection() {
   const fetchQuizData = async () => {
     try {
       const response = await fetch(
-        `https://quiz-krishang.vercel.app/quiz/read/${id}`
+        `https://quiz-krishang.vercel.app/quiz/read/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       if (!response.ok) {
@@ -80,6 +89,8 @@ function AddSection() {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(ele),
         }

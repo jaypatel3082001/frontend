@@ -22,10 +22,15 @@ function Tablebody({ formatDate, offset, showQuestion }) {
   const navigate = useNavigate();
   const inputs = useSelector((state) => state.inputs3);
   const dispatch = useDispatch();
+  const token = localStorage.getItem("authToken");
   console.log(inputs?.Tablemanuplation?.sortedData?.data, "www");
   const fetchData = useCallback(async () => {
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -46,7 +51,12 @@ function Tablebody({ formatDate, offset, showQuestion }) {
   const fetchDataAndExport = async (id) => {
     try {
       const response = await fetch(
-        `https://quiz-krishang.vercel.app/quiz/getall/${id}`
+        `https://quiz-krishang.vercel.app/quiz/getall/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       const data = await response.json();
       console.log(data, "data");
@@ -129,6 +139,10 @@ function Tablebody({ formatDate, offset, showQuestion }) {
           `https://quiz-krishang.vercel.app/quiz/delete/${id}`,
           {
             method: "DELETE",
+
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
 
@@ -180,7 +194,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
     <tbody>
       <tr className="border-b border-gray-400">
         <td
-          colSpan="6"
+          colSpan="7"
           className="text-center font-bold p-3 whitespace-nowrap hover:bg-gray-200 border-x-2 border-gray-300"
         >
           Loading ...
@@ -191,7 +205,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
     <tbody>
       <tr className="border-b border-gray-400">
         <td
-          colSpan="6"
+          colSpan="7"
           className="text-center font-bold p-3 whitespace-nowrap hover:bg-gray-200 border-x-2 border-gray-300"
         >
           No data found

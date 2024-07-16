@@ -25,6 +25,7 @@ import { serializedSelectionDatePicker } from "../../../util/utility";
 import Createmainpagination from "../pagination/createmainpagination";
 
 function Createmain({ setIsLoggedIn }) {
+  const token = localStorage.getItem("authToken");
   const dispatch = useDispatch();
   const inputs = useSelector((state) => state.inputs);
   const sortByOptions = useMemo(() => [10, 20, 30, 40, 50, 60], []);
@@ -115,7 +116,11 @@ function Createmain({ setIsLoggedIn }) {
         offset,
       });
 
-      const response = await fetch(`${urloFe}?${params.toString()}`);
+      const response = await fetch(`${urloFe}?${params.toString()}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -294,19 +299,21 @@ function Createmain({ setIsLoggedIn }) {
                 />
               </table>
             </div>
-            <div className="flex justify-between items-center mt-2 z-0">
-              <span>
-                Page{" "}
-                {inputs.Tablemanuplation.sortedData?.data?.length === 0
-                  ? 0
-                  : inputs.Tablemanuplation.currentPage}{" "}
-                of {totalPage}
-              </span>
+            {inputs.Tablemanuplation.isLoading === false && (
+              <div className="flex justify-between items-center mt-2 z-0">
+                <span>
+                  Page{" "}
+                  {inputs.Tablemanuplation.sortedData?.data?.length === 0
+                    ? 0
+                    : inputs.Tablemanuplation.currentPage}{" "}
+                  of {totalPage}
+                </span>
 
-              <div className="flex space-x-2">
-                <Createmainpagination />
+                <div className="flex space-x-2">
+                  <Createmainpagination />
+                </div>
               </div>
-            </div>
+            )}
             <Showquestionbox showQuestion={showQuestion} />
             <Uplodfile />
           </div>

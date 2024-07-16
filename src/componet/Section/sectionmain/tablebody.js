@@ -25,6 +25,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
   const dispatch = useDispatch();
   const [copied, setCopied] = useState(false);
   const [copiedText, setCopiedText] = useState("");
+  const token = localStorage.getItem("authToken");
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text).then(() => {
       setCopied(true);
@@ -35,7 +36,11 @@ function Tablebody({ formatDate, offset, showQuestion }) {
   const fetchData = useCallback(async () => {
     try {
       dispatch(setIsloading(true));
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -70,6 +75,10 @@ function Tablebody({ formatDate, offset, showQuestion }) {
         `https://quiz-krishang.vercel.app/section/delete/${id}`,
         {
           method: "DELETE",
+
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -118,7 +127,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
     <tbody>
       <tr className="border-b border-gray-400">
         <td
-          colSpan="5"
+          colSpan="6"
           className="text-center font-bold p-3 whitespace-nowrap hover:bg-gray-200 border-x-2 border-gray-300"
         >
           Loading ...
@@ -129,7 +138,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
     <tbody>
       <tr className="border-b border-gray-400">
         <td
-          colSpan="5"
+          colSpan="6"
           className="text-center font-bold p-3 whitespace-nowrap hover:bg-gray-200 border-x-2 border-gray-300"
         >
           No data found

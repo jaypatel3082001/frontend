@@ -11,11 +11,15 @@ function Showquestionbox({ showQuestion }) {
   const dispatch = useDispatch();
   const inputs = useSelector((state) => state.inputs3);
   const navigate = useNavigate();
-
+  const token = localStorage.getItem("authToken");
   const fetchData = useCallback(async () => {
     try {
       dispatch(setIsloading(true));
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -43,6 +47,8 @@ function Showquestionbox({ showQuestion }) {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
+
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(updatedDel),
           }

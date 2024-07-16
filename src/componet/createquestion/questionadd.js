@@ -9,7 +9,7 @@ function QuestionAdd({ setIsLoggedIn }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const inputs = useSelector((state) => state.inputs);
-
+  const token = localStorage.getItem("authToken");
   const initialInputData = {
     _id: "",
     question: "",
@@ -47,6 +47,8 @@ function QuestionAdd({ setIsLoggedIn }) {
           method: inputquedata._id ? "PUT" : "POST",
           headers: {
             "Content-Type": "application/json",
+
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(inputquedata),
         });

@@ -15,7 +15,8 @@ function Sidebar() {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
-    navigate("/");
+    // navigate("/");
+    navigate(0);
   };
 
   const handleItemClick = (path) => {

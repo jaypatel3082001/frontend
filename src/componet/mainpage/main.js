@@ -5,13 +5,18 @@ import Navbar from "../fixdata/navbar";
 function Main({ setIsLoggedIn }) {
   const [recentStudunt, setRecentStudent] = useState([]);
   const [topStudunt, setTopStudent] = useState([]);
+  const token = localStorage.getItem("authToken");
   const RecentStudentApi =
     "https://quiz-krishang.vercel.app/result/recentResults";
   const TopStudentApi = "https://quiz-krishang.vercel.app/result/topTenResults";
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await fetch(RecentStudentApi);
+      const response = await fetch(RecentStudentApi, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -25,7 +30,11 @@ function Main({ setIsLoggedIn }) {
   });
   const fetchDatas = useCallback(async () => {
     try {
-      const response = await fetch(TopStudentApi);
+      const response = await fetch(TopStudentApi, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");

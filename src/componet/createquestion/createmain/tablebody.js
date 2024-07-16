@@ -17,12 +17,17 @@ function Tablebody({ formatDate, offset, showQuestion }) {
   const navigate = useNavigate();
   const inputs = useSelector((state) => state.inputs);
   const dispatch = useDispatch();
+  const token = localStorage.getItem("authToken");
 
   // Memoized fetchData function
   const fetchData = useCallback(async () => {
     try {
       dispatch(setIsloading(true));
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -66,6 +71,9 @@ function Tablebody({ formatDate, offset, showQuestion }) {
           `https://quiz-krishang.vercel.app/questions/delete/${id}`,
           {
             method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
 

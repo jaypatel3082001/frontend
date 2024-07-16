@@ -47,7 +47,7 @@ function Resultstudentmain({ setIsLoggedIn }) {
   const indexOfLastRow = inputs.Tablemanuplation.currentPage * limit;
   const offset = indexOfLastRow - limit;
   const totalPage = Math.ceil(inputs.Tablemanuplation.totalCount / limit);
-
+  const token = localStorage.getItem("authToken");
   dispatch(setTotalPage(totalPage));
 
   const handleLimit = (e) => {
@@ -76,7 +76,11 @@ function Resultstudentmain({ setIsLoggedIn }) {
         offset: inputs.Tablemanuplation.currentPage * limit - limit,
       });
 
-      const response = await fetch(`${urloFe}?${params.toString()}`);
+      const response = await fetch(`${urloFe}?${params.toString()}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -184,7 +188,10 @@ function Resultstudentmain({ setIsLoggedIn }) {
     // Remove the link from the document body
     document.body.removeChild(link);
   };
-
+  console.log(
+    inputs.Tablemanuplation.sortedData?.data?.length,
+    "inputs.Tablemanuplation.sortedData?.data?.length"
+  );
   return (
     <div className="App">
       <div className="flex">
@@ -283,19 +290,21 @@ function Resultstudentmain({ setIsLoggedIn }) {
                 />
               </table>
             </div>
-            <div className="flex justify-between items-center mt-2 z-0">
-              <span>
-                Page{" "}
-                {inputs.Tablemanuplation.sortedData?.length === 0
-                  ? 0
-                  : inputs.Tablemanuplation.currentPage}
-                of {totalPage}
-              </span>
+            {inputs.Tablemanuplation.isLoading === false && (
+              <div className="flex justify-between items-center mt-2 z-0">
+                <span>
+                  Page{" "}
+                  {inputs.Tablemanuplation.sortedData?.length === 0
+                    ? 0
+                    : inputs.Tablemanuplation.currentPage}{" "}
+                  of {totalPage}
+                </span>
 
-              <div className="flex space-x-2">
-                <Createmainpagination />
+                <div className="flex space-x-2">
+                  <Createmainpagination />
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

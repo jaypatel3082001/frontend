@@ -30,7 +30,7 @@ function Sectionmain({ setIsLoggedIn }) {
   const [limit, setLimit] = useState(10);
   const sortBy = "createdAt";
   let type = "section";
-
+  const token = localStorage.getItem("authToken");
   // Date format function
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -89,8 +89,11 @@ function Sectionmain({ setIsLoggedIn }) {
         offset,
       });
 
-      const response = await fetch(`${urloFe}?${params.toString()}`);
-
+      const response = await fetch(`${urloFe}?${params.toString()}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -233,19 +236,21 @@ function Sectionmain({ setIsLoggedIn }) {
                 />
               </table>
             </div>
-            <div className="flex justify-between items-center mt-2 z-0">
-              <span>
-                Page{" "}
-                {inputs.Tablemanuplation.sortedData?.data?.length === 0
-                  ? 0
-                  : inputs.Tablemanuplation.currentPage}{" "}
-                of {totalPage}
-              </span>
+            {inputs.Tablemanuplation.isLoading === false && (
+              <div className="flex justify-between items-center mt-2 z-0">
+                <span>
+                  Page{" "}
+                  {inputs.Tablemanuplation.sortedData?.data?.length === 0
+                    ? 0
+                    : inputs.Tablemanuplation.currentPage}{" "}
+                  of {totalPage}
+                </span>
 
-              <div className="flex space-x-2">
-                <Createmainpagination />
+                <div className="flex space-x-2">
+                  <Createmainpagination />
+                </div>
               </div>
-            </div>
+            )}
             <Showquestionbox showQuestion={showQuestion} />
           </div>
         </div>

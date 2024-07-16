@@ -11,7 +11,7 @@ function QuestionbyQuize() {
   const navigator = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [checkedIds, setCheckedIds] = useState([]);
-
+  const token = localStorage.getItem("authToken");
   const url = "https://quiz-krishang.vercel.app/questions/getallquestions";
   const api = `https://quiz-krishang.vercel.app/section/read/${id}`;
   useEffect(() => {
@@ -22,7 +22,11 @@ function QuestionbyQuize() {
   const fetchData = async () => {
     try {
       // setIsLoading(true);
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -36,7 +40,11 @@ function QuestionbyQuize() {
   };
   const fetchApiData = async () => {
     try {
-      const response = await fetch(api);
+      const response = await fetch(api, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -73,6 +81,8 @@ function QuestionbyQuize() {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(ele),
         }

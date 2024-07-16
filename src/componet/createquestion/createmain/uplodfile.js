@@ -15,7 +15,7 @@ function Uplodfile() {
   const [file, setFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState("");
   const [data, setData] = useState(null);
-
+  const token = localStorage.getItem("authToken");
   const Closebox = useCallback(() => {
     dispatch(toggleuploadModal(!inputs.openuplod));
     setTypeError();
@@ -43,6 +43,8 @@ function Uplodfile() {
             {
               headers: {
                 "Content-Type": "multipart/form-data",
+
+                Authorization: `Bearer ${token}`,
               },
             }
           );
@@ -63,7 +65,12 @@ function Uplodfile() {
 
     try {
       const response = await axios.get(
-        `https://quiz-krishang.vercel.app/file/questioread/${file}`
+        `https://quiz-krishang.vercel.app/file/questioread/${file}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setTypeError("File uploaded successfully!");
     } catch (error) {

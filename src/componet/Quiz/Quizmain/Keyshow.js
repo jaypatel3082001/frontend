@@ -15,7 +15,7 @@ function Keyshow() {
   const [iskey, isSetKey] = useState(false);
   const [keydata, setKeydata] = useState([]);
   const [error, setError] = useState("");
-
+  const token = localStorage.getItem("authToken");
   const Featchapi = `https://quiz-krishang.vercel.app/key/update/${inputs.Tablemanuplation.idkeystores}`;
 
   const handleDateRangePicker = (ranges) => {
@@ -42,6 +42,8 @@ function Keyshow() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             quizId: inputs.Tablemanuplation.idkeystores,
@@ -69,7 +71,11 @@ function Keyshow() {
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await fetch(Featchapi);
+      const response = await fetch(Featchapi, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -94,6 +100,10 @@ function Keyshow() {
         `https://quiz-krishang.vercel.app/key/delete/${id}`,
         {
           method: "PUT",
+
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 

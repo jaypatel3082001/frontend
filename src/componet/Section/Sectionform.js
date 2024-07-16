@@ -6,7 +6,7 @@ import { useLocation, useNavigate, Link } from "react-router-dom";
 function Sectionform({ setIsLoggedIn }) {
   const location = useLocation();
   const navigate = useNavigate();
-
+  const token = localStorage.getItem("authToken");
   const [inputSectiondata, setInputSectiondata] = useState({
     sectionname: "",
     sectionpassingMarks: "",
@@ -37,6 +37,8 @@ function Sectionform({ setIsLoggedIn }) {
         method: inputSectiondata._id ? "PUT" : "POST",
         headers: {
           "Content-Type": "application/json",
+
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(inputSectiondata),
       });
@@ -55,14 +57,6 @@ function Sectionform({ setIsLoggedIn }) {
       console.error("Fetch operation error:", error);
     }
   };
-
-  const memoizedEndpoints = useMemo(
-    () => ({
-      createApi: "https://quiz-krishang.vercel.app/section/create",
-      updateApi: `https://quiz-krishang.vercel.app/section/update/${inputSectiondata._id}`,
-    }),
-    [inputSectiondata._id]
-  );
 
   return (
     <div className="flex">
