@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function Quizestart({ id, keyid }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [issubmitted, setIssubmitted] = useState(false);
   const [arrrr, setArrrr] = useState([]);
-
   const navigate = useNavigate();
-  const token = localStorage.getItem("authTokenstu");
-
   const [currentPartPage, setCurrentPartPage] = useState(0);
   const [currentQuestionPage, setCurrentQuestionPage] = useState(0);
   const [highlightedQuestionPages, setHighlightedQuestionPages] = useState({});
@@ -17,7 +14,7 @@ function Quizestart({ id, keyid }) {
 
   const [answeredCount, setAnsweredCount] = useState({});
   const [unansweredCount, setUnansweredCount] = useState({});
-
+  const token = localStorage.getItem("authTokenstu");
   const [alreadyAnswered, setAlreadyAnswered] = useState({});
   let counter = 0;
 
@@ -193,6 +190,8 @@ function Quizestart({ id, keyid }) {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(result),
         }
@@ -206,6 +205,7 @@ function Quizestart({ id, keyid }) {
       setIssubmitted(true);
       localStorage.removeItem("authTokenstu");
       const intervalId = setTimeout(() => {}, 1000);
+      navigate(0);
       return () => clearInterval(intervalId);
     } catch (error) {
       console.error("Error during submission", error);
@@ -346,11 +346,10 @@ function Quizestart({ id, keyid }) {
     >
       <div className="flex flex-col h-screen justify-center items-center w-full p-8 ">
         <div className=" bg-red-50 p-8 w-full shadow-slate-600 shadow-xl rounded-lg">
-          <div className="bg-white shadow-lg shadow-slate-50 w-full px-6 py-2 flex justify-between rounded-lg items-center mb-3">
-            <div>
-              <div className="flex mb-3">
+          <div className="bg-white shadow-lg shadow-slate-50 w-full px-6 py-2 flex flex-col sm:flex-row justify-between rounded-lg items-center mb-3">
+            <div className="mb-3 sm:mb-0">
+              <div className="flex items-center mb-3">
                 <h1 className="font-bold text-xl">Section :- </h1>
-
                 <div className="flex items-center mx-2">
                   {Array.from({
                     length: Math.ceil(data.length / partsPerPage),
@@ -371,50 +370,52 @@ function Quizestart({ id, keyid }) {
                   ))}
                 </div>
               </div>
-              <div className="flex items-center">
-                <div>
-                  <h1 className="font-bold text-xl">Question :- </h1>
+              <div className="flex flex-col sm:flex-row sm:justify-start">
+                <div className="mb-2 sm:mb-0 sm:mr-4">
+                  <h1 className="font-bold text-xl sm:text-2xl">Question:-</h1>
                 </div>
-                {Array.from({
-                  length: Math.ceil(
-                    (data[currentPartPage]?.sectionmcqs?.length || 0) /
-                      questionsPerPage
-                  ),
-                }).map((_, index) => {
-                  const buttonClass = `mx-1 px-3 py-1 rounded-md font-bold ${
-                    highlightedQuestionPages[currentPartPage]?.includes(index)
-                      ? "bg-yellow-500 text-white"
-                      : alreadyAnswered[`${currentPartPage}-${index}`]
-                      ? "bg-green-500 text-white"
-                      : currentQuestionPage === index
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-200 text-black"
-                  }`;
+                <div className="flex flex-wrap justify-center sm:justify-start">
+                  {Array.from({
+                    length: Math.ceil(
+                      (data[currentPartPage]?.sectionmcqs?.length || 0) /
+                        questionsPerPage
+                    ),
+                  }).map((_, index) => {
+                    const buttonClass = `mx-1 my-1 px-3 py-1 rounded-md font-bold transition-colors duration-300 ${
+                      highlightedQuestionPages[currentPartPage]?.includes(index)
+                        ? "bg-yellow-500 text-white"
+                        : alreadyAnswered[`${currentPartPage}-${index}`]
+                        ? "bg-green-500 text-white"
+                        : currentQuestionPage === index
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-200 text-black hover:bg-gray-300"
+                    }`;
 
-                  return (
-                    <button
-                      key={index}
-                      className={buttonClass}
-                      onClick={() => handleQuestionPageClick(index)}
-                    >
-                      {index + 1}
-                    </button>
-                  );
-                })}
+                    return (
+                      <button
+                        key={index}
+                        className={buttonClass}
+                        onClick={() => handleQuestionPageClick(index)}
+                      >
+                        {index + 1}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
-            <div className="p-2">
+            <div className="p-2 ">
               <table className="border-collapse border border-gray-200 w-full">
                 <thead>
                   <tr className="bg-gray-100 border border-gray-200">
-                    <th className="border border-white  px-4 py-2">Section</th>
-                    <th className="border border-white  bg-green-600 font-bold text-white px-4 py-2">
+                    <th className="border border-white px-5 py-2">Section</th>
+                    <th className="border border-white bg-green-600 font-bold text-white px-4 py-2">
                       Answered
                     </th>
                     <th className="border border-white bg-gray-300 px-4 py-2">
                       Unanswered
                     </th>
-                    <th className="border border-white  bg-yellow-400 font-bold text-white px-4 py-2">
+                    <th className="border border-white bg-yellow-400 font-bold text-white px-4 py-2">
                       Highlight
                     </th>
                   </tr>
@@ -425,10 +426,10 @@ function Quizestart({ id, keyid }) {
                       <td className="border border-white bg-slate-100 px-4 py-2">
                         Section {index + 1}
                       </td>
-                      <td className="border border-white bg-green-600 font-bold text-white px-4 py-2 text-center ">
+                      <td className="border border-white bg-green-600 font-bold text-white px-4 py-2 text-center">
                         {answeredCount[`Section ${index + 1}`] || 0}
                       </td>
-                      <td className="border border-white bg-gray-300 px-4 py-2 text-center ">
+                      <td className="border border-white bg-gray-300 px-4 py-2 text-center">
                         {unansweredCount[`Section ${index + 1}`] !== undefined
                           ? unansweredCount[`Section ${index + 1}`]
                           : 0}
@@ -442,7 +443,7 @@ function Quizestart({ id, keyid }) {
               </table>
             </div>
           </div>
-
+          ;
           {data
             ?.slice(
               currentPartPage * partsPerPage,
@@ -554,7 +555,6 @@ function Quizestart({ id, keyid }) {
                 </div>
               </div>
             ))}
-
           <div className="bg-white shadow-lg shadow-slate-50 w-full px-6 py-2 flex justify-between rounded-lg mt-3 ">
             <div className="flex">
               <div>

@@ -44,26 +44,68 @@ function Userpage() {
   //   }
 
   //   // Function to handle keyboard interactions
-  //   const handleKeyDown = (e) => {
-  //     e.preventDefault();
-  //     if (e.key === "alt") {
-  //       e.preventDefault();
-  //       // Additional logic as needed
-  //     }
-  //   };
+  //   // const handleKeyDown = (e) => {
+  //   //   e.preventDefault();
+  //   //   if (e.key === "alt") {
+  //   //     e.preventDefault();
+  //   //     // Additional logic as needed
+  //   //   }
+  //   // };
 
   //   // Attach event listeners when component mounts
   //   document.addEventListener("contextmenu", handleContextMenu);
-  //   document.addEventListener("keydown", handleKeyDown);
+  //   // document.addEventListener("keydown", handleKeyDown);
 
   //   // Clean up event listeners when component unmounts
   //   return () => {
   //     document.removeEventListener("contextmenu", handleContextMenu);
-  //     document.removeEventListener("keydown", handleKeyDown);
+  //     // document.removeEventListener("keydown", handleKeyDown);
   //   };
   // }, []);
   //*************************************************** */
+  //***************** */
 
+  useEffect(() => {
+    // Function to handle right-click prevention
+    const handleContextMenu = (e) => {
+      e.preventDefault(); // Prevent default right-click behavior
+      // Additional logic as needed
+    };
+
+    // Function to handle fullscreen mode
+    const handleFullscreen = () => {
+      const element = document.getElementById("fullscreen");
+
+      if (element) {
+        if (element.requestFullscreen) {
+          element.requestFullscreen();
+        } else if (element.webkitRequestFullscreen) {
+          /* Safari */
+          element.webkitRequestFullscreen();
+        } else if (element.msRequestFullscreen) {
+          /* IE/Edge */
+          element.msRequestFullscreen();
+        }
+      }
+    };
+
+    // Attach event listeners when component mounts
+    document.addEventListener("contextmenu", handleContextMenu);
+
+    const fullscreenButton = document.getElementById("fullscreen");
+    if (fullscreenButton) {
+      fullscreenButton.addEventListener("click", handleFullscreen);
+    }
+
+    // Clean up event listeners when component unmounts
+    return () => {
+      document.removeEventListener("contextmenu", handleContextMenu);
+      if (fullscreenButton) {
+        fullscreenButton.removeEventListener("click", handleFullscreen);
+      }
+    };
+  }, []);
+  //************************* */
   return (
     <div
       className="flex flex-col justify-center items-center min-h-screen font-sans p-5 bg-gray-100"

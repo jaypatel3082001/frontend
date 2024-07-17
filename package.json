@@ -26,6 +26,7 @@
     "react-scripts": "5.0.1",
     "sass": "^1.77.6",
     "sass-loader": "^14.2.1",
+    "screenfull": "^6.0.2",
     "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5"
   },

@@ -20,7 +20,7 @@ import "jspdf-autotable";
 import { setTotalCount } from "../../../reduxfiles/resultstudentSlice";
 import { serializedSelectionDatePicker } from "../../../util/utility";
 import { setDateRangeresultstudent } from "../../../reduxfiles/resultstudentSlice";
-import Createmainpagination from "../pagination/studentpagination";
+import Createmainpagination from "../pagination/createmainpagination";
 
 function Resultstudentmain({ setIsLoggedIn }) {
   const resultsectionId = localStorage.getItem("resultsectionId");
@@ -269,8 +269,8 @@ function Resultstudentmain({ setIsLoggedIn }) {
               </div>
             </div>
 
-            <div>
-              <table className="min-w-full bg-white border border-gray-200">
+            <div className="overflow-x-auto">
+              <table className="min-w-full bg-white border border-gray-200 overflow-x-auto">
                 <Tableheader
                   sortOrder={sortOrder}
                   setSortOrder={setSortOrder}
@@ -287,6 +287,7 @@ function Resultstudentmain({ setIsLoggedIn }) {
                 />
               </table>
             </div>
+
             {inputs.Tablemanuplation.isLoading === false && (
               <div className="flex justify-between items-center mt-2 z-0">
                 <span>

@@ -4,7 +4,7 @@ import { setCurrentPage } from "../../../reduxfiles/result";
 
 function Createmainpagination() {
   const dispatch = useDispatch();
-  const inputs = useSelector((state) => state.inputs5);
+  const inputs = useSelector((state) => state.inputs4);
 
   // Memoized event handler
   const handlePageChange = useCallback(
