@@ -46,6 +46,12 @@ const Loginpage = ({ setIsLoggedIn }) => {
         navigate(0);
       } else {
         setErrorMessage("Invalid email or password");
+        setInputlogindata({
+          userEmail: "",
+          firstname: "",
+          lastname: "",
+          userkey: "",
+        });
       }
     } catch (error) {
       console.error("Fetch operation error:", error);

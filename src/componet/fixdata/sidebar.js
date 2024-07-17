@@ -73,7 +73,7 @@ function Sidebar() {
               <Link
                 to="/createmain"
                 className={`flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] svg-hover ${
-                  active === "/createmain"
+                  active === "/createmain" || active === "/questionadd"
                     ? "bg-[#F3F4F6] text-slate-800 svg-active "
                     : "hover:bg-[#F3F4F6] hover:text-slate-800 "
                 }`}
@@ -87,7 +87,7 @@ function Sidebar() {
               <Link
                 to="/Sectionmain"
                 className={`flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] svg-hover ${
-                  active === "/Sectionmain"
+                  active === "/Sectionmain" || active === "/Sectionform"
                     ? "bg-[#F3F4F6] text-slate-800 svg-active "
                     : "hover:bg-[#F3F4F6] hover:text-slate-800 "
                 }`}
@@ -101,7 +101,9 @@ function Sidebar() {
               <Link
                 to="/Quizemain"
                 className={`flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] svg-hover ${
-                  active === "/Quizemain" || active === "/AddQuiz"
+                  active === "/Quizemain" ||
+                  active === "/AddQuiz" ||
+                  active === "/addQuiz"
                     ? "bg-[#F3F4F6] text-slate-800 svg-active "
                     : "hover:bg-[#F3F4F6] hover:text-slate-800 "
                 }`}
