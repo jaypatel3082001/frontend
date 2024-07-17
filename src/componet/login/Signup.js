@@ -214,7 +214,10 @@ const Signup = ({ setIsLoggedIn }) => {
         {signupSuccess ? (
           <div className="text-green-500 text-center mb-4">
             Signup successful! You can now{" "}
-            <Link to="/loginadminpage" className="font-semibold underline">
+            <Link
+              to="/loginadminpage"
+              className="font-semibold underline text-red-800"
+            >
               login
             </Link>
             .
