@@ -130,7 +130,6 @@ function Createmain({ setIsLoggedIn }) {
       dispatch(setSortedData(result));
     } catch (error) {
       console.error("Fetch operation error:", error);
-      localStorage.removeItem("authToken");
     } finally {
       dispatch(setIsloading(false));
     }

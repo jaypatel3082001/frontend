@@ -7,7 +7,6 @@ const Loginpage = ({ setIsLoggedIn }) => {
   const [inputlogindata, setInputlogindata] = useState({
     email: "",
     password: "",
-    userkey: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
   const [showerror, setShowerror] = useState(false);
@@ -40,16 +39,16 @@ const Loginpage = ({ setIsLoggedIn }) => {
         localStorage.setItem("authToken", result.token);
         setInputlogindata(result);
         setErrorMessage("");
-        // setIsLoggedIn(true);
         navigate("/Home");
+        navigate(0);
       } else {
         setErrorMessage("Invalid email or password");
         setShowerror(true);
+        setInputlogindata({ email: "", password: "" });
       }
     } catch (error) {
       setErrorMessage("An error occurred. Please try again.");
     }
-    navigate(0);
   };
 
   return (
