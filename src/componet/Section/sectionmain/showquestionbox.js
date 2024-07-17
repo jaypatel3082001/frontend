@@ -117,7 +117,7 @@ function Showquestionbox({ showQuestion }) {
                     <Link to={`/Sectionmain/question-list/question-select`}>
                       <button
                         type="submit"
-                        className="btn btn-primary mr-3 flex items-center"
+                        className="btn bg-[#8A6FDF]   mr-3 flex items-center"
                       >
                         <AddSection />
                       </button>

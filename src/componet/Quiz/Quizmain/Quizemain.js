@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "../../fixdata/sidebar";
 import Navbar from "../../fixdata/navbar";
-import Addquiz from "../../Section/addsection";
+import { ReactComponent as Add } from "../../../svgfile/Questionadd.svg";
 import CustomDatePicker from "../../../util/CoustomDatePicker";
 import {
   toggleModal,
@@ -13,7 +13,6 @@ import {
   setIdstores,
   setDateRangequize,
   setTotalCount,
-  setKeyData,
 } from "../../../reduxfiles/quizredux";
 import Tableheader from "./tableheader";
 import Tablebody from "./tablebody";
@@ -136,7 +135,6 @@ function Quizmain({ setIsLoggedIn }) {
       dispatch(setIdstores(id));
       dispatch(toggleModal(!inputs.openpop));
       localStorage.setItem("QuizeId", id);
-      // localStorage.setItem("sectionId", id);
     },
     [dispatch, inputs.openpop]
   );
@@ -158,14 +156,6 @@ function Quizmain({ setIsLoggedIn }) {
           <div className="bg-white rounded shadow-md m-4 p-4 ">
             <div className="flex justify-between items-center mb-4">
               <div className="text-xl font-semibold">QUIZ</div>
-              {/* <div className="flex space-x-2">
-                <button className="bg-[#004e98] hover:bg-blue-600 text-white px-4 py-2 rounded">
-                  Import
-                </button>
-                <button className="bg-[#004e98] text-white px-4 py-2 rounded hover:bg-blue-600">
-                  Export
-                </button>
-              </div> */}
             </div>
             <div className="flex justify-between items-center mb-2 mt-3">
               <div className="flex items-center">
@@ -218,7 +208,7 @@ function Quizmain({ setIsLoggedIn }) {
                 <div className="mr-5 cursor-pointer">
                   <div className=" mr-5 flex">
                     <span>
-                      <Addquiz />
+                      <Add fill="black" />
                     </span>
                     <span>AddQuiz</span>
                   </div>

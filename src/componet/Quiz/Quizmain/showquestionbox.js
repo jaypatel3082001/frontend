@@ -1,7 +1,8 @@
 import React, { useEffect, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Addquiz from "../../Section/addsection";
+
 import { Link, useNavigate } from "react-router-dom";
+import { ReactComponent as Add } from "../../../svgfile/Questionadd.svg";
 import { setIsloading, setData } from "../../../reduxfiles/quizredux";
 
 function Showquestionbox({ showQuestion }) {
@@ -99,10 +100,10 @@ function Showquestionbox({ showQuestion }) {
                     <Link to="/AddSection">
                       <button
                         type="submit"
-                        className="btn btn-primary mr-3 flex items-center"
+                        className="bg-[#8A6FDF] btn text-white font-bold mr-3 flex items-center"
                       >
                         Add Section
-                        <Addquiz />
+                        <Add fill="white" />
                       </button>
                     </Link>
                   </div>

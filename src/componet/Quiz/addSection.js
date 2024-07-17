@@ -115,7 +115,7 @@ function AddSection() {
         </div>
 
         <div className="w-50 mx-auto mt-5 mb-4">
-          <h1 className="mb-4">Add New Quiz</h1>
+          <h1 className="mb-4">Add New Section</h1>
 
           <div className="mb-3">
             <table>

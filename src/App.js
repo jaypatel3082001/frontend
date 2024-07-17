@@ -13,7 +13,7 @@ import QuestionbyQuize from "./componet/Section/QuestionbyQuize";
 import Quizemain from "./componet/Quiz/Quizmain/Quizemain";
 import AddSection from "./componet/Quiz/addSection";
 import AddQuiz from "./componet/Quiz/addQuiz";
-import QuizeHome from "./componet/Quiz/QuizHome";
+
 import PrivateRoute from "./PrivateRoute";
 import ResultStudent from "./componet/result/resultbystudent/resultstudentmain";
 import Loginstudentpage from "./componet/login/loginpage";
@@ -32,8 +32,8 @@ function App() {
   useEffect(() => {
     if (token) {
       try {
-        const decoded = jwtDecode(token); // Decodes the token (doesn't verify signature)
-        const currentTime = Date.now() / 1000; // Convert current time to seconds
+        const decoded = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
 
         if (!decoded.exp || decoded.exp < currentTime) {
           localStorage.removeItem("authToken");
@@ -50,8 +50,8 @@ function App() {
   useEffect(() => {
     if (tokenstudent) {
       try {
-        const decoded = jwtDecode(tokenstudent); // Decodes the token (doesn't verify signature)
-        const currentTime = Date.now() / 1000; // Convert current time to seconds
+        const decoded = jwtDecode(tokenstudent);
+        const currentTime = Date.now() / 1000;
 
         if (decoded.exp < currentTime) {
           localStorage.removeItem("authTokenstu");
@@ -96,7 +96,6 @@ function App() {
           element={
             <PrivateRoute>
               {isLoggedIn == true ? <AddSection /> : <LoginHomepage />}
-              {/* <AddSection setIsLoggedIn={setIsLoggedIn} /> */}
             </PrivateRoute>
           }
         />
@@ -107,7 +106,6 @@ function App() {
           element={
             <PrivateRoute>
               {isLoggedIn == true ? <Createmain /> : <LoginHomepage />}
-              {/* <Createmain /> */}
             </PrivateRoute>
           }
         />
@@ -116,7 +114,6 @@ function App() {
           element={
             <PrivateRoute>
               {isLoggedIn == true ? <QuestionAdd /> : <LoginHomepage />}
-              {/* <QuestionAdd setIsLoggedIn={setIsLoggedIn} /> */}
             </PrivateRoute>
           }
         />
@@ -125,7 +122,6 @@ function App() {
           element={
             <PrivateRoute>
               {isLoggedIn == true ? <Sectionform /> : <LoginHomepage />}
-              {/* <Sectionform setIsLoggedIn={setIsLoggedIn} /> */}
             </PrivateRoute>
           }
         />
@@ -157,15 +153,7 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route
-          path="/Quizemain/Section-quiz-list"
-          element={
-            <PrivateRoute>
-              {isLoggedIn == true ? <QuizeHome /> : <LoginHomepage />}
-              {/* <QuizeHome /> */}
-            </PrivateRoute>
-          }
-        />
+
         <Route
           path="/QuizeHome/Quizemain/quizelist"
           element={
@@ -184,15 +172,7 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route
-          path="/QuizeHome"
-          element={
-            <PrivateRoute>
-              {isLoggedIn == true ? <QuizeHome /> : <LoginHomepage />}
-              {/* <QuizeHome /> */}
-            </PrivateRoute>
-          }
-        />
+
         <Route
           path="Quizemain/Userpage/:id"
           element={
@@ -203,7 +183,6 @@ function App() {
           }
         />
         <Route
-          // path={`/userpages/quiz-start/${inputs.randomkey}`}
           path={`/userpages/quiz-start`}
           element={
             <PrivateRoute>
