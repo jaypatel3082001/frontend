@@ -18,52 +18,6 @@ function Userpage() {
   const handleQuize = () => {
     setIsstart(true);
   };
-  // //*********************************** */
-  // useEffect(() => {
-  //   // Function to handle right-click prevention
-  //   const handleContextMenu = (e) => {
-  //     e.preventDefault(); // Prevent default right-click behavior
-  //     // Additional logic as needed
-  //   };
-
-  //   // Function to handle fullscreen mode
-  //   const element = document.getElementById("fullscreen");
-
-  //   if (element) {
-  //     element.addEventListener("click", () => {
-  //       if (element.requestFullscreen) {
-  //         element.requestFullscreen();
-  //       } else if (element.webkitRequestFullscreen) {
-  //         /* Safari */
-  //         element.webkitRequestFullscreen();
-  //       } else if (element.msRequestFullscreen) {
-  //         /* IE/Edge */
-  //         element.msRequestFullscreen();
-  //       }
-  //     });
-  //   }
-
-  //   // Function to handle keyboard interactions
-  //   // const handleKeyDown = (e) => {
-  //   //   e.preventDefault();
-  //   //   if (e.key === "alt") {
-  //   //     e.preventDefault();
-  //   //     // Additional logic as needed
-  //   //   }
-  //   // };
-
-  //   // Attach event listeners when component mounts
-  //   document.addEventListener("contextmenu", handleContextMenu);
-  //   // document.addEventListener("keydown", handleKeyDown);
-
-  //   // Clean up event listeners when component unmounts
-  //   return () => {
-  //     document.removeEventListener("contextmenu", handleContextMenu);
-  //     // document.removeEventListener("keydown", handleKeyDown);
-  //   };
-  // }, []);
-  //*************************************************** */
-  //***************** */
 
   useEffect(() => {
     // Function to handle right-click prevention

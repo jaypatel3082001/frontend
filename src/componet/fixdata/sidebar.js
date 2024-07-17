@@ -101,7 +101,7 @@ function Sidebar() {
               <Link
                 to="/Quizemain"
                 className={`flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] svg-hover ${
-                  active === "/Quizemain"
+                  active === "/Quizemain" || active === "/AddQuiz"
                     ? "bg-[#F3F4F6] text-slate-800 svg-active "
                     : "hover:bg-[#F3F4F6] hover:text-slate-800 "
                 }`}
@@ -115,9 +115,9 @@ function Sidebar() {
               <Link
                 to="/resultmain"
                 className={`flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] svg-hover ${
-                  active === "/resultmain"
-                    ? "bg-[#F3F4F6] text-slate-800 svg-active "
-                    : "hover:bg-[#F3F4F6] hover:text-slate-800 "
+                  active === "/resultmain" || active === "/resultstudentmain"
+                    ? "bg-[#F3F4F6] text-slate-800 svg-active"
+                    : "hover:bg-[#F3F4F6] hover:text-slate-800"
                 }`}
                 onClick={() => handleItemClick("/resultmain")}
               >

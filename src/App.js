@@ -41,7 +41,6 @@ function App() {
         }
       } catch (error) {
         console.error("Invalid token:", error);
-        localStorage.removeItem("authToken");
       }
     } else {
       console.log("No token found");
@@ -53,7 +52,7 @@ function App() {
         const decoded = jwtDecode(tokenstudent);
         const currentTime = Date.now() / 1000;
 
-        if (decoded.exp < currentTime) {
+        if (!decoded.exp || decoded.exp < currentTime) {
           localStorage.removeItem("authTokenstu");
         } else {
           console.log(decoded);
@@ -62,7 +61,7 @@ function App() {
         console.log("Invalid token:", error);
       }
     } else {
-      console.log("No token found");
+      console.log("No tokenstudent found");
     }
   }, [tokenstudent]);
   useEffect(() => {
