@@ -52,7 +52,7 @@ function Sectionform({ setIsLoggedIn }) {
         sectionpassingMarks: "",
       });
 
-      navigate("/Sectionmain");
+      navigate("/admin/Sectionmain");
     } catch (error) {
       console.error("Fetch operation error:", error);
     }
@@ -100,7 +100,7 @@ function Sectionform({ setIsLoggedIn }) {
           <button type="submit" className="btn btn-primary">
             Submit
           </button>
-          <Link to="/Sectionmain" className="ml-4">
+          <Link to="/admin/Sectionmain" className="ml-4">
             <button type="button" className="btn btn-primary">
               Back
             </button>

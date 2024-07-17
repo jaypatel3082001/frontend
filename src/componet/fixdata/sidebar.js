@@ -73,7 +73,8 @@ function Sidebar() {
               <Link
                 to="/admin/createmain"
                 className={`flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] svg-hover ${
-                  active === "/createmain" || active === "/questionadd"
+                  active === "/admin/createmain" ||
+                  active === "/admin/questionadd"
                     ? "bg-[#F3F4F6] text-slate-800 svg-active "
                     : "hover:bg-[#F3F4F6] hover:text-slate-800 "
                 }`}
@@ -87,7 +88,8 @@ function Sidebar() {
               <Link
                 to="/admin/Sectionmain"
                 className={`flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] svg-hover ${
-                  active === "/Sectionmain" || active === "/Sectionform"
+                  active === "/admin/Sectionmain" ||
+                  active === "/admin/Sectionform"
                     ? "bg-[#F3F4F6] text-slate-800 svg-active "
                     : "hover:bg-[#F3F4F6] hover:text-slate-800 "
                 }`}
@@ -101,9 +103,9 @@ function Sidebar() {
               <Link
                 to="/admin/Quizemain"
                 className={`flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] svg-hover ${
-                  active === "/Quizemain" ||
-                  active === "/AddQuiz" ||
-                  active === "/addQuiz"
+                  active === "/admin/Quizemain" ||
+                  active === "/admin/AddQuiz" ||
+                  active === "/admin/addQuiz"
                     ? "bg-[#F3F4F6] text-slate-800 svg-active "
                     : "hover:bg-[#F3F4F6] hover:text-slate-800 "
                 }`}
@@ -117,11 +119,12 @@ function Sidebar() {
               <Link
                 to="/admin/resultmain"
                 className={`flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] svg-hover ${
-                  active === "/resultmain" || active === "/resultstudentmain"
+                  active === "/admin/resultmain" ||
+                  active === "/admin/resultstudentmain"
                     ? "bg-[#F3F4F6] text-slate-800 svg-active"
                     : "hover:bg-[#F3F4F6] hover:text-slate-800"
                 }`}
-                onClick={() => handleItemClick("/resultmain")}
+                onClick={() => handleItemClick("/admin/resultmain")}
               >
                 <Result />
                 <span className="text-base">Result</span>

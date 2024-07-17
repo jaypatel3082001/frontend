@@ -147,28 +147,21 @@ function Sectionmain({ setIsLoggedIn }) {
   };
 
   return (
-    <div className="App bg-[#EEEEEE]">
-      <div className="flex ">
+    <div className="App h-full relative">
+      <div className="flex flex-col lg:flex-row">
         <Sidebar />
-        <div className="w-full ml-64 h-screen">
+        <div className="w-full lg:ml-64 ">
           <Navbar setIsLoggedIn={setIsLoggedIn} />
 
-          <div className="bg-white rounded shadow-md m-4 p-4 ">
+          <div className="bg-white rounded shadow-md m-4  p-4">
             <div className="flex justify-between items-center mb-4">
               <div className="text-xl font-semibold">QUESTION</div>
-              {/* <div className="flex space-x-2">
-                <button className="bg-[#004e98] hover:bg-blue-600 text-white px-4 py-2 rounded">
-                  Import
-                </button>
-                <button className="bg-[#004e98] text-white px-4 py-2 rounded hover:bg-blue-600">
-                  Export
-                </button>
-              </div> */}
             </div>
-            <div className="flex justify-between items-center mb-2 mt-3">
-              <div className="flex items-center">
+
+            <div className="flex flex-col md:flex-row justify-between items-center mb-2 mt-3">
+              <div className="flex items-center mb-2 md:mb-0">
                 <div className="mr-2 font-bold">Date :- </div>
-                <div className=" bg-white rounded-xl p-2">
+                <div className="bg-white rounded-xl p-2">
                   <div className="flex items-center">
                     <div>
                       <CustomDatePicker
@@ -201,23 +194,25 @@ function Sectionmain({ setIsLoggedIn }) {
                   onChange={handleChange}
                 />
               </div>
-              <div className="">
-                <span className="fw-bold me-2">Sort by :</span>
+
+              <div className="flex items-center mb-2 md:mb-0">
+                <span className="font-bold mr-2">Sort by:</span>
                 <select
                   onChange={handleLimit}
-                  className="border border-gray-800"
+                  className="border border-gray-800 rounded-md p-2"
                 >
                   {sortByOptions.map((sortByOption, index) => (
                     <option key={index}>{sortByOption}</option>
                   ))}
                 </select>
               </div>
+
               <Link to="/admin/Sectionform">
-                <div className="mr-5 cursor-pointer flex">
+                <div className="flex items-center mr-5 cursor-pointer">
                   <span>
                     <AddSection />
                   </span>
-                  <span>AddSection</span>
+                  <span className="ml-2">Add Section</span>
                 </div>
               </Link>
             </div>
@@ -228,7 +223,6 @@ function Sectionmain({ setIsLoggedIn }) {
                   sortOrder={sortOrder}
                   setSortOrder={setSortOrder}
                 />
-
                 <Tablebody
                   formatDate={formatDate}
                   offset={offset}
@@ -236,8 +230,9 @@ function Sectionmain({ setIsLoggedIn }) {
                 />
               </table>
             </div>
+
             {inputs.Tablemanuplation.isLoading === false && (
-              <div className="flex justify-between items-center mt-2 z-0">
+              <div className="flex justify-between items-center mt-2">
                 <span>
                   Page{" "}
                   {inputs.Tablemanuplation.sortedData?.data?.length === 0
@@ -245,12 +240,12 @@ function Sectionmain({ setIsLoggedIn }) {
                     : inputs.Tablemanuplation.currentPage}{" "}
                   of {totalPage}
                 </span>
-
                 <div className="flex space-x-2">
                   <Createmainpagination />
                 </div>
               </div>
             )}
+
             <Showquestionbox showQuestion={showQuestion} />
           </div>
         </div>
