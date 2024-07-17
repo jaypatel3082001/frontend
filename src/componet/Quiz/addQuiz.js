@@ -39,7 +39,7 @@ function AddQuiz({ setIsLoggedIn }) {
         },
         body: JSON.stringify(inputQuizdata),
       });
-      navigate("/Quizemain");
+      navigate("/admin/Quizemain");
       console.log("inputQuizdata", inputQuizdata);
       setInputQuizdata({
         quizName: "",
@@ -111,7 +111,7 @@ function AddQuiz({ setIsLoggedIn }) {
           <button type="submit" className="btn btn-primary">
             Submit
           </button>
-          <Link to="/Quizemain">
+          <Link to="/admin/Quizemain">
             <button className="btn btn-primary ml-4">Back</button>
           </Link>
         </form>

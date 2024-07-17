@@ -204,7 +204,7 @@ function Quizmain({ setIsLoggedIn }) {
                   ))}
                 </select>
               </div>
-              <Link to="/addQuiz">
+              <Link to="/admin/addQuiz">
                 <div className="mr-5 cursor-pointer">
                   <div className=" mr-5 flex">
                     <span>

@@ -278,7 +278,7 @@ function Createmain({ setIsLoggedIn }) {
                   ))}
                 </select>
               </div>
-              <Link to="/questionadd">
+              <Link to="/admin/questionadd">
                 <div className="mr-5 cursor-pointer ">
                   <Addquiz />
                 </div>

@@ -102,7 +102,7 @@ function AddSection() {
         console.error("Submission error jay");
       }
     });
-    navigator(`/Quizemain`);
+    navigator(`/admin/Quizemain`);
   };
   console.log("this is data   k", data);
 
@@ -153,7 +153,7 @@ function AddSection() {
           <button className="btn btn-primary" onClick={handleSubmit}>
             Submit
           </button>
-          <Link to="/Quizemain">
+          <Link to="/admin/Quizemain">
             <button className="btn btn-primary ml-4" onClick={handleSubmit}>
               Back
             </button>

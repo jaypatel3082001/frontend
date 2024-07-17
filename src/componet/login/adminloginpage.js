@@ -35,16 +35,13 @@ const Loginpage = ({ setIsLoggedIn }) => {
 
       if (response.ok) {
         const result = await response.json();
-        console.log("result", result);
         localStorage.setItem("authToken", result.token);
         setInputlogindata(result);
         setErrorMessage("");
-        navigate("/Home");
-        navigate(0);
+        navigate("/admin/Home");
       } else {
         setErrorMessage("Invalid email or password");
         setShowerror(true);
-        setInputlogindata({ email: "", password: "" });
       }
     } catch (error) {
       setErrorMessage("An error occurred. Please try again.");
@@ -64,9 +61,9 @@ const Loginpage = ({ setIsLoggedIn }) => {
         <form onSubmit={handleSubmit}>
           <label
             htmlFor="first"
-            className="text-left text-gray-700 font-bold block"
+            className="text-left text-gray-700 font-bold block mb-2"
           >
-            EmailId:
+            Email
           </label>
           <input
             type="email"
@@ -81,9 +78,9 @@ const Loginpage = ({ setIsLoggedIn }) => {
 
           <label
             htmlFor="password"
-            className="text-left text-gray-700 font-bold block mt-4"
+            className="text-left text-gray-700 font-bold block mt-4 mb-2"
           >
-            Password:
+            Password
           </label>
           <input
             type="password"
@@ -96,23 +93,25 @@ const Loginpage = ({ setIsLoggedIn }) => {
             required
           />
 
-          <div className="flex justify-center mt-6">
+          <div className="flex justify-center w-100 mt-6">
             <button
               type="submit"
-              className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition duration-300"
+              className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition w-100 duration-300"
             >
               Submit
             </button>
           </div>
         </form>
-        <Link to="/adminsignuppage">
-          <p className="text-gray-600 mt-4">
-            Not registered?
-            <a href="#" className="text-green-500 ml-1 hover:underline">
-              Create an account
-            </a>
-          </p>
-        </Link>
+
+        <p className="text-gray-600 text-center mt-4">
+          Not registered?
+          <Link
+            to="/admin/adminsignuppage"
+            className="text-green-500 ml-1 hover:underline"
+          >
+            Create an account
+          </Link>
+        </p>
       </div>
     </div>
   );

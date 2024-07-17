@@ -125,7 +125,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
       const sectionToUpdate = inputs.Tablemanuplation.data.find(
         (section) => section._id === id
       );
-      navigate("/AddQuiz", {
+      navigate("/admin/AddQuiz", {
         state: { itemToEdit: sectionToUpdate },
       });
     },

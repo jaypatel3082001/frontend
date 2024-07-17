@@ -59,7 +59,9 @@ function Tablebody({ formatDate, offset, showQuestion }) {
       const questionToUpdate = sortedData.find(
         (question) => question._id === id
       );
-      navigate("/questionadd", { state: { itemToEdit: questionToUpdate } });
+      navigate("/admin/questionadd", {
+        state: { itemToEdit: questionToUpdate },
+      });
     },
     [navigate, sortedData]
   );

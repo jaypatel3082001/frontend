@@ -15,8 +15,8 @@ function Sidebar() {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
-    // navigate("/");
-    navigate(0);
+    navigate("/admin");
+    // navigate(0);
   };
 
   const handleItemClick = (path) => {
@@ -71,7 +71,7 @@ function Sidebar() {
             </li>
             <li>
               <Link
-                to="/createmain"
+                to="/admin/createmain"
                 className={`flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] svg-hover ${
                   active === "/createmain" || active === "/questionadd"
                     ? "bg-[#F3F4F6] text-slate-800 svg-active "
@@ -85,7 +85,7 @@ function Sidebar() {
             </li>
             <li>
               <Link
-                to="/Sectionmain"
+                to="/admin/Sectionmain"
                 className={`flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] svg-hover ${
                   active === "/Sectionmain" || active === "/Sectionform"
                     ? "bg-[#F3F4F6] text-slate-800 svg-active "
@@ -99,7 +99,7 @@ function Sidebar() {
             </li>
             <li>
               <Link
-                to="/Quizemain"
+                to="/admin/Quizemain"
                 className={`flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] svg-hover ${
                   active === "/Quizemain" ||
                   active === "/AddQuiz" ||
@@ -115,7 +115,7 @@ function Sidebar() {
             </li>
             <li>
               <Link
-                to="/resultmain"
+                to="/admin/resultmain"
                 className={`flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] svg-hover ${
                   active === "/resultmain" || active === "/resultstudentmain"
                     ? "bg-[#F3F4F6] text-slate-800 svg-active"

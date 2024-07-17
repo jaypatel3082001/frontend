@@ -93,7 +93,7 @@ function QuestionbyQuize() {
       } else {
         console.error("Submission error");
       }
-      navigator(`/Sectionmain`);
+      navigator(`/admin/Sectionmain`);
     });
   };
 
@@ -154,7 +154,7 @@ function QuestionbyQuize() {
           <button className="btn btn-primary" onClick={handleSubmit}>
             Submit
           </button>
-          <Link to="/Sectionmain">
+          <Link to="/admin/Sectionmain">
             <button className="btn btn-primary ml-3">Back</button>
           </Link>
           {/* </form> */}

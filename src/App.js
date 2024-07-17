@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Main from "./componet/mainpage/main";
 import Createmain from "./componet/createquestion/createmain/createmain";
 import Sectionmain from "./componet/Section/sectionmain/Sectionmain";
 import QuestionAdd from "./componet/createquestion/questionadd";
-import LoginHomepage from "./componet/login/loginHomepage";
+// import LoginAdminpage from "./componet/login/loginHomepage";
 import Signup from "./componet/login/Signup";
 import Userpages from "./componet/User/userpages";
 import Sectionform from "./componet/Section/Sectionform";
@@ -22,13 +27,12 @@ import AdminSignuppage from "./componet/login/Signup";
 import { jwtDecode } from "jwt-decode";
 
 import "./App.css";
+import NoAuthRoute from "./NoAuthRoute";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isStudentLoggedIn, setStudentIsLoggedIn] = useState(false);
   const token = localStorage.getItem("authToken");
   const tokenstudent = localStorage.getItem("authTokenstu");
-
   useEffect(() => {
     if (token) {
       try {
@@ -65,10 +69,7 @@ function App() {
     }
   }, [tokenstudent]);
   useEffect(() => {
-    if (token === null) {
-      setIsLoggedIn(false);
-    } else {
-      setIsLoggedIn(true);
+    if (token) {
     }
   }, [token]);
   useEffect(() => {
@@ -82,101 +83,127 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* redirection */}
+        <Route path="/*" element={<Navigate to={"login"} />} />
+        {/* auth Routes */}
         <Route
-          path="/Home"
+          path="/login"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <Main /> : <LoginHomepage />}
+              <Loginstudentpage />
             </PrivateRoute>
           }
         />
         <Route
-          path="/AddSection"
+          path="/admin/login"
           element={
-            <PrivateRoute>
-              {isLoggedIn == true ? <AddSection /> : <LoginHomepage />}
-            </PrivateRoute>
-          }
-        />
-        <Route path="/" element={<LoginHomepage />} />
-        <Route path="/Signup" element={<Signup />} />
-        <Route
-          path="/createmain"
-          element={
-            <PrivateRoute>
-              {isLoggedIn == true ? <Createmain /> : <LoginHomepage />}
-            </PrivateRoute>
+            <NoAuthRoute>
+              <LoginAdminpage />
+            </NoAuthRoute>
           }
         />
         <Route
-          path="/questionadd"
+          path="/admin/adminsignuppage"
+          element={
+            <NoAuthRoute>
+              <AdminSignuppage />
+            </NoAuthRoute>
+          }
+        />
+        {/* admin route redirection */}
+        <Route path="/admin/*" element={<Navigate to={"/admin/login"} />} />
+        {/* admin routes */}
+        <Route
+          path="/admin/Home"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <QuestionAdd /> : <LoginHomepage />}
+              <Main />
             </PrivateRoute>
           }
         />
         <Route
-          path="/Sectionform"
+          path="/admin/AddSection"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <Sectionform /> : <LoginHomepage />}
+              <AddSection />
             </PrivateRoute>
           }
         />
-
+        <Route path="/admin/Signup" element={<Signup />} />
         <Route
-          path="/Sectionmain"
+          path="/admin/createmain"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <Sectionmain /> : <LoginHomepage />}
+              <Createmain />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/questionadd"
+          element={
+            <PrivateRoute>
+              <QuestionAdd />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/Sectionform"
+          element={
+            <PrivateRoute>
+              <Sectionform />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/Sectionmain"
+          element={
+            <PrivateRoute>
+              <Sectionmain />
               {/* <Sectionmain /> */}
             </PrivateRoute>
           }
         />
         <Route
-          path="Sectionmain/question-list/question-select"
+          path="/admin/Sectionmain/question-list/question-select"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <QuestionbyQuize /> : <LoginHomepage />}
+              <QuestionbyQuize />
               {/* <QuestionbyQuize /> */}
             </PrivateRoute>
           }
         />
         <Route
-          path="/Quizemain"
+          path="/admin/Quizemain"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <Quizemain /> : <LoginHomepage />}
+              <Quizemain />
               {/* <Quizemain /> */}
             </PrivateRoute>
           }
         />
-
         <Route
-          path="/QuizeHome/Quizemain/quizelist"
+          path="/admin/QuizeHome/Quizemain/quizelist"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <AddQuiz /> : <LoginHomepage />}
+              <AddQuiz />
               {/* <AddQuiz /> */}
             </PrivateRoute>
           }
         />
         <Route
-          path="/AddQuiz"
+          path="/admin/AddQuiz"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <AddQuiz /> : <LoginHomepage />}
+              <AddQuiz />
               {/* <AddQuiz /> */}
             </PrivateRoute>
           }
         />
-
         <Route
-          path="Quizemain/Userpage/:id"
+          path="/admin/Quizemain/Userpage/:id"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <Main /> : <LoginHomepage />}
+              <Main />
               {/* <Main /> */}
             </PrivateRoute>
           }
@@ -185,49 +212,28 @@ function App() {
           path={`/userpages/quiz-start`}
           element={
             <PrivateRoute>
-              {isStudentLoggedIn == true ? <Userpages /> : <LoginHomepage />}
+              {isStudentLoggedIn ? (
+                <Userpages />
+              ) : (
+                <Navigate to={"/admin/login"} />
+              )}
               {/* <Userpages /> */}
             </PrivateRoute>
           }
         />
-
         <Route
-          path="/resultmain"
+          path="/admin/resultmain"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <Resultmain /> : <LoginHomepage />}
+              <Resultmain />
             </PrivateRoute>
           }
         />
         <Route
-          path="/resultstudentmain"
+          path="/admin/resultstudentmain"
           element={
             <PrivateRoute>
-              {isLoggedIn == true ? <ResultStudent /> : <LoginHomepage />}
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/loginstudent"
-          element={
-            <PrivateRoute>
-              <Loginstudentpage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/loginadminpage"
-          element={
-            <PrivateRoute>
-              <LoginAdminpage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/adminsignuppage"
-          element={
-            <PrivateRoute>
-              <AdminSignuppage />
+              <ResultStudent />
             </PrivateRoute>
           }
         />

@@ -24,6 +24,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
   const inputs = useSelector((state) => state.inputs2);
   const dispatch = useDispatch();
   const [copied, setCopied] = useState(false);
+  const [copiedMessage, setCopiedMessage] = useState(null);
   const [copiedText, setCopiedText] = useState("");
   const token = localStorage.getItem("authToken");
   const copyToClipboard = (text) => {
@@ -32,6 +33,11 @@ function Tablebody({ formatDate, offset, showQuestion }) {
       setCopiedText(text);
       setTimeout(() => setCopied(false), 2000); // Reset the copied state after 2 seconds
     });
+  };
+  const handleCopy = (text, ind) => {
+    copyToClipboard(text);
+    setCopiedMessage(ind);
+    setTimeout(() => setCopiedMessage(null), 2000); // Hide the message after 2 seconds
   };
   const fetchData = useCallback(async () => {
     try {
@@ -64,7 +70,9 @@ function Tablebody({ formatDate, offset, showQuestion }) {
       const questionToUpdate = inputs.Tablemanuplation.data.find(
         (question) => question._id === id
       );
-      navigate("/Sectionform", { state: { itemToEdit: questionToUpdate } });
+      navigate("/admin/Sectionform", {
+        state: { itemToEdit: questionToUpdate },
+      });
     },
     [inputs.Tablemanuplation.data, navigate]
   );
@@ -159,27 +167,13 @@ function Tablebody({ formatDate, offset, showQuestion }) {
 
           <td className="py-3 px-6 text-left">{formatDate(info.createdAt)}</td>
           <td
-            className="py-3 px-6 text-left  cursor-pointer relative"
-            onClick={() => copyToClipboard(info.uniqsecid)}
+            className="py-3 px-6 text-left cursor-pointer relative"
+            onClick={() => handleCopy(info.uniqsecid, ind)}
           >
             {info.uniqsecid}
-            {/* {copied && (
-              <p className="text-gray-500">
-                {" "}
-                <div
-                  ref={calendarRef}
-                  role="tooltip"
-                  className="absolute shadow-lg show  z-10 border rounded   popover bs-popover-bottom "
-                  style={{
-                    top: "40%",
-                    left: "42%",
-                    transform: "translateX(-50%)",
-                  }}
-                >
-                  Copied {copiedText}
-                </div>
-              </p>
-            )} */}
+            {copiedMessage === ind && (
+              <span className="text-green-500 ml-2">Copied!</span>
+            )}
           </td>
 
           <td className="py-3 px-6 text-left">
@@ -207,7 +201,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
                 <div
                   ref={calendarRef}
                   role="tooltip"
-                  className="absolute shadow-lg show bg-blue-400 z-10 border rounded   popover bs-popover-bottom "
+                  className="absolute shadow-lg show bg-blue-400 z-10 border rounded popover bs-popover-bottom"
                   style={{
                     top: "80%",
                     left: "54%",

@@ -56,7 +56,7 @@ function QuestionAdd({ setIsLoggedIn }) {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        navigate("/createmain");
+        navigate("/admin/createmain");
       } catch (error) {
         console.error("Fetch operation error:", error);
       }
@@ -167,7 +167,7 @@ function QuestionAdd({ setIsLoggedIn }) {
             <button type="submit" className="btn btn-primary mr-5">
               Submit
             </button>
-            <Link to="/createmain">
+            <Link to="/admin/createmain">
               <button type="button" className="btn btn-primary">
                 Back
               </button>

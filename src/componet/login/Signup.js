@@ -218,9 +218,8 @@ const Signup = ({ setIsLoggedIn }) => {
               to="/loginadminpage"
               className="font-semibold underline text-red-800"
             >
-              login
+              login.
             </Link>
-            .
           </div>
         ) : (
           <form onSubmit={handleSubmit}>
@@ -275,9 +274,9 @@ const Signup = ({ setIsLoggedIn }) => {
 
             <div className="flex justify-between mt-3">
               <button type="submit" className="btn btn-primary btn-block">
-                Sign Up
+                Submit
               </button>
-              <Link to="/loginadminpage" className="font-semibold text-xl">
+              <Link to="/admin/login" className="font-semibold text-xl">
                 Login
               </Link>
             </div>

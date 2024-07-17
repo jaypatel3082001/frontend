@@ -212,7 +212,7 @@ function Sectionmain({ setIsLoggedIn }) {
                   ))}
                 </select>
               </div>
-              <Link to="/Sectionform">
+              <Link to="/admin/Sectionform">
                 <div className="mr-5 cursor-pointer flex">
                   <span>
                     <AddSection />
