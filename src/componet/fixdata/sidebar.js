@@ -55,7 +55,7 @@ function Sidebar() {
           <ul className="flex flex-col space-y-8">
             <li>
               <Link
-                to="/Home"
+                to="/admin/Home"
                 className={`flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] svg-hover ${
                   active === "/Home"
                     ? "bg-[#F3F4F6] text-slate-800 svg-active "

@@ -42,7 +42,6 @@ const Loginpage = () => {
         setErrorMessage("");
 
         navigate("/userpages/quiz-start");
-        navigate(0);
       } else {
         setErrorMessage("Invalid email or password");
         setInputlogindata({
