@@ -9,7 +9,7 @@ import Main from "./componet/mainpage/main";
 import Createmain from "./componet/createquestion/createmain/createmain";
 import Sectionmain from "./componet/Section/sectionmain/Sectionmain";
 import QuestionAdd from "./componet/createquestion/questionadd";
-// import LoginAdminpage from "./componet/login/loginHomepage";
+
 import Signup from "./componet/login/Signup";
 import Userpages from "./componet/User/userpages";
 import Sectionform from "./componet/Section/Sectionform";
@@ -84,7 +84,7 @@ function App() {
     <Router>
       <Routes>
         {/* redirection */}
-        <Route path="/*" element={<Navigate to={"login"} />} />
+
         {/* auth Routes */}
         <Route
           path="/login"
@@ -94,6 +94,7 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route path="/*" element={<Navigate to={"/login"} />} />
         <Route
           path="/admin/login"
           element={
@@ -212,11 +213,7 @@ function App() {
           path={`/userpages/quiz-start`}
           element={
             <PrivateRoute>
-              {isStudentLoggedIn ? (
-                <Userpages />
-              ) : (
-                <Navigate to={"/admin/login"} />
-              )}
+              {isStudentLoggedIn ? <Userpages /> : <Navigate to={"/login"} />}
               {/* <Userpages /> */}
             </PrivateRoute>
           }

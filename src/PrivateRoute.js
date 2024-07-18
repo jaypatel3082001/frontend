@@ -7,15 +7,15 @@ const PrivateRoute = (props) => {
 
   useEffect(() => {
     if (!token) {
-      navigate("/admin/login");
+      navigate("/login");
     }
   }, [token]);
 
-  const removeTokens = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("onBoarding");
-  };
+  // const removeTokens = () => {
+  //   localStorage.removeItem("token");
+  //   localStorage.removeItem("refreshToken");
+  //   localStorage.removeItem("onBoarding");
+  // };
 
   return props.children;
 };

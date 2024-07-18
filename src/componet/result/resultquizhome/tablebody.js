@@ -21,7 +21,7 @@ function Tablebody({ offset }) {
   const handleResult = (id) => {
     localStorage.setItem("resultsectionId", id);
 
-    Navigate("/resultstudentmain");
+    Navigate("/admin/resultstudentmain");
   };
   console.log("sortedData", sortedData);
   return isLoading ? (

@@ -3,9 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../cssfile/Login.css";
-import { Link } from "react-router-dom";
 
-const Loginpage = ({ setIsLoggedIn }) => {
+const Loginpage = () => {
   const [inputlogindata, setInputlogindata] = useState({
     userEmail: "",
     firstname: "",
