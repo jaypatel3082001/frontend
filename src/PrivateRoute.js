@@ -7,7 +7,7 @@ const PrivateRoute = (props) => {
 
   useEffect(() => {
     if (!token) {
-      navigate("/login");
+      navigate("/admin/login");
     }
   }, [token]);
 

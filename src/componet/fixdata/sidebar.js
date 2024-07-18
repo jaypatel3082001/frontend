@@ -57,7 +57,7 @@ function Sidebar() {
               <Link
                 to="/admin/Home"
                 className={`flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] svg-hover ${
-                  active === "/Home"
+                  active === "/admin/Home"
                     ? "bg-[#F3F4F6] text-slate-800 svg-active "
                     : "hover:bg-[#F3F4F6] hover:text-slate-800 "
                 }`}

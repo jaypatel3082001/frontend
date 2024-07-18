@@ -8,6 +8,8 @@ const StudentAuthRoute = (props) => {
   useEffect(() => {
     if (token) {
       navigate("/userpages/quiz-start");
+    } else {
+      navigate("/student/login");
     }
   }, [token]);
 

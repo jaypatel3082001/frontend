@@ -87,14 +87,14 @@ function App() {
 
         {/* auth Routes */}
         <Route
-          path="/login"
+          path="/student/login"
           element={
-            <PrivateRoute>
+            <StudentAuthRoute>
               <Loginstudentpage />
-            </PrivateRoute>
+            </StudentAuthRoute>
           }
         />
-        <Route path="/*" element={<Navigate to={"/login"} />} />
+        <Route path="/*" element={<Navigate to={"/student/login"} />} />
         <Route
           path="/admin/login"
           element={
