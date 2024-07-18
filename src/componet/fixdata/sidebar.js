@@ -145,7 +145,7 @@ function Sidebar() {
                 <span className="text-base">Result</span>
               </Link>
             </li>
-            {tokendata.email == "admin@123.com" && (
+            {tokendata?.email == "admin@123.com" && (
               <li>
                 <Link
                   to="/admin/resultmain"
