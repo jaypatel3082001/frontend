@@ -79,7 +79,7 @@ function App() {
       setStudentIsLoggedIn(true);
     }
   }, [token]);
-
+  console.log("studenttoken", tokenstudent);
   return (
     <Router>
       <Routes>
@@ -213,7 +213,8 @@ function App() {
           path={`/userpages/quiz-start`}
           element={
             <StudentAuthRoute>
-              {isStudentLoggedIn ? <Userpages /> : <Navigate to={"/login"} />}
+              <Userpages />
+              {/* {isStudentLoggedIn ?  : <Navigate to={"/login"} />} */}
               {/* <Userpages /> */}
             </StudentAuthRoute>
           }
