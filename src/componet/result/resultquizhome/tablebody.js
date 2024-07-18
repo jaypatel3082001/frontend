@@ -51,7 +51,9 @@ function Tablebody({ offset }) {
       {sortedData?.map((info, ind) => (
         <tr
           key={ind}
-          className="border-b border-gray-200 hover:bg-gray-200 w-full"
+          className={`border-b border-gray-200 hover:bg-gray-200 w-full ${
+            ind % 2 !== 0 ? "bg-[#FAF5FF]" : "bg-slate-50"
+          }`}
         >
           <td className="py-3 px-6 text-left flex items-center">
             {offset + ind + 1}

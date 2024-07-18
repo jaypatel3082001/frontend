@@ -67,7 +67,7 @@ function Tablebody({ offset, formatDate, resultBy }) {
       console.warn("No data to download.");
     }
   };
-
+  console.log(sortedData);
   const downloadPdfFile = (formattedData) => {
     const element = document.createElement("div");
     element.innerHTML = formattedData;
@@ -111,14 +111,14 @@ function Tablebody({ offset, formatDate, resultBy }) {
           {sortedData.map((info, ind) => (
             <tr
               key={ind}
-              className="border-b border-gray-200 hover:bg-gray-200 w-full"
+              className={`border-b border-gray-200 hover:bg-gray-200 w-full ${
+                ind % 2 !== 0 ? "bg-[#FAF5FF]" : "bg-slate-50"
+              }`}
             >
               <td className="py-3 px-6 text-left flex items-center">
                 {offset + ind + 1}
               </td>
-              <td className="py-3 px-6 text-left">
-                {info.firstname} {info.lastname}
-              </td>
+              <td className="py-3 px-6 text-left">{info.username}</td>
               <td className="py-3 px-6 text-left">{info.userEmail}</td>
               <td className="py-3 px-6 text-left">
                 {formatDate(info.createdAt)}
@@ -162,14 +162,14 @@ function Tablebody({ offset, formatDate, resultBy }) {
           {sortedData.map((info, ind) => (
             <tr
               key={ind}
-              className="border-b border-gray-200 hover:bg-gray-200 w-full"
+              className={`border-b border-gray-200 hover:bg-gray-200 w-full ${
+                ind % 2 !== 0 ? "bg-[#FAF5FF]" : "bg-slate-50"
+              }`}
             >
               <td className="py-3 px-6 text-left flex items-center">
                 {offset + ind + 1}
               </td>
-              <td className="py-3 px-6 text-left">
-                {info.firstname} {info.lastname}
-              </td>
+              <td className="py-3 px-6 text-left">{info.username}</td>
               <td className="py-3 px-6 text-left">{info.userEmail}</td>
               <td className="py-3 px-6 text-left">
                 {formatDate(info.createdAt)}

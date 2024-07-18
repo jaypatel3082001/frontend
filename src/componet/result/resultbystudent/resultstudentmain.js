@@ -33,7 +33,7 @@ function Resultstudentmain({ setIsLoggedIn }) {
   const [limit, setLimit] = useState(10);
   const [resultBy, setResult] = useState("Quiz");
   const sortBy = "createdAt";
-
+  let type = "result";
   let mainstatus = "";
 
   const startDate =
@@ -70,6 +70,7 @@ function Resultstudentmain({ setIsLoggedIn }) {
         resultBy,
         startDate,
         endDate,
+        type,
         status,
         mainstatus,
 
@@ -102,7 +103,7 @@ function Resultstudentmain({ setIsLoggedIn }) {
     sortOrder,
     status,
     startDate,
-
+    type,
     status,
     mainstatus,
     inputs.Tablemanuplation.currentPage,
@@ -114,7 +115,7 @@ function Resultstudentmain({ setIsLoggedIn }) {
     search,
     limit,
     offset,
-
+    type,
     status,
     mainstatus,
     sortBy,
