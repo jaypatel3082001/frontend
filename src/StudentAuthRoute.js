@@ -6,9 +6,7 @@ const StudentAuthRoute = (props) => {
   const token = localStorage.getItem("authTokenstu");
 
   useEffect(() => {
-    if (token) {
-      navigate("/userpages/quiz-start");
-    } else {
+    if (!token) {
       navigate("/student/login");
     }
   }, [token]);
