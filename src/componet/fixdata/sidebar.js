@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { ReactComponent as Result } from "../../svgfile/result.svg";
 import { ReactComponent as Examlist } from "../../svgfile/examlist.svg";
@@ -6,27 +6,43 @@ import { ReactComponent as Logout } from "../../svgfile/logout.svg";
 import { ReactComponent as QuestionAdd } from "../../svgfile/Questionadd.svg";
 import { ReactComponent as Quiz } from "../../svgfile/Quize.svg";
 import { ReactComponent as Home } from "../../svgfile/homg.svg";
+import { jwtDecode } from "jwt-decode";
 
 function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [active, setActive] = useState(location.pathname);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Initially open
+  const [tokendata, setTokendata] = useState();
 
+  console.log("dattoken", tokendata);
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     navigate("/admin");
-    // navigate(0);
   };
+
+  const token = localStorage.getItem("authToken");
+  useEffect(() => {
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        setTokendata(decoded);
+      } catch (error) {
+        console.error("Invalid token:", error);
+      }
+    } else {
+      console.log("No token found");
+    }
+  }, [token]);
 
   const handleItemClick = (path) => {
     setActive(path);
     navigate(path);
   };
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  // const toggleSidebar = () => {
+  //   setIsSidebarOpen(!isSidebarOpen);
+  // };
 
   return (
     <div
@@ -129,6 +145,23 @@ function Sidebar() {
                 <span className="text-base">Result</span>
               </Link>
             </li>
+            {tokendata.email == "admin@123.com" && (
+              <li>
+                <Link
+                  to="/admin/resultmain"
+                  className={`flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] svg-hover ${
+                    active === "/admin/resultmain" ||
+                    active === "/admin/resultstudentmain"
+                      ? "bg-[#F3F4F6] text-slate-800 svg-active"
+                      : "hover:bg-[#F3F4F6] hover:text-slate-800"
+                  }`}
+                  onClick={() => handleItemClick("/admin/resultmain")}
+                >
+                  <Result />
+                  <span className="text-base">Admin Access</span>
+                </Link>
+              </li>
+            )}
             <li>
               <div
                 onClick={handleLogout}

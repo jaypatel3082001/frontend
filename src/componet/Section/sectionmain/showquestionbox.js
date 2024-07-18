@@ -114,7 +114,9 @@ function Showquestionbox({ showQuestion }) {
               <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg overflow-hidden h-full ">
                 <div className="bg-gray-800 text-white py-3 px-4 flex justify-between items-center">
                   <div>
-                    <Link to={`/Sectionmain/question-list/question-select`}>
+                    <Link
+                      to={`/admin/Sectionmain/question-list/question-select`}
+                    >
                       <button
                         type="submit"
                         className="btn bg-[#8A6FDF]   mr-3 flex items-center"

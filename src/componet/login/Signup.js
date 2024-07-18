@@ -205,20 +205,21 @@ const Signup = ({ setIsLoggedIn }) => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="main bg-white rounded-lg shadow-md p-10 w-96">
-        {showerror && (
-          <div className="text-red-500 font-bold text-center mb-3">
-            {errorMessage}
-          </div>
-        )}
         <h1 className="text-green-500 text-3xl mb-6">Admin Signup</h1>
         {signupSuccess ? (
-          <div className="text-green-500 text-center mb-4">
-            Signup successful! You can now{" "}
-            <Link
+          <div>
+            <div className="text-red-500 text-center mb-4">
+              Your signup request has been successfully sent to the admin for
+              approval.
+              {/* <Link
               to="/loginadminpage"
-              className="font-semibold underline text-red-800"
+              className="font-semibold underline text-red-800 ml-8"
             >
               login.
+            </Link> */}
+            </div>
+            <Link to="/admin">
+              <button className="btn btn-primary w-100 btn-block">Login</button>
             </Link>
           </div>
         ) : (
