@@ -149,7 +149,7 @@ function Sectionmain({ setIsLoggedIn }) {
             <div className="flex justify-between items-center mb-2 mt-3">
               <div className="flex items-center">
                 <div className="mr-2 font-bold">Date :- </div>
-                <div className=" bg-white rounded-xl p-2">
+                <div className=" bg-white   border rounded p-2">
                   <div className="flex items-center">
                     <div>
                       <CustomDatePicker

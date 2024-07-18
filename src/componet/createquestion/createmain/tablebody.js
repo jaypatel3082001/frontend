@@ -92,7 +92,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
     },
     [fetchData]
   );
-
+  console.log(sortedData);
   const handleClicktd = useCallback(
     (id) => {
       dispatch(setDisplay(!inputs.Tablemanuplation.display));

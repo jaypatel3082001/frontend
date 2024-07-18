@@ -33,20 +33,24 @@ function App() {
   const [isStudentLoggedIn, setStudentIsLoggedIn] = useState(false);
   const token = localStorage.getItem("authToken");
   const tokenstudent = localStorage.getItem("authTokenstu");
+
   useEffect(() => {
+    console.log(token, "sssssssssssssssssssssssssssssssss");
     if (token) {
       try {
         const decoded = jwtDecode(token);
         const currentTime = Date.now() / 1000;
-
+        console.log(decoded, "decoded");
         if (!decoded.exp || decoded.exp < currentTime) {
           localStorage.removeItem("authToken");
           console.log("Token expired or invalid, removed from local storage");
         }
       } catch (error) {
         console.error("Invalid token:", error);
+        localStorage.removeItem("authToken");
       }
     } else {
+      localStorage.removeItem("authToken");
       console.log("No token found");
     }
   }, [token]);
@@ -58,8 +62,6 @@ function App() {
 
         if (!decoded.exp || decoded.exp < currentTime) {
           localStorage.removeItem("authTokenstu");
-        } else {
-          console.log(decoded);
         }
       } catch (error) {
         console.log("Invalid token:", error);

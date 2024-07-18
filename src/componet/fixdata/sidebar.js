@@ -16,7 +16,6 @@ function Sidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Initially open
   const [tokendata, setTokendata] = useState();
 
-  console.log("dattoken", tokendata);
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     navigate("/admin");

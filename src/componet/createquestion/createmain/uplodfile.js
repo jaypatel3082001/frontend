@@ -49,6 +49,7 @@ function Uplodfile() {
             }
           );
           setData(response.data.data);
+          navigate("/admin/createmain");
         } catch (error) {
           setTypeError("Error uploading file.");
           console.error("Error uploading file:", error);

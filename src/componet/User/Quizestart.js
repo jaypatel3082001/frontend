@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
+import html2canvas from "html2canvas";
+import axios from "axios";
 function Quizestart({ id, keyid }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +29,32 @@ function Quizestart({ id, keyid }) {
   //************************************************* */
   const [timeRemaining, setTimeRemaining] = useState(); // Initial time in minutes
 
+  //************** Take Screen shoot ***********************************/
+  // useEffect(() => {
+  //   const takeScreenshotAndSend = async () => {
+  //     try {
+  //       const canvas = await html2canvas(document.body);
+  //       const imgData = canvas.toDataURL("image/png");
+
+  //       await axios.post("https://quiz-krishang.vercel.app/file/ssupload", {
+  //         screenshot: imgData,
+  //       });
+
+  //       console.log("Screenshot taken and sent successfully.");
+  //     } catch (error) {
+  //       console.error("Error taking screenshot and sending:", error);
+  //     }
+  //   };
+
+  //   takeScreenshotAndSend();
+
+  //   const interval = setInterval(() => {
+  //     takeScreenshotAndSend();
+  //   }, 60000);
+
+  //   // Clean up interval on component unmount
+  //   return () => clearInterval(interval);
+  // }, []);
   useEffect(() => {
     const totalSeconds = timeRemaining * 60;
     let currentTime = totalSeconds;
@@ -638,7 +666,6 @@ function Quizestart({ id, keyid }) {
     //     </div>
     //   </div>
     // </div>
-
     <div
       className="absolute left-0 h-full bg-blue-100 top-0 w-full"
       id="fullscreen"
@@ -805,7 +832,7 @@ function Quizestart({ id, keyid }) {
                               </h1>
                             </div>
 
-                            <div className="border-2 py-3 font-bold text-xl pl-2 mb-3">
+                            <div className="border-2 py-3 font-bold text-xl pl-2 mb-3 text-left">
                               {ele.question}
                             </div>
                             <div>
@@ -815,7 +842,10 @@ function Quizestart({ id, keyid }) {
                                 ele.option3,
                                 ele.option4,
                               ].map((option, index) => (
-                                <div key={index} className="border-2 p-2 ">
+                                <div
+                                  key={index}
+                                  className="border-2 p-2 text-left"
+                                >
                                   <input
                                     type="radio"
                                     sectionId={ele._id}
@@ -831,7 +861,7 @@ function Quizestart({ id, keyid }) {
                                     onChange={handleQuestion}
                                   />
                                   <label
-                                    className="ml-2 text-xl"
+                                    className="ml-2 text-xl t"
                                     htmlFor={`option-${partIndex}-${questionIndex}-${
                                       index + 1
                                     }`}
