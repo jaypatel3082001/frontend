@@ -19,46 +19,46 @@ function Userpage() {
     setIsstart(true);
   };
 
-  useEffect(() => {
-    // Function to handle right-click prevention
-    const handleContextMenu = (e) => {
-      e.preventDefault(); // Prevent default right-click behavior
-      // Additional logic as needed
-    };
+  // useEffect(() => {
+  //   // Function to handle right-click prevention
+  //   const handleContextMenu = (e) => {
+  //     e.preventDefault(); // Prevent default right-click behavior
+  //     // Additional logic as needed
+  //   };
 
-    // Function to handle fullscreen mode
-    const handleFullscreen = () => {
-      const element = document.getElementById("fullscreen");
+  //   // Function to handle fullscreen mode
+  //   const handleFullscreen = () => {
+  //     const element = document.getElementById("fullscreen");
 
-      if (element) {
-        if (element.requestFullscreen) {
-          element.requestFullscreen();
-        } else if (element.webkitRequestFullscreen) {
-          /* Safari */
-          element.webkitRequestFullscreen();
-        } else if (element.msRequestFullscreen) {
-          /* IE/Edge */
-          element.msRequestFullscreen();
-        }
-      }
-    };
+  //     if (element) {
+  //       if (element.requestFullscreen) {
+  //         element.requestFullscreen();
+  //       } else if (element.webkitRequestFullscreen) {
+  //         /* Safari */
+  //         element.webkitRequestFullscreen();
+  //       } else if (element.msRequestFullscreen) {
+  //         /* IE/Edge */
+  //         element.msRequestFullscreen();
+  //       }
+  //     }
+  //   };
 
-    // Attach event listeners when component mounts
-    document.addEventListener("contextmenu", handleContextMenu);
+  //   // Attach event listeners when component mounts
+  //   document.addEventListener("contextmenu", handleContextMenu);
 
-    const fullscreenButton = document.getElementById("fullscreen");
-    if (fullscreenButton) {
-      fullscreenButton.addEventListener("click", handleFullscreen);
-    }
+  //   const fullscreenButton = document.getElementById("fullscreen");
+  //   if (fullscreenButton) {
+  //     fullscreenButton.addEventListener("click", handleFullscreen);
+  //   }
 
-    // Clean up event listeners when component unmounts
-    return () => {
-      document.removeEventListener("contextmenu", handleContextMenu);
-      if (fullscreenButton) {
-        fullscreenButton.removeEventListener("click", handleFullscreen);
-      }
-    };
-  }, []);
+  //   // Clean up event listeners when component unmounts
+  //   return () => {
+  //     document.removeEventListener("contextmenu", handleContextMenu);
+  //     if (fullscreenButton) {
+  //       fullscreenButton.removeEventListener("click", handleFullscreen);
+  //     }
+  //   };
+  // }, []);
   //************************* */
   return (
     <div

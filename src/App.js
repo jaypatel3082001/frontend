@@ -25,7 +25,7 @@ import Loginstudentpage from "./componet/login/loginpage";
 import LoginAdminpage from "./componet/login/adminloginpage";
 import AdminSignuppage from "./componet/login/Signup";
 import { jwtDecode } from "jwt-decode";
-
+import StudentAuthRoute from "./StudentAuthRoute";
 import "./App.css";
 import NoAuthRoute from "./NoAuthRoute";
 
@@ -212,10 +212,10 @@ function App() {
         <Route
           path={`/userpages/quiz-start`}
           element={
-            <PrivateRoute>
+            <StudentAuthRoute>
               {isStudentLoggedIn ? <Userpages /> : <Navigate to={"/login"} />}
               {/* <Userpages /> */}
-            </PrivateRoute>
+            </StudentAuthRoute>
           }
         />
         <Route

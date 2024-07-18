@@ -61,7 +61,6 @@ function Sidebar() {
                     ? "bg-[#F3F4F6] text-slate-800 svg-active "
                     : "hover:bg-[#F3F4F6] hover:text-slate-800 "
                 }`}
-                onClick={() => handleItemClick("/Home")}
               >
                 <Home />
                 <span className={`text-base ${isSidebarOpen ? "" : "hidden"}`}>
