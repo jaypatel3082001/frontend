@@ -10,6 +10,27 @@ function Userpage() {
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
+    fettdata()
+  }, []);
+  const fettdata=async()=>{
+    const api2 = "https://quiz-krishang.vercel.app/file/ssupload";
+    try {
+      const response = await fetch(api2, {
+        method: "POST",
+        // body: JSON.stringify(inputlogindata), // Assuming inputlogindata contains necessary info for backend
+      });
+
+      if (response.ok) {
+        // const result = await response.json();
+        console.log("Success:", response);
+      } else {
+        console.error("Error:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
+  }
+  useEffect(() => {
     const token = localStorage?.getItem("authTokenstu");
     if (token) {
       setDetails(jwtDecode(token)); // Use the named export

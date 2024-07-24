@@ -58,22 +58,7 @@ const Loginpage = () => {
       setErrorMessage("An error occurred. Please try again.");
     }
 
-    const api2 = "https://quiz-krishang.vercel.app/file/ssupload";
-    try {
-      const response = await fetch(api2, {
-        method: "POST",
-        // body: JSON.stringify(inputlogindata), // Assuming inputlogindata contains necessary info for backend
-      });
-
-      if (response.ok) {
-        // const result = await response.json();
-        console.log("Success:", response);
-      } else {
-        console.error("Error:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Fetch error:", error);
-    }
+    
   };
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
