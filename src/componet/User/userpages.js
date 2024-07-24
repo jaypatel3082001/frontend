@@ -3,15 +3,16 @@ import { jwtDecode } from "jwt-decode"; // Use the named export
 import Quizestart from "./Quizestart";
 
 function Userpage() {
+  fettdata()
   const [isstart, setIsstart] = useState(false);
   const [details, setDetails] = useState({});
   const id = localStorage.getItem("paperQuizId");
 
   const [showPopup, setShowPopup] = useState(false);
 
-  useEffect(() => {
-    fettdata()
-  }, []);
+  // useEffect(() => {
+  //   fettdata()
+  // }, []);
   const fettdata=async()=>{
     const api2 = "https://quiz-krishang.vercel.app/file/ssupload";
     try {
