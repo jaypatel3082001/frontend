@@ -42,7 +42,7 @@ const Loginpage = () => {
         setErrorMessage("");
         // anoDEv();
 
-        // navigate("/userpages/quiz-start");
+        navigate("/userpages/quiz-start");
       } else {
         console.log("sdsdsdsds");
         setErrorMessage("Invalid email or password");
@@ -57,8 +57,6 @@ const Loginpage = () => {
       console.error("Fetch operation error:", error);
       setErrorMessage("An error occurred. Please try again.");
     }
-
-    
   };
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
