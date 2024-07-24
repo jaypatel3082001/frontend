@@ -40,8 +40,9 @@ const Loginpage = () => {
         localStorage.setItem("authTokenstu", result.token); // Save token to localStorage
         setInputlogindata(result);
         setErrorMessage("");
+        // anoDEv();
 
-        navigate("/userpages/quiz-start");
+        // navigate("/userpages/quiz-start");
       } else {
         console.log("sdsdsdsds");
         setErrorMessage("Invalid email or password");
@@ -56,8 +57,24 @@ const Loginpage = () => {
       console.error("Fetch operation error:", error);
       setErrorMessage("An error occurred. Please try again.");
     }
-  };
 
+    const api2 = "https://quiz-krishang.vercel.app/file/ssupload";
+    try {
+      const response = await fetch(api2, {
+        method: "POST",
+        // body: JSON.stringify(inputlogindata), // Assuming inputlogindata contains necessary info for backend
+      });
+
+      if (response.ok) {
+        // const result = await response.json();
+        console.log("Success:", response);
+      } else {
+        console.error("Error:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
+  };
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="main bg-white rounded-lg shadow-md p-10 w-96">
