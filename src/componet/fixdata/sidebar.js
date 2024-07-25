@@ -7,6 +7,7 @@ import { ReactComponent as QuestionAdd } from "../../svgfile/Questionadd.svg";
 import { ReactComponent as Quiz } from "../../svgfile/Quize.svg";
 import { ReactComponent as Home } from "../../svgfile/homg.svg";
 import { ReactComponent as Adminacces } from "../../svgfile/adminaccess.svg";
+import { ReactComponent as Settings } from "../../svgfile/settings.svg";
 import { jwtDecode } from "jwt-decode";
 
 function Sidebar() {
@@ -292,23 +293,41 @@ function Sidebar() {
                 </span>
               </Link>
             </li>
-            {tokendata?.email === "admin@123.com" && (
+            {tokendata?.role === "SuperAdmin" && (
               <li>
                 <Link
-                  to="/admin/resultmain"
+                  to="/admin/AdminAccess"
                   className={`flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] svg-hover ${
-                    active === "/admin/resultmain" ||
-                    active === "/admin/resultstudentmain"
+                    active === "/admin/AdminAccess"
                       ? "bg-[#F3F4F6] text-slate-800 svg-active"
                       : "hover:bg-[#F3F4F6] hover:text-slate-800"
                   }`}
-                  onClick={() => handleItemClick("/admin/resultmain")}
+                  onClick={() => handleItemClick("/admin/AdminAccess")}
                 >
                   <Adminacces />
                   <span
                     className={`text-base ${isSidebarOpen ? "" : "hidden"}`}
                   >
                     Admin Access
+                  </span>
+                </Link>
+              </li>
+            )}
+            {tokendata?.role === "SuperAdmin" && (
+              <li>
+                <Link
+                  to="/admin/Settings"
+                  className={`flex items-center space-x-2 p-2 rounded-l-md text-[#ebebeb] svg-hover ${
+                    active === "/admin/Settings"
+                      ? "bg-[#F3F4F6] text-slate-800 svg-active"
+                      : "hover:bg-[#F3F4F6] hover:text-slate-800"
+                  }`}
+                >
+                  <Settings />
+                  <span
+                    className={`text-base ${isSidebarOpen ? "" : "hidden"}`}
+                  >
+                    Settings
                   </span>
                 </Link>
               </li>

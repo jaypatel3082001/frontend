@@ -110,12 +110,10 @@ function Quizestart({ id, keyid }) {
       setData(shuffleArray(result.allData));
 
       setTimeRemaining(result.totalTime);
-      console.log("result", result);
 
       let initialUnansweredCount = {};
 
       setArrrr((prevArrrr) => {
-        console.log("Updating state with id:", id);
         // Find if the section with quizId 'id' already exists in prevArrrr
         const existingSectionIndex = prevArrrr.findIndex(
           (section) => section.quizId === id
@@ -143,7 +141,6 @@ function Quizestart({ id, keyid }) {
             ],
           };
 
-          console.log("Updated state:", updatedArrrr);
           return updatedArrrr;
         } else {
           // Section does not exist, add a new section
@@ -167,7 +164,6 @@ function Quizestart({ id, keyid }) {
             },
           ];
 
-          console.log("New state:", newArrrr);
           return newArrrr;
         }
       });
@@ -313,8 +309,6 @@ function Quizestart({ id, keyid }) {
         ...prevAnsweredCount,
         [sectionName]: (prevAnsweredCount[sectionName] || 0) + 1,
       }));
-      console.log(answeredCount, "answeredCount");
-      console.log(unansweredCount, "unansweredCount");
 
       setUnansweredCount((prevUnansweredCount) => ({
         ...prevUnansweredCount,

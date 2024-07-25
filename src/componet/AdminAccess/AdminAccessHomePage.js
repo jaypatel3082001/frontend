@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
-import { Link } from "react-router-dom";
-import Sidebar from "../../fixdata/sidebar";
-import Navbar from "../../fixdata/navbar";
-import { ReactComponent as Add } from "../../../svgfile/Questionadd.svg";
-import CustomDatePicker from "../../../util/CoustomDatePicker";
+import Sidebar from "../fixdata/sidebar";
+import Navbar from "../fixdata/navbar";
+
+import CustomDatePicker from "../../util/CoustomDatePicker";
+
 import {
   toggleModal,
   setIsloading,
@@ -13,27 +13,29 @@ import {
   setIdstores,
   setDateRangequize,
   setTotalCount,
-} from "../../../reduxfiles/quizredux";
+} from "../../reduxfiles/Admin";
 import Tableheader from "./tableheader";
 import Tablebody from "./tablebody";
-import Showquestionbox from "./showquestionbox";
-import { useDispatch, useSelector } from "react-redux";
-import { serializedSelectionDatePicker } from "../../../util/utility";
-import Keyshow from "./Keyshow";
-import Createmainpagination from "../pagination/quizpagination";
 
-function Quizmain({ setIsLoggedIn }) {
+import { useDispatch, useSelector } from "react-redux";
+import { serializedSelectionDatePicker } from "../../util/utility";
+
+import Pagination from "./pagination/pagination";
+
+function AdminAcceseeHomePage() {
   const dispatch = useDispatch();
 
-  const inputs = useSelector((state) => state.inputs3);
+  const inputs = useSelector((state) => state.inputs6);
   const sortByOptions = useMemo(() => [10, 20, 30, 40, 50, 60], []);
-  const urloFe = "https://quiz-krishang.vercel.app/search/getsearchAll";
+  const urloFe = "https://quiz-krishang.vercel.app/search/getusers";
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState("");
-  const [sortOrder, setSortOrder] = useState("asc");
+  const [sortOrder, setSortOrder] = useState("");
+  const [role, setRole] = useState("asc");
 
   const sortBy = "createdAt";
-  const type = "quiz";
+  const type = "user";
+
   const token = localStorage.getItem("authToken");
   //**************************************** */
 
@@ -76,6 +78,7 @@ function Quizmain({ setIsLoggedIn }) {
         sortBy,
         sortOrder,
         startDate,
+        role,
         endDate,
         type,
         offset: inputs.Tablemanuplation.currentPage * limit - limit,
@@ -92,7 +95,7 @@ function Quizmain({ setIsLoggedIn }) {
       }
       const result = await response.json();
 
-      dispatch(setSortedData(result));
+      dispatch(setSortedData(result.data));
       dispatch(setTotalCount(result.totalCount));
     } catch (error) {
       console.error("Fetch operation error:", error);
@@ -103,6 +106,7 @@ function Quizmain({ setIsLoggedIn }) {
     endDate,
     limit,
     search,
+    role,
     sortBy,
     sortOrder,
     startDate,
@@ -150,12 +154,12 @@ function Quizmain({ setIsLoggedIn }) {
         <Sidebar />
         <div className="w-full h-screen ml-64">
           <div>
-            <Navbar setIsLoggedIn={setIsLoggedIn} />
+            <Navbar />
           </div>
 
           <div className="bg-white rounded shadow-md m-4 p-4 ">
             <div className="flex justify-between items-center mb-4">
-              <div className="text-xl font-semibold">QUIZ</div>
+              <div className="text-xl font-semibold">Admin</div>
             </div>
             <div className="flex justify-between items-center mb-2 mt-3">
               <div className="flex items-center">
@@ -204,16 +208,6 @@ function Quizmain({ setIsLoggedIn }) {
                   ))}
                 </select>
               </div>
-              <Link to="/admin/addQuiz">
-                <div className="mr-5 cursor-pointer">
-                  <div className=" mr-5 flex">
-                    <span>
-                      <Add fill="black" />
-                    </span>
-                    <span>AddQuiz</span>
-                  </div>
-                </div>
-              </Link>
             </div>
 
             <div>
@@ -221,6 +215,8 @@ function Quizmain({ setIsLoggedIn }) {
                 <Tableheader
                   sortOrder={sortOrder}
                   setSortOrder={setSortOrder}
+                  setRole={setRole}
+                  role={role}
                 />
 
                 <Tablebody
@@ -241,12 +237,10 @@ function Quizmain({ setIsLoggedIn }) {
                 </span>
 
                 <div className="flex space-x-2">
-                  <Createmainpagination />
+                  <Pagination />
                 </div>
               </div>
             )}
-            <Showquestionbox showQuestion={showQuestion} />
-            <Keyshow />
           </div>
         </div>
       </div>
@@ -254,4 +248,4 @@ function Quizmain({ setIsLoggedIn }) {
   );
 }
 
-export default Quizmain;
+export default AdminAcceseeHomePage;

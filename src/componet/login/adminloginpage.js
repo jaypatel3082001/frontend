@@ -35,7 +35,8 @@ const Loginpage = () => {
 
       if (response.ok) {
         const result = await response.json();
-        localStorage.setItem("authToken", result.token);
+        localStorage.setItem("authToken", result.data.token);
+        localStorage.setItem("rtoken", result.data.dummytoken);
         setInputlogindata(result);
         setErrorMessage("");
         navigate("/admin/Home");

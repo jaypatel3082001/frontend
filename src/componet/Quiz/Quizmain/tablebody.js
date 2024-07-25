@@ -23,7 +23,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
   const inputs = useSelector((state) => state.inputs3);
   const dispatch = useDispatch();
   const token = localStorage.getItem("authToken");
-  console.log(inputs?.Tablemanuplation?.sortedData?.data, "www");
+
   const fetchData = useCallback(async () => {
     try {
       const response = await fetch(url, {

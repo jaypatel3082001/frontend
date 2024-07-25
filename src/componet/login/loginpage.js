@@ -1,6 +1,6 @@
 // student Login
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../cssfile/Login.css";
 
@@ -11,8 +11,15 @@ const Loginpage = () => {
     lastname: "",
     userkey: "",
   });
+  const token = localStorage.getItem("authToken");
   const [errorMessage, setErrorMessage] = useState("");
+  const [backgroundcolor, setBackgroundcolor] = useState("");
+  const [bgimg, setBgimg] = useState("");
+  const [logoimg, setLogoimg] = useState("");
+
   const navigate = useNavigate();
+  const url = "https://quiz-krishang.vercel.app/auth/examlogin";
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInputlogindata((prevData) => ({
@@ -20,7 +27,7 @@ const Loginpage = () => {
       [name]: value,
     }));
   };
-  console.log("inputlogindata", inputlogindata);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -37,7 +44,8 @@ const Loginpage = () => {
       if (response.ok) {
         const result = await response.json();
         localStorage.setItem("paperQuizId", result.existKey.quizId);
-        localStorage.setItem("authTokenstu", result.token); // Save token to localStorage
+        localStorage.setItem("authTokenstu", result.token);
+        // Save token to localStorage
         setInputlogindata(result);
         setErrorMessage("");
 
@@ -57,10 +65,37 @@ const Loginpage = () => {
       setErrorMessage("An error occurred. Please try again.");
     }
   };
+  ///color filter/////////////////////////
+  useEffect(() => {
+    fetchsortData();
+  });
+
+  const fetchsortData = useCallback(async () => {
+    try {
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const result = await response.json();
+      console.log(result.backgroundImage);
+      setBackgroundcolor(result.backgroundColor);
+      // setBgimg(result.backgroundImage);
+      // setLogoimg(result.logo);
+    } catch (error) {
+      console.error("Fetch operation error:", error);
+    }
+  });
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="main bg-white rounded-lg shadow-md p-10 w-96">
+    <div
+      className={`flex items-center justify-center min-h-screen bg-[${backgroundcolor}]`}
+    >
+      <div className={`main bg-gray-100 rounded-lg shadow-md p-10 w-96`}>
         <div>
           {errorMessage && (
             <div className="alert alert-danger" role="alert">

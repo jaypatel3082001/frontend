@@ -154,8 +154,7 @@ function Resultstudentmain({ setIsLoggedIn }) {
     // Generate a random file name
     const fileName = `data_${Math.random().toString(36).substr(2, 9)}.xlsx`;
     const jsonData = inputs?.Tablemanuplation?.sortedData.map((item) => ({
-      firstname: item.firstname,
-      lastname: item.lastname,
+      name: item.username,
       userEmail: item.userEmail,
       createdAt: item.createdAt,
       result: `${item.result} / ${item.TotalPassing}`,

@@ -7,7 +7,7 @@ import { setIsloading, setData } from "../../../reduxfiles/quizredux";
 
 function Showquestionbox({ showQuestion }) {
   const id2 = localStorage.getItem("QuizeId");
-  console.log("s", id2);
+
   const url = `https://quiz-krishang.vercel.app/quiz/read`;
   const dispatch = useDispatch();
   const inputs = useSelector((state) => state.inputs3);
@@ -83,7 +83,6 @@ function Showquestionbox({ showQuestion }) {
       ),
     [inputs.Tablemanuplation.data, inputs.Tablemanuplation.idstores]
   );
-  console.log("object", filteredData);
 
   return (
     <div>

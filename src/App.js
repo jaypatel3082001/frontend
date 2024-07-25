@@ -9,7 +9,7 @@ import Main from "./componet/mainpage/main";
 import Createmain from "./componet/createquestion/createmain/createmain";
 import Sectionmain from "./componet/Section/sectionmain/Sectionmain";
 import QuestionAdd from "./componet/createquestion/questionadd";
-
+import AdminAccess from "./componet/AdminAccess/AdminAccessHomePage";
 import Signup from "./componet/login/Signup";
 import Userpages from "./componet/User/userpages";
 import Sectionform from "./componet/Section/Sectionform";
@@ -18,7 +18,7 @@ import QuestionbyQuize from "./componet/Section/QuestionbyQuize";
 import Quizemain from "./componet/Quiz/Quizmain/Quizemain";
 import AddSection from "./componet/Quiz/addSection";
 import AddQuiz from "./componet/Quiz/addQuiz";
-
+import Settings from "./componet/Settingspage/homepage";
 import PrivateRoute from "./PrivateRoute";
 import ResultStudent from "./componet/result/resultbystudent/resultstudentmain";
 import Loginstudentpage from "./componet/login/loginpage";
@@ -35,14 +35,13 @@ function App() {
   const tokenstudent = localStorage.getItem("authTokenstu");
 
   useEffect(() => {
-    console.log(token, "sssssssssssssssssssssssssssssssss");
     if (token) {
       try {
         const decoded = jwtDecode(token);
         const currentTime = Date.now() / 1000;
-        console.log(decoded, "decoded");
+
         if (!decoded.exp || decoded.exp < currentTime) {
-          localStorage.removeItem("authToken");
+          // localStorage.removeItem("authToken");
           console.log("Token expired or invalid, removed from local storage");
         }
       } catch (error) {
@@ -81,7 +80,7 @@ function App() {
       setStudentIsLoggedIn(true);
     }
   }, [token]);
-  console.log("studenttoken", tokenstudent);
+
   return (
     <Router>
       <Routes>
@@ -203,6 +202,14 @@ function App() {
           }
         />
         <Route
+          path="/admin/Settings"
+          element={
+            <PrivateRoute>
+              <Settings />
+            </PrivateRoute>
+          }
+        />
+        <Route
           path="/admin/Quizemain/Userpage/:id"
           element={
             <PrivateRoute>
@@ -226,6 +233,14 @@ function App() {
           element={
             <PrivateRoute>
               <Resultmain />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/AdminAccess"
+          element={
+            <PrivateRoute>
+              <AdminAccess />
             </PrivateRoute>
           }
         />
