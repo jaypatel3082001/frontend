@@ -48,7 +48,7 @@ function Tablebody({ formatDate, offset }) {
         }
 
         await response.json();
-
+        navigate(0);
         dispatch(setCurrentPage(1));
       } catch (error) {
         console.error("Fetch operation error:", error);

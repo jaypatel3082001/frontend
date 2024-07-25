@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../cssfile/Login.css";
 import { Link } from "react-router-dom";
+import { Adminloging } from "../../services/auth";
 
 const Loginpage = () => {
-  const [inputlogindata, setInputlogindata] = useState({
+  const initialdata = {
     email: "",
     password: "",
-  });
+  };
+  const [inputlogindata, setInputlogindata] = useState(initialdata);
   const [errorMessage, setErrorMessage] = useState("");
   const [showerror, setShowerror] = useState(false);
   const navigate = useNavigate();
@@ -22,30 +24,23 @@ const Loginpage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const api = "https://quiz-krishang.vercel.app/auth/login";
     try {
-      const response = await fetch(api, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(inputlogindata),
-      });
-
+      const response = await Adminloging(inputlogindata);
+      console.log("saa", response);
       if (response.ok) {
         const result = await response.json();
+        console.log("r", result);
         localStorage.setItem("authToken", result.data.token);
         localStorage.setItem("rtoken", result.data.dummytoken);
-        setInputlogindata(result);
-        setErrorMessage("");
+        setInputlogindata("");
+
         navigate("/admin/Home");
       } else {
-        setErrorMessage("Invalid email or password");
         setShowerror(true);
+        console.log("else");
       }
     } catch (error) {
-      setErrorMessage("An error occurred. Please try again.");
+      setShowerror(true);
     }
   };
 

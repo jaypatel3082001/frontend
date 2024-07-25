@@ -11,6 +11,7 @@ import {
   setIsloading,
   setData,
 } from "../../../reduxfiles/inputredux";
+import { questiondelete } from "../../../services/delete";
 
 function Tablebody({ formatDate, offset, showQuestion }) {
   const url = "https://quiz-krishang.vercel.app/questions/getallquestions";
@@ -69,15 +70,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
   const handleDelete = useCallback(
     async (id) => {
       try {
-        const response = await fetch(
-          `https://quiz-krishang.vercel.app/questions/delete/${id}`,
-          {
-            method: "DELETE",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await questiondelete(id);
 
         if (!response.ok) {
           throw new Error("Network response was not ok");

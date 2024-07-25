@@ -3,14 +3,16 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../cssfile/Login.css";
+import { SignUpUser } from "../../services/auth";
 
 const Loginpage = () => {
-  const [inputlogindata, setInputlogindata] = useState({
+  const initialdata = {
     userEmail: "",
     firstname: "",
     lastname: "",
     userkey: "",
-  });
+  };
+  const [inputlogindata, setInputlogindata] = useState(initialdata);
   const token = localStorage.getItem("authToken");
   const [errorMessage, setErrorMessage] = useState("");
   const [backgroundcolor, setBackgroundcolor] = useState("");
@@ -31,66 +33,51 @@ const Loginpage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const api = "https://quiz-krishang.vercel.app/auth/userLogin";
     try {
-      const response = await fetch(api, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(inputlogindata),
-      });
-
+      const response = await SignUpUser(inputlogindata);
+      console.log(response, "response");
       if (response.ok) {
         const result = await response.json();
         localStorage.setItem("paperQuizId", result.existKey.quizId);
         localStorage.setItem("authTokenstu", result.token);
-        // Save token to localStorage
         setInputlogindata(result);
         setErrorMessage("");
-        // anoDEv();
-
         navigate("/userpages/quiz-start");
       } else {
-        console.log("sdsdsdsds");
         setErrorMessage("Invalid email or password");
-        setInputlogindata({
-          userEmail: "",
-          firstname: "",
-          lastname: "",
-          userkey: "",
-        });
+        setInputlogindata(initialdata);
       }
     } catch (error) {
       console.error("Fetch operation error:", error);
       setErrorMessage("An error occurred. Please try again.");
     }
   };
+
   ///color filter/////////////////////////
-  useEffect(() => {
-    fetchsortData();
-  });
+  // useEffect(() => {
+  //   fetchsortData();
+  // });
 
-  const fetchsortData = useCallback(async () => {
-    try {
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+  // const fetchsortData = useCallback(async () => {
+  //   try {
+  //     const response = await fetch(url, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const result = await response.json();
-      console.log(result.backgroundImage);
-      setBackgroundcolor(result.backgroundColor);
-      setBgimg(result.backgroundImage);
-      setLogoimg(result.logo);
-    } catch (error) {
-      console.error("Fetch operation error:", error);
-    }
-  });
+  //     if (!response.ok) {
+  //       throw new Error("Network response was not ok");
+  //     }
+  //     const result = await response.json();
+  //     console.log(result.backgroundImage);
+  //     setBackgroundcolor(result.backgroundColor);
+  //     setBgimg(result.backgroundImage);
+  //     setLogoimg(result.logo);
+  //   } catch (error) {
+  //     console.error("Fetch operation error:", error);
+  //   }
+  // });
 
   return (
     <div
