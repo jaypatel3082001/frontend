@@ -33,7 +33,7 @@ function Tablebody({ formatDate, offset }) {
     async (id) => {
       try {
         const response = await fetch(
-          `https://quiz-krishang.vercel.app/quiz/delete/${id}`,
+          `https://quiz-krishang.vercel.app/auth/delete/${id}`,
           {
             method: "DELETE",
 
