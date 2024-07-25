@@ -53,7 +53,6 @@ function Tablebody({ formatDate, offset }) {
       } catch (error) {
         console.error("Fetch operation error:", error);
       }
-      navigate(0);
     },
     [dispatch]
   );
