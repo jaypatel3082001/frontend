@@ -85,8 +85,8 @@ const Loginpage = () => {
       const result = await response.json();
       console.log(result.backgroundImage);
       setBackgroundcolor(result.backgroundColor);
-      // setBgimg(result.backgroundImage);
-      // setLogoimg(result.logo);
+      setBgimg(result.backgroundImage);
+      setLogoimg(result.logo);
     } catch (error) {
       console.error("Fetch operation error:", error);
     }

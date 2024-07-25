@@ -145,7 +145,7 @@ function Quizmain({ setIsLoggedIn }) {
   };
 
   return (
-    <div className="App bg-[#EEEEEE] ">
+    <div className="App bg-[#EEEEEE]">
       <div className="flex">
         <Sidebar />
         <div className="w-full h-screen ml-64">

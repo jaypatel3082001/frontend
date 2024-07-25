@@ -5,8 +5,8 @@ import { SketchPicker } from "react-color";
 
 function Homepage() {
   const [background, setBackground] = useState("#FFFFFF");
-  // const url = "https://quiz-krishang.vercel.app/key/fetchkey";
-  // const [data, setData] = useState([]);
+  const url = "https://quiz-krishang.vercel.app/key/fetchkey";
+  const [data, setData] = useState([]);
   const token = localStorage.getItem("authToken");
 
   const [inputlogindata, setInputlogindata] = useState("");
@@ -28,42 +28,42 @@ function Homepage() {
     }));
   };
 
-  // const handleFileChange = (e) => {
-  //   const { name, files } = e.target;
-  //   setFiles((prev) => ({
-  //     ...prev,
-  //     [name]: files[0],
-  //   }));
-  // };
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    setFiles((prev) => ({
+      ...prev,
+      [name]: files[0],
+    }));
+  };
 
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await fetch(url, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
+  const fetchData = async () => {
+    try {
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-  //     if (!response.ok) {
-  //       throw new Error("Network response was not ok");
-  //     }
-  //     const result = await response.json();
-  //     setData(result.data);
-  //   } catch (error) {
-  //     console.error("Fetch operation error:", error);
-  //   }
-  // };
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const result = await response.json();
+      setData(result.data);
+    } catch (error) {
+      console.error("Fetch operation error:", error);
+    }
+  };
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handlefileSubmit = async (e) => {
     e.preventDefault();
-
+    console.log("aa");
     const formData = new FormData();
-    // formData.append("logo", files.logo);
-    // formData.append("backgroundImage", files.backgroundImage);
+    formData.append("logo", files.logo);
+    formData.append("backgroundImage", files.backgroundImage);
 
     formData.append("backgroundColor", background);
 
@@ -130,21 +130,21 @@ function Homepage() {
               <label className="block text-sm font-medium text-gray-700 mt-4">
                 Background Image
               </label>
-              {/* <input
+              <input
                 type="file"
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 name="backgroundImage"
                 onChange={handleFileChange}
-              /> */}
+              />
               <label className="block text-sm font-medium text-gray-700 mt-4">
                 Logo
               </label>
-              {/* {/* <input
+              <input
                 type="file"
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 name="logo"
-                onChange={handleFileChange} 
-              /> */}
+                onChange={handleFileChange}
+              />
               <button
                 type="submit"
                 className="w-full bg-[#8A6FDF] text-white py-2 px-4 mt-4 rounded-md hover:bg-green-600 transition duration-200"
