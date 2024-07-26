@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../cssfile/Login.css";
-import { SignUpUser } from "../../services/auth";
+import { SignUpUser, Studentloging } from "../../services/auth";
 
 const Loginpage = () => {
   const initialdata = {
