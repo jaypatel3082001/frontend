@@ -34,7 +34,7 @@ const Loginpage = () => {
     e.preventDefault();
 
     try {
-      const response = await SignUpUser(inputlogindata);
+      const response = await Studentloging(inputlogindata);
       console.log(response, "response");
       if (response.ok) {
         const result = await response.json();
