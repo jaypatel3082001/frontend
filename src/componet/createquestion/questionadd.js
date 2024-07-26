@@ -3,12 +3,12 @@ import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
 import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { createquestion } from "../../services/create";
+import { updatequestion } from "../../services/update";
 
 function QuestionAdd({ setIsLoggedIn }) {
   const location = useLocation();
-  const { id } = useParams();
   const navigate = useNavigate();
-  const inputs = useSelector((state) => state.inputs);
   const token = localStorage.getItem("authToken");
   const initialInputData = {
     _id: "",
@@ -19,9 +19,7 @@ function QuestionAdd({ setIsLoggedIn }) {
     option4: "",
     answer: "",
   };
-
   const [inputquedata, setInputquedata] = useState(initialInputData);
-
   useEffect(() => {
     if (location.state && location.state.itemToEdit) {
       setInputquedata(location.state.itemToEdit);
@@ -39,29 +37,21 @@ function QuestionAdd({ setIsLoggedIn }) {
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-      const createApi = "https://quiz-krishang.vercel.app/questions/create";
-      const updateApi = `https://quiz-krishang.vercel.app/questions/update/${inputquedata._id}`;
       try {
-        const api = inputquedata._id ? updateApi : createApi;
-        const response = await fetch(api, {
-          method: inputquedata._id ? "PUT" : "POST",
-          headers: {
-            "Content-Type": "application/json",
+        const response = inputquedata._id
+          ? await updatequestion(inputquedata._id, inputquedata)
+          : await createquestion(inputquedata);
 
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(inputquedata),
-        });
-        setInputquedata(initialInputData); // Reset form fields after submission
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
+        if (!response.status) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
+        setInputquedata(initialInputData);
         navigate("/admin/createmain");
       } catch (error) {
         console.error("Fetch operation error:", error);
       }
     },
-    [inputquedata, navigate, initialInputData]
+    [inputquedata, navigate, initialInputData, token]
   );
 
   return (

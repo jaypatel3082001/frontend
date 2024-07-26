@@ -2,16 +2,18 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { createquiz } from "../../services/create";
+import { updatequiz } from "../../services/update";
 
 function AddQuiz({ setIsLoggedIn }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const token = localStorage.getItem("authToken");
-  const [inputQuizdata, setInputQuizdata] = useState({
+  const initialdata = {
     quizName: "",
     totalTime: "",
     PassingMarks: "",
-  });
+  };
+  const [inputQuizdata, setInputQuizdata] = useState(initialdata);
   useEffect(() => {
     if (location.state && location.state.itemToEdit) {
       setInputQuizdata(location.state.itemToEdit);
@@ -26,26 +28,15 @@ function AddQuiz({ setIsLoggedIn }) {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const createApi = "https://quiz-krishang.vercel.app/quiz/create";
-    const updateApi = `https://quiz-krishang.vercel.app/quiz/update/${inputQuizdata._id}`;
     try {
-      const api = inputQuizdata._id ? updateApi : createApi;
-      const response = await fetch(api, {
-        method: inputQuizdata._id ? "PUT" : "POST",
-        headers: {
-          "Content-Type": "application/json",
-
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(inputQuizdata),
-      });
+      const response = inputQuizdata._id
+        ? await updatequiz(inputQuizdata._id, inputQuizdata)
+        : await createquiz(inputQuizdata);
+      if (!response.status) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
       navigate("/admin/Quizemain");
-      console.log("inputQuizdata", inputQuizdata);
-      setInputQuizdata({
-        quizName: "",
-        totalTime: "",
-        PassingMarks: "",
-      });
+      setInputQuizdata(initialdata);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }

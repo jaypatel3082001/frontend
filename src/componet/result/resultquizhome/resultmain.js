@@ -19,12 +19,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { serializedSelectionDatePicker } from "../../../util/utility";
 import Createmainpagination from "../pagination/studentpagination";
+import { GetallItem } from "../../../services/filter";
 
 function Sectionmain({ setIsLoggedIn }) {
   const dispatch = useDispatch();
   const inputs = useSelector((state) => state.inputs4);
   const sortByOptions = useMemo(() => [10, 20, 30, 40, 50, 60], []);
-  const urloFe = `https://quiz-krishang.vercel.app/search/getsearchAll`;
+
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
@@ -68,19 +69,10 @@ function Sectionmain({ setIsLoggedIn }) {
         offset: inputs.Tablemanuplation.currentPage * limit - limit,
       });
 
-      const response = await fetch(`${urloFe}?${params.toString()}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await GetallItem(params);
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const result = await response.json();
-
-      dispatch(setSortedData(result));
-      dispatch(setTotalCount(result.totalCount));
+      dispatch(setSortedData(response));
+      dispatch(setTotalCount(response.totalCount));
     } catch (error) {
       console.error("Fetch operation error:", error);
     } finally {

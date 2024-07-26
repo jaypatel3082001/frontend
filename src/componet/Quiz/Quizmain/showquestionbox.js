@@ -1,39 +1,26 @@
 import React, { useEffect, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ReactComponent as Add } from "../../../svgfile/Questionadd.svg";
 import { setIsloading, setData } from "../../../reduxfiles/quizredux";
-
+import { quizpopboxget } from "../../../services/get";
+import { quizssectiondelete } from "../../../services/delete";
 function Showquestionbox({ showQuestion }) {
   const id2 = localStorage.getItem("QuizeId");
-
-  const url = `https://quiz-krishang.vercel.app/quiz/read`;
   const dispatch = useDispatch();
   const inputs = useSelector((state) => state.inputs3);
-  const navigate = useNavigate();
-  const token = localStorage.getItem("authToken");
+
   const fetchData = useCallback(async () => {
     try {
       dispatch(setIsloading(true));
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const result = await response.json();
-      dispatch(setData(result.data));
-      console.log(result, "resulst");
+      const response = await quizpopboxget();
+      dispatch(setData(response.data.data));
     } catch (error) {
       console.error("Fetch operation error:", error);
     } finally {
       dispatch(setIsloading(false));
     }
-  }, [dispatch, url]);
+  }, [dispatch]);
 
   useEffect(() => {
     fetchData();
@@ -42,24 +29,7 @@ function Showquestionbox({ showQuestion }) {
   const DeleteHandle = useCallback(
     async (updatedDel) => {
       try {
-        const response = await fetch(
-          `https://quiz-krishang.vercel.app/quiz/deletetquiz/${id2}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(updatedDel),
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        await response.json();
+        const response = await quizssectiondelete(id2, updatedDel);
         fetchData();
       } catch (error) {
         console.error("Fetch operation error:", error);

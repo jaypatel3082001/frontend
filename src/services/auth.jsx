@@ -26,3 +26,13 @@ export const Adminloging = async (data) => {
     throw error.response;
   }
 };
+
+export const createadmin = async (id, email) => {
+  try {
+    const response = await AuthApiService.post(`/AdminAccess/${id}`, email);
+    return response;
+  } catch (error) {
+    console.log("Request failed:", error.response.data);
+    throw error.response;
+  }
+};

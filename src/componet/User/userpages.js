@@ -3,35 +3,10 @@ import { jwtDecode } from "jwt-decode"; // Use the named export
 import Quizestart from "./Quizestart";
 
 function Userpage() {
-  // const fettdata = async () => {
-  //   const api2 = "https://quiz-krishang.vercel.app/file/ssupload";
-  //   try {
-  //     const response = await fetch(api2, {
-  //       method: "POST",
-  //       // body: JSON.stringify(inputlogindata), // Assuming inputlogindata contains necessary info for backend
-  //     });
-
-  //     if (response.ok) {
-  //       // const result = await response.json();
-  //       console.log("Success:", response);
-  //     } else {
-  //       console.error("Error:", response.statusText);
-  //     }
-  //   } catch (error) {
-  //     console.error("Fetch error:", error);
-  //   }
-  // };
-
   const [isstart, setIsstart] = useState(false);
   const [details, setDetails] = useState({});
   const id = localStorage.getItem("paperQuizId");
-
   const [showPopup, setShowPopup] = useState(false);
-
-  // useEffect(() => {
-  //   fettdata()
-  // }, []);
-
   useEffect(() => {
     const token = localStorage?.getItem("authTokenstu");
     if (token) {

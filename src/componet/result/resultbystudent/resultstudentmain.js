@@ -21,6 +21,7 @@ import { setTotalCount } from "../../../reduxfiles/resultstudentSlice";
 import { serializedSelectionDatePicker } from "../../../util/utility";
 import { setDateRangeresultstudent } from "../../../reduxfiles/resultstudentSlice";
 import Createmainpagination from "../pagination/createmainpagination";
+import { GetallResult } from "../../../services/filter";
 
 function Resultstudentmain({ setIsLoggedIn }) {
   const resultsectionId = localStorage.getItem("resultsectionId");
@@ -29,7 +30,7 @@ function Resultstudentmain({ setIsLoggedIn }) {
   const inputs = useSelector((state) => state.inputs5);
 
   const sortByOptions = useMemo(() => [10, 20, 30, 40, 50, 60], []);
-  const urloFe = `https://quiz-krishang.vercel.app/search/getsearchsection/${resultsectionId}`;
+
   const [limit, setLimit] = useState(10);
   const [resultBy, setResult] = useState("Quiz");
   const sortBy = "createdAt";
@@ -76,20 +77,10 @@ function Resultstudentmain({ setIsLoggedIn }) {
 
         offset: inputs.Tablemanuplation.currentPage * limit - limit,
       });
+      const response = await GetallResult(params, resultsectionId);
 
-      const response = await fetch(`${urloFe}?${params.toString()}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const result = await response.json();
-
-      dispatch(setSortedData(result.data));
-      dispatch(setTotalCount(result.totalCount));
+      dispatch(setSortedData(response.data));
+      dispatch(setTotalCount(response.totalCount));
     } catch (error) {
       console.error("Fetch operation error:", error);
     } finally {

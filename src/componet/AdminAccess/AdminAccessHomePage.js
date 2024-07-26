@@ -21,13 +21,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { serializedSelectionDatePicker } from "../../util/utility";
 
 import Pagination from "./pagination/pagination";
+import { Getuser } from "../../services/filter";
 
 function AdminAcceseeHomePage() {
   const dispatch = useDispatch();
-
   const inputs = useSelector((state) => state.inputs6);
   const sortByOptions = useMemo(() => [10, 20, 30, 40, 50, 60], []);
-  const urloFe = "https://quiz-krishang.vercel.app/search/getusers";
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState("");
   const [sortOrder, setSortOrder] = useState("");
@@ -84,19 +83,10 @@ function AdminAcceseeHomePage() {
         offset: inputs.Tablemanuplation.currentPage * limit - limit,
       });
 
-      const response = await fetch(`${urloFe}?${params.toString()}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const result = await response.json();
-
-      dispatch(setSortedData(result.data));
-      dispatch(setTotalCount(result.totalCount));
+      const response = await Getuser(params);
+      console.log(response);
+      dispatch(setSortedData(response.data));
+      dispatch(setTotalCount(response.totalCount));
     } catch (error) {
       console.error("Fetch operation error:", error);
     } finally {
@@ -223,6 +213,7 @@ function AdminAcceseeHomePage() {
                   formatDate={formatDate}
                   offset={inputs.Tablemanuplation.currentPage * limit - limit}
                   showQuestion={showQuestion}
+                  fetchsortData={fetchsortData}
                 />
               </table>
             </div>

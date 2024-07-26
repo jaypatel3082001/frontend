@@ -38,7 +38,7 @@ function Uplodfile() {
 
         try {
           const response = await axios.post(
-            "https://quiz-krishang.vercel.app/file/questionupload",
+            "http://localhost:3001/file/questionupload",
             formData,
             {
               headers: {
@@ -66,7 +66,7 @@ function Uplodfile() {
 
     try {
       const response = await axios.get(
-        `https://quiz-krishang.vercel.app/file/questioread/${file}`,
+        `http://localhost:3001/file/questioread/${file}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -126,91 +126,3 @@ function Uplodfile() {
 }
 
 export default Uplodfile;
-// const handleFile = (e) => {
-//   let fileTypes = [
-//     "application/vnd.ms-excel",
-//     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-//     "text/csv",
-//   ];
-//   let selectedFile = e.target.files[0];
-//   if (selectedFile) {
-//     if (selectedFile && fileTypes.includes(selectedFile.type)) {
-//       setTypeError(null);
-//       let reader = new FileReader();
-//       reader.readAsArrayBuffer(selectedFile);
-//       reader.onload = (e) => {
-//         setExcelFile(e.target.result);
-//       };
-//     } else {
-//       setTypeError("Please select only excel file types");
-//       setExcelFile(null);
-//     }
-//   } else {
-//     console.log("Please select your file");
-//   }
-// };
-
-// const handleFileSubmit = async (e) => {
-//   e.preventDefault();
-//   if (excelFile !== null) {
-//     const workbook = XLSX.read(excelFile, { type: "buffer" });
-//     const worksheetName = workbook.SheetNames[0];
-//     const worksheet = workbook.Sheets[worksheetName];
-//     const data = XLSX.utils.sheet_to_json(worksheet);
-
-//     // Validate and process data
-//     const validatedData = data
-//       .map((item) => {
-//         if (
-//           item.question &&
-//           item.option1 &&
-//           item.option2 &&
-//           item.option3 &&
-//           item.option4 &&
-//           (item.answer === "option1" ||
-//             item.answer === "option2" ||
-//             item.answer === "option3" ||
-//             item.answer === "option4")
-//         ) {
-//           return item;
-//         } else {
-//           setTypeError("Invalid data format in Excel file");
-//           return null;
-//         }
-//       })
-//       .filter((item) => item !== null);
-
-//     if (validatedData.length > 0) {
-//       setExcelData(validatedData);
-//       const createApi = "https://quiz-krishang.vercel.app/questions/create";
-
-//       try {
-//         const responses = await Promise.all(
-//           validatedData.map((ele) =>
-//             fetch(createApi, {
-//               method: "POST",
-//               headers: {
-//                 "Content-Type": "application/json",
-//               },
-//               body: JSON.stringify(ele),
-//             })
-//           )
-//         );
-
-//         const allResponsesOk = responses.every((response) => response.ok);
-
-//         if (allResponsesOk) {
-//           console.log("All questions added successfully");
-//           navigate("/createmain");
-//         } else {
-//           console.error("One or more responses were not ok");
-//         }
-//       } catch (error) {
-//         console.error("Fetch operation error:", error);
-//       }
-//     } else {
-//       setExcelData(null);
-//     }
-//   }
-//   navigate(0);
-// };

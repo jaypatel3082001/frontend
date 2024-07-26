@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 function AddSection() {
   return (
     <div className="flex items-center">

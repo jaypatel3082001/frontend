@@ -3,11 +3,12 @@ import { ReactComponent as Option } from "../../svgfile/option.svg";
 import { ReactComponent as Upboxuparrow } from "../../svgfile/boxuparrow.svg";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { admindelete } from "../../services/delete";
 import { useSelector, useDispatch } from "react-redux";
 import { setIdstore, setDisplay, setCurrentPage } from "../../reduxfiles/Admin";
+import { createadmin } from "../../services/auth";
 
-function Tablebody({ formatDate, offset }) {
-  const navigate = useNavigate();
+function Tablebody({ formatDate, offset, fetchsortData }) {
   const inputs = useSelector((state) => state.inputs6);
   const dispatch = useDispatch();
   const token = localStorage.getItem("authToken");
@@ -15,44 +16,29 @@ function Tablebody({ formatDate, offset }) {
   console.log("decoded", decoded);
 
   const handleAdmin = async (email) => {
-    const api = `https://quiz-krishang.vercel.app/auth/AdminAccess/${decoded.user}`;
     try {
-      const response = await fetch(api, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: `${email}` }),
-      });
+      const response = await createadmin(decoded.user, { email: `${email}` });
     } catch (error) {
       console.error("Fetch operation error:", error);
     }
-    navigate(0);
+    fetchsortData();
+    dispatch(setDisplay(false));
   };
   const handleDelete = useCallback(
     async (id) => {
       try {
-        const response = await fetch(
-          `https://quiz-krishang.vercel.app/auth/delete/${id}`,
-          {
-            method: "DELETE",
-
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await admindelete(id);
 
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-
         await response.json();
-        navigate(0);
+
         dispatch(setCurrentPage(1));
       } catch (error) {
         console.error("Fetch operation error:", error);
       }
+      fetchsortData();
     },
     [dispatch]
   );

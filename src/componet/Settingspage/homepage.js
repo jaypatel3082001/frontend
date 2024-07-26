@@ -5,7 +5,7 @@ import { SketchPicker } from "react-color";
 
 function Homepage() {
   const [background, setBackground] = useState("#FFFFFF");
-  const url = "https://quiz-krishang.vercel.app/key/fetchkey";
+  const url = "http://localhost:3001/key/fetchkey";
   const [data, setData] = useState([]);
   const token = localStorage.getItem("authToken");
 
@@ -67,7 +67,7 @@ function Homepage() {
 
     formData.append("backgroundColor", background);
 
-    const api = "https://quiz-krishang.vercel.app/auth/ExamLoginpage";
+    const api = "http://localhost:3001/auth/ExamLoginpage";
     try {
       const response = await fetch(api, {
         method: "POST",

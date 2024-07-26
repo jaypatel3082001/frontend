@@ -8,16 +8,15 @@ import {
 } from "../../../reduxfiles/quizredux";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as Delete } from "./../../../svgfile/delete.svg";
+import { createkey } from "../../../services/create";
+import { keyget } from "../../../services/get";
+import { keydelete } from "../../../services/delete";
 function Keyshow() {
   const inputs = useSelector((state) => state.inputs3);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [iskey, isSetKey] = useState(false);
   const [keydata, setKeydata] = useState([]);
-  const [error, setError] = useState("");
-  const token = localStorage.getItem("authToken");
-  const Featchapi = `https://quiz-krishang.vercel.app/key/update/${inputs.Tablemanuplation.idkeystores}`;
-
   const handleDateRangePicker = (ranges) => {
     const serializedSelection = serializedSelectionDatePicker(ranges);
     dispatch(setDateRangequize([serializedSelection]));
@@ -36,26 +35,14 @@ function Keyshow() {
 
   const keyGenerate = useCallback(async () => {
     try {
-      const response = await fetch(
-        "https://quiz-krishang.vercel.app/key/generatekey",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            quizId: inputs.Tablemanuplation.idkeystores,
-            starttime: formatDate(formatstartDate),
-            endtime: formatDate(formatendDate),
-          }),
-        }
-      );
+      const response = await createkey({
+        quizId: inputs.Tablemanuplation.idkeystores,
+        starttime: formatDate(formatstartDate),
+        endtime: formatDate(formatendDate),
+      });
 
       if (!response.ok) {
         isSetKey(true);
-
         throw new Error("Network response was not ok");
       }
       navigate(0);
@@ -71,22 +58,12 @@ function Keyshow() {
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await fetch(Featchapi, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const result = await response.json();
-
-      setKeydata(result);
+      const response = await keyget(inputs.Tablemanuplation.idkeystores);
+      setKeydata(response.data);
     } catch (error) {
       console.error("Fetch operation error:", error);
     }
-  }, [Featchapi]);
+  }, []);
 
   useEffect(() => {
     if (inputs?.keyopenpop) {
@@ -96,22 +73,7 @@ function Keyshow() {
 
   const handleDelete = useCallback(async (id) => {
     try {
-      const response = await fetch(
-        `https://quiz-krishang.vercel.app/key/delete/${id}`,
-        {
-          method: "PUT",
-
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      await response.json();
+      const response = await keydelete(id);
     } catch (error) {
       console.error("Fetch operation error:", error);
     }
@@ -141,16 +103,9 @@ function Keyshow() {
                     />
                   </svg>
                 </div>
-                {iskey == true ? (
+                {iskey == true && (
                   <div className="text-red-700 font-bold text-xl flex justify-center mb-3">
                     Already KEY GENERATED
-                  </div>
-                ) : (
-                  <div></div>
-                )}
-                {error && (
-                  <div className="alert alert-danger" role="alert">
-                    {error}
                   </div>
                 )}
                 <div className="flex items-center justify-center">
@@ -230,5 +185,4 @@ function Keyshow() {
     )
   );
 }
-
 export default Keyshow;

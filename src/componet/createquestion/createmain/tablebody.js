@@ -2,59 +2,19 @@ import React, { useEffect, useRef, useCallback, useMemo } from "react";
 import { ReactComponent as Option } from "../../../svgfile/option.svg";
 import { ReactComponent as Popbox } from "../../../svgfile/Popbox.svg";
 import { ReactComponent as Upboxuparrow } from "../../../svgfile/boxuparrow.svg";
-import Createmainpagination from "../pagination/createmainpagination";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setIdstore,
-  setDisplay,
-  setIsloading,
-  setData,
-} from "../../../reduxfiles/inputredux";
+import { setIdstore, setDisplay } from "../../../reduxfiles/inputredux";
 import { questiondelete } from "../../../services/delete";
 
 function Tablebody({ formatDate, offset, showQuestion }) {
-  const url = "https://quiz-krishang.vercel.app/questions/getallquestions";
   const navigate = useNavigate();
   const inputs = useSelector((state) => state.inputs);
   const dispatch = useDispatch();
-  const token = localStorage.getItem("authToken");
-
-  // Memoized fetchData function
-  const fetchData = useCallback(async () => {
-    try {
-      dispatch(setIsloading(true));
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const result = await response.json();
-
-      dispatch(setData(result));
-    } catch (error) {
-      console.error("Fetch operation error:", error);
-    } finally {
-      dispatch(setIsloading(false));
-    }
-  }, [dispatch]);
-
-  // Fetch data on component mount
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  // Memoized mapped data
   const sortedData = useMemo(
     () => inputs.Tablemanuplation.sortedData?.data,
     [inputs.Tablemanuplation.sortedData?.data]
   );
-
-  // Memoized event handlers
   const handleEditClick = useCallback(
     (id) => {
       const questionToUpdate = sortedData.find(
@@ -63,29 +23,24 @@ function Tablebody({ formatDate, offset, showQuestion }) {
       navigate("/admin/questionadd", {
         state: { itemToEdit: questionToUpdate },
       });
+      dispatch(setDisplay(false));
     },
     [navigate, sortedData]
   );
-
-  const handleDelete = useCallback(
-    async (id) => {
-      try {
-        const response = await questiondelete(id);
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        await response.json();
-        fetchData();
-      } catch (error) {
-        console.error("Fetch operation error:", error);
+  const handleDelete = useCallback(async (id) => {
+    try {
+      const response = await questiondelete(id);
+      console.log(response, "response");
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
       }
-      navigate(0);
-    },
-    [fetchData]
-  );
-  console.log(sortedData);
+
+      await response.json();
+    } catch (error) {
+      console.error("Fetch operation error:", error);
+    }
+    navigate(0);
+  }, []);
   const handleClicktd = useCallback(
     (id) => {
       dispatch(setDisplay(!inputs.Tablemanuplation.display));
@@ -93,8 +48,6 @@ function Tablebody({ formatDate, offset, showQuestion }) {
     },
     [dispatch, inputs.Tablemanuplation.display]
   );
-
-  // Outside click box close
   function useClickOutside(ref, callback) {
     useEffect(() => {
       const handleClickOutside = (event) => {
@@ -102,9 +55,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
           callback();
         }
       };
-
       document.addEventListener("mousedown", handleClickOutside);
-
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
       };

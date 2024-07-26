@@ -20,7 +20,7 @@ const Loginpage = () => {
   const [logoimg, setLogoimg] = useState("");
 
   const navigate = useNavigate();
-  const url = "https://quiz-krishang.vercel.app/auth/examlogin";
+  const url = "http://localhost:3001/auth/examlogin";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,7 +35,7 @@ const Loginpage = () => {
 
     try {
       const response = await Studentloging(inputlogindata);
-      console.log(response, "response");
+
       if (response.ok) {
         const result = await response.json();
         localStorage.setItem("paperQuizId", result.existKey.quizId);

@@ -21,13 +21,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { serializedSelectionDatePicker } from "../../../util/utility";
 import Keyshow from "./Keyshow";
 import Createmainpagination from "../pagination/quizpagination";
+import { GetallItem } from "../../../services/filter";
 
 function Quizmain({ setIsLoggedIn }) {
   const dispatch = useDispatch();
 
   const inputs = useSelector((state) => state.inputs3);
   const sortByOptions = useMemo(() => [10, 20, 30, 40, 50, 60], []);
-  const urloFe = "https://quiz-krishang.vercel.app/search/getsearchAll";
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
@@ -81,19 +81,9 @@ function Quizmain({ setIsLoggedIn }) {
         offset: inputs.Tablemanuplation.currentPage * limit - limit,
       });
 
-      const response = await fetch(`${urloFe}?${params.toString()}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const result = await response.json();
-
-      dispatch(setSortedData(result));
-      dispatch(setTotalCount(result.totalCount));
+      const response = await GetallItem(params);
+      dispatch(setSortedData(response));
+      dispatch(setTotalCount(response.totalCount));
     } catch (error) {
       console.error("Fetch operation error:", error);
     } finally {

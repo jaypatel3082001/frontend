@@ -19,6 +19,7 @@ import Showquestionbox from "./showquestionbox";
 import { useDispatch, useSelector } from "react-redux";
 import { serializedSelectionDatePicker } from "../../../util/utility";
 import Createmainpagination from "../pagination/sectionpagination";
+import { GetallItem } from "../../../services/filter";
 
 function Sectionmain({ setIsLoggedIn }) {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ function Sectionmain({ setIsLoggedIn }) {
 
   // Memoized sortByOptions array
   const sortByOptions = useMemo(() => [10, 20, 30, 40, 50, 60], []);
-  const urloFe = `https://quiz-krishang.vercel.app/search/getsearchAll`; //api
+
   const [limit, setLimit] = useState(10);
   const sortBy = "createdAt";
   let type = "section";
@@ -89,17 +90,8 @@ function Sectionmain({ setIsLoggedIn }) {
         offset,
       });
 
-      const response = await fetch(`${urloFe}?${params.toString()}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const result = await response.json();
-      dispatch(setSortedData(result));
+      const response = await GetallItem(params);
+      dispatch(setSortedData(response));
     } catch (error) {
       console.error("Fetch operation error:", error);
     } finally {
@@ -125,6 +117,7 @@ function Sectionmain({ setIsLoggedIn }) {
   // Show question details
   const showQuestion = useCallback(
     (id) => {
+      console.log("showquestionbox");
       dispatch(setIdstores(id));
       dispatch(toggleModal(!inputs.openpop));
       localStorage.setItem("ShowsectionId", id);

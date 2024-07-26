@@ -23,6 +23,7 @@ import Tableheader from "./tableheader";
 import Tablebody from "./tablebody";
 import { serializedSelectionDatePicker } from "../../../util/utility";
 import Createmainpagination from "../pagination/createmainpagination";
+import { GetallItem } from "../../../services/filter";
 
 function Createmain({ setIsLoggedIn }) {
   const token = localStorage.getItem("authToken");
@@ -30,10 +31,6 @@ function Createmain({ setIsLoggedIn }) {
   const inputs = useSelector((state) => state.inputs);
   const sortByOptions = useMemo(() => [10, 20, 30, 40, 50, 60], []);
 
-  const urloFe = useMemo(
-    () => `https://quiz-krishang.vercel.app/search/getsearchAll`,
-    []
-  ); // Memoize urloFe
   // ****************  date formate  ********************
 
   const formatDate = useCallback((dateString) => {
@@ -104,7 +101,6 @@ function Createmain({ setIsLoggedIn }) {
   const fetchsortData = useCallback(async () => {
     try {
       dispatch(setIsloading(true));
-
       const params = new URLSearchParams({
         search,
         limit,
@@ -116,18 +112,9 @@ function Createmain({ setIsLoggedIn }) {
         offset,
       });
 
-      const response = await fetch(`${urloFe}?${params.toString()}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await GetallItem(params);
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const result = await response.json();
-
-      dispatch(setSortedData(result));
+      dispatch(setSortedData(response));
     } catch (error) {
       console.error("Fetch operation error:", error);
     } finally {
@@ -143,7 +130,6 @@ function Createmain({ setIsLoggedIn }) {
     sortOrder,
     startDate,
     endDate,
-    urloFe,
   ]);
 
   useEffect(() => {

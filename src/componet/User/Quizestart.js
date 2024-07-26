@@ -23,7 +23,7 @@ function Quizestart({ id, keyid }) {
   const partsPerPage = 1; // Number of parts per page
   const questionsPerPage = 1; // Number of questions per page
 
-  const url = `https://quiz-krishang.vercel.app/quiz/getall/${id}`;
+  const url = `http://localhost:3001/quiz/getall/${id}`;
   //*************************************************** */
 
   //************************************************* */
@@ -36,7 +36,7 @@ function Quizestart({ id, keyid }) {
   //       const canvas = await html2canvas(document.body);
   //       const imgData = canvas.toDataURL("image/png");
 
-  //       await axios.post("https://quiz-krishang.vercel.app/file/ssupload", {
+  //       await axios.post("http://localhost:3001/file/ssupload", {
   //         screenshot: imgData,
   //       });
 
@@ -208,18 +208,15 @@ function Quizestart({ id, keyid }) {
     }
 
     try {
-      const response = await fetch(
-        "https://quiz-krishang.vercel.app/result/create",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+      const response = await fetch("http://localhost:3001/result/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
 
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(result),
-        }
-      );
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(result),
+      });
 
       if (!response.ok) {
         throw new Error("Failed to submit data");

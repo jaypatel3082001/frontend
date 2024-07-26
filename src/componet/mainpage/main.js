@@ -1,47 +1,25 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
+import { RecentStudent, topstudent } from "../../services/get";
 
 function Main({ setIsLoggedIn }) {
   const [recentStudunt, setRecentStudent] = useState([]);
   const [topStudunt, setTopStudent] = useState([]);
-  const token = localStorage.getItem("authToken");
-  const RecentStudentApi =
-    "https://quiz-krishang.vercel.app/result/recentResults";
-  const TopStudentApi = "https://quiz-krishang.vercel.app/result/topTenResults";
-
   const fetchData = useCallback(async () => {
     try {
-      const response = await fetch(RecentStudentApi, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const result = await response.json();
-
-      setRecentStudent(result);
+      const response = await RecentStudent();
+      setRecentStudent(response.data);
     } catch (error) {
       console.error("Fetch operation error:", error);
     }
   });
   const fetchDatas = useCallback(async () => {
     try {
-      const response = await fetch(TopStudentApi, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await topstudent();
+      console.log(response.data.data, "response.data.data");
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const result = await response.json();
-      console.log(result, "result");
-      setTopStudent(result);
+      setTopStudent(response.data);
     } catch (error) {
       console.error("Fetch operation error:", error);
     }

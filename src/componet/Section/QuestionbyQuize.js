@@ -2,55 +2,42 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  sectionaddquestionread,
+  sectionallquestionread,
+  sectioninsertquestion,
+} from "../../services/get";
 
 function QuestionbyQuize() {
   const [data, setData] = useState([]);
+
   // const { id } = useParams();
   const id = localStorage.getItem("ShowsectionId");
   const [arrrr, setArrrr] = useState([]);
   const navigator = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [checkedIds, setCheckedIds] = useState([]);
-  const token = localStorage.getItem("authToken");
-  const url = "https://quiz-krishang.vercel.app/questions/getallquestions";
-  const api = `https://quiz-krishang.vercel.app/section/read/${id}`;
   useEffect(() => {
     fetchData();
     fetchApiData();
   }, []);
-  console.log("new quize id", id);
   const fetchData = async () => {
     try {
       // setIsLoading(true);
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const result = await response.json();
-      setData(result);
-      console.log("object");
+      const response = await sectionallquestionread();
+
+      setData(response?.data);
     } catch (error) {
       console.error("Fetch operation error:", error);
     }
   };
   const fetchApiData = async () => {
     try {
-      const response = await fetch(api, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const result = await response.json();
-      console.log("resx", result);
-      setCheckedIds(result.sectionmcqs.map((question) => question._id));
+      console.log("response");
+      const response = await sectionaddquestionread(id);
+
+      setCheckedIds(response.data.sectionmcqs.map((question) => question._id));
     } catch (error) {
       console.error("Fetch operation error:", error);
     }
@@ -70,29 +57,10 @@ function QuestionbyQuize() {
     }
   };
 
-  console.log("src", arrrr);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const awr = arrrr.map((ele) => {
-      const response = fetch(
-        `https://quiz-krishang.vercel.app/section/insert-questions/${id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(ele),
-        }
-      );
-
-      if (response.ok) {
-        console.log("Submitted successfully");
-      } else {
-        console.error("Submission error");
-      }
+      const response = sectioninsertquestion(id, ele);
       navigator(`/admin/Sectionmain`);
     });
   };

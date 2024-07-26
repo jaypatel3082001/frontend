@@ -1,6 +1,7 @@
 import axios from "axios";
-const API_BASE_URL = "https://quiz-krishang.vercel.app";
-const token = localStorage.getItem("authtoken");
+const API_BASE_URL = "http://localhost:3001";
+const token = localStorage.getItem("authToken");
+
 export const DefaultApiService = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -14,5 +15,13 @@ export const AuthApiService = axios.create({
   headers: {
     "Content-Type": "application/json",
     "x-platform": "web",
+  },
+});
+
+export const SearchApiService = axios.create({
+  baseURL: `${API_BASE_URL}/search`,
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
   },
 });

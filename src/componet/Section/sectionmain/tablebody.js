@@ -1,69 +1,22 @@
-import React, {
-  useEffect,
-  useRef,
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
+import React, { useEffect, useRef, useCallback, useState } from "react";
 import { ReactComponent as Option } from "../../../svgfile/option.svg";
 import { ReactComponent as Popbox } from "../../../svgfile/Popbox.svg";
 import { ReactComponent as Upboxuparrow } from "../../../svgfile/boxuparrow.svg";
-
+import { sectiondelete } from "../../../services/delete";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setIdstore,
-  setDisplay,
-  setIsloading,
-  setData,
-} from "../../../reduxfiles/sectionredux";
+import { setIdstore, setDisplay } from "../../../reduxfiles/sectionredux";
 
 function Tablebody({ formatDate, offset, showQuestion }) {
-  const url = "https://quiz-krishang.vercel.app/section/getall";
   const navigate = useNavigate();
   const inputs = useSelector((state) => state.inputs2);
   const dispatch = useDispatch();
-  const [copied, setCopied] = useState(false);
   const [copiedMessage, setCopiedMessage] = useState(null);
-  const [copiedText, setCopiedText] = useState("");
-  const token = localStorage.getItem("authToken");
-  const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text).then(() => {
-      setCopied(true);
-      setCopiedText(text);
-      setTimeout(() => setCopied(false), 2000); // Reset the copied state after 2 seconds
-    });
-  };
+
   const handleCopy = (text, ind) => {
-    copyToClipboard(text);
     setCopiedMessage(ind);
     setTimeout(() => setCopiedMessage(null), 2000); // Hide the message after 2 seconds
   };
-  const fetchData = useCallback(async () => {
-    try {
-      dispatch(setIsloading(true));
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const result = await response.json();
-
-      dispatch(setData(result.data));
-    } catch (error) {
-      console.error("Fetch operation error:", error);
-    } finally {
-      dispatch(setIsloading(false));
-    }
-  }, [dispatch, url]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
 
   const handleEditClick = useCallback(
     (id) => {
@@ -73,29 +26,20 @@ function Tablebody({ formatDate, offset, showQuestion }) {
       navigate("/admin/Sectionform", {
         state: { itemToEdit: questionToUpdate },
       });
+      dispatch(setDisplay(false));
     },
     [inputs.Tablemanuplation.data, navigate]
   );
 
   const handleDelete = useCallback(async (id) => {
     try {
-      const response = await fetch(
-        `https://quiz-krishang.vercel.app/section/delete/${id}`,
-        {
-          method: "DELETE",
-
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await sectiondelete(id);
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
 
       await response.json();
-      fetchData();
     } catch (error) {
       console.error("Fetch operation error:", error);
     }

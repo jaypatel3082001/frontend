@@ -3,17 +3,15 @@ import { useSelector } from "react-redux";
 import { ReactComponent as Download } from "../../../svgfile/download.svg";
 import html2pdf from "html2pdf.js";
 import ResultDatas from "./../../modules/ResultData/ResultData";
+import { studentwiseresult } from "../../../services/get";
 
 function Tablebody({ offset, formatDate, resultBy }) {
   const inputs = useSelector((state) => state.inputs5);
-  const [ResultId, setResultIds] = useState();
   const sortedData = useMemo(() => {
     return Array.isArray(inputs?.Tablemanuplation?.sortedData)
       ? inputs.Tablemanuplation.sortedData
       : [];
   }, [inputs.Tablemanuplation.sortedData]);
-
-  const token = localStorage.getItem("authToken");
 
   const [resultId, setResultId] = useState(null);
   const [resultData, setResultData] = useState(null);
@@ -21,33 +19,20 @@ function Tablebody({ offset, formatDate, resultBy }) {
   const fetchData = useCallback(async () => {
     if (resultId) {
       try {
-        const response = await fetch(
-          `https://quiz-krishang.vercel.app/result/read/${resultId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        const result = await response.json();
-        setResultData(result.data); // Update state with the fetched data
-        return result.data;
+        const response = await studentwiseresult(resultId);
+        setResultData(response.data.data); // Update state with the fetched data
+        return response.data.data;
       } catch (error) {
         console.error("Fetch operation error:", error);
       }
     }
-  }, [resultId, token]);
+  }, [resultId]);
 
   useEffect(() => {
     if (resultId !== null) {
       fetchData();
     }
-  }, [resultId, fetchData]);
+  }, [resultId]);
 
   const fetchDataAndExport = async (id) => {
     setResultId(id);
@@ -103,7 +88,7 @@ function Tablebody({ offset, formatDate, resultBy }) {
       </tbody>
     );
   }
-
+  console.log(sortedData, "sortedData");
   return (
     <>
       {resultBy === "Section" ? (
@@ -146,7 +131,7 @@ function Tablebody({ offset, formatDate, resultBy }) {
                 }`}
               >
                 {" "}
-                {info.sectionWiseStatus.toUpperCase()}
+                {info.sectionWiseStatus?.toUpperCase()}
               </td>
               <td
                 className="py-3 px-6"

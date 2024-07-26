@@ -16,52 +16,21 @@ import {
   toggleModalkey,
   setIdkeystores,
 } from "../../../reduxfiles/quizredux";
+import { quizdelete } from "../../../services/delete";
+import { quizpaper } from "../../../services/get";
 
 function Tablebody({ formatDate, offset, showQuestion }) {
-  const url = "https://quiz-krishang.vercel.app/quiz/read";
   const navigate = useNavigate();
   const inputs = useSelector((state) => state.inputs3);
   const dispatch = useDispatch();
   const token = localStorage.getItem("authToken");
 
-  const fetchData = useCallback(async () => {
-    try {
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const result = await response.json();
-
-      dispatch(setData(result.data));
-    } catch (error) {
-      console.error("Fetch operation error:", error);
-    } finally {
-    }
-  }, [dispatch, url]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
   const fetchDataAndExport = async (id) => {
     try {
-      const response = await fetch(
-        `https://quiz-krishang.vercel.app/quiz/getall/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const data = await response.json();
-      console.log(data, "data");
+      const response = await quizpaper(id);
 
-      const formattedData = formatData(data.allData);
+      console.log(response.data, "response");
+      const formattedData = formatData(response.data);
 
       downloadPdfFile(formattedData);
     } catch (error) {
@@ -70,14 +39,15 @@ function Tablebody({ formatDate, offset, showQuestion }) {
   };
 
   const formatData = (data) => {
+    console.log(data);
     let formattedText =
       "                                                   EXAM PAPER\n\n";
 
-    data?.forEach((info, sectionIndex) => {
-      formattedText += `Section ${sectionIndex + 1}: ${info.sectionname}\n`;
+    data.allData?.map((info, sectionIndex) => {
+      formattedText += `Section ${sectionIndex + 1}: ${info?.sectionname}\n`;
       formattedText += "---------------------------------------------\n\n";
 
-      info.sectionmcqs?.forEach((question, questionIndex) => {
+      info?.sectionmcqs?.forEach((question, questionIndex) => {
         formattedText += `Q${questionIndex + 1}: ${question.question}\n`;
         formattedText += `  A. ${question.option1}\n`;
         formattedText += `  B. ${question.option2}\n`;
@@ -128,6 +98,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
       navigate("/admin/AddQuiz", {
         state: { itemToEdit: sectionToUpdate },
       });
+      dispatch(setDisplay(false));
     },
     [inputs.Tablemanuplation.data, navigate]
   );
@@ -135,30 +106,21 @@ function Tablebody({ formatDate, offset, showQuestion }) {
   const handleDelete = useCallback(
     async (id) => {
       try {
-        const response = await fetch(
-          `https://quiz-krishang.vercel.app/quiz/delete/${id}`,
-          {
-            method: "DELETE",
-
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await quizdelete(id);
 
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
 
         await response.json();
-        fetchData();
+
         dispatch(setCurrentPage(1));
       } catch (error) {
         console.error("Fetch operation error:", error);
       }
       navigate(0);
     },
-    [fetchData, dispatch]
+    [dispatch]
   );
 
   const handleClicktd = useCallback(

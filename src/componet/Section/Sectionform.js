@@ -2,17 +2,17 @@ import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Sidebar from "../fixdata/sidebar";
 import Navbar from "../fixdata/navbar";
 import { useLocation, useNavigate, Link } from "react-router-dom";
+import { updatesection } from "../../services/update";
+import { createsection } from "../../services/create";
 
 function Sectionform({ setIsLoggedIn }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const [error, setError] = useState("");
-  const token = localStorage.getItem("authToken");
-  const [inputSectiondata, setInputSectiondata] = useState({
+  const intialdata = {
     sectionname: "",
     sectionpassingMarks: "",
-  });
-
+  };
+  const [inputSectiondata, setInputSectiondata] = useState(intialdata);
   useEffect(() => {
     if (location.state && location.state.itemToEdit) {
       setInputSectiondata(location.state.itemToEdit);
@@ -29,100 +29,21 @@ function Sectionform({ setIsLoggedIn }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const createApi = "https://quiz-krishang.vercel.app/section/create";
-    const updateApi = `https://quiz-krishang.vercel.app/section/update/${inputSectiondata._id}`;
-
     try {
-      const api = inputSectiondata._id ? updateApi : createApi;
-      const response = await fetch(api, {
-        method: inputSectiondata._id ? "PUT" : "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = inputSectiondata._id
+        ? await updatesection(inputSectiondata._id, inputSectiondata)
+        : await createsection(inputSectiondata);
 
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(inputSectiondata),
-      });
-      if (!response.ok) {
-        return response.json().then((errorData) => {
-          setError(errorData);
-        });
+      if (!response.status) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      // return response.json();
-
-      // if (!response.ok) {
-      //   (response) => response.json();
-      //   console.log("ffggfr:", response);
-      //   throw new Error("Network response was not ok");
-      // }
-
-      setInputSectiondata({
-        sectionname: "",
-        sectionpassingMarks: "",
-      });
-
+      setInputSectiondata(intialdata);
       navigate("/admin/Sectionmain");
     } catch (error) {
       console.log("Fetch operation error:", error);
     }
   };
-
   return (
-    // <div className="flex">
-    //   <Sidebar />
-    //   <div className="w-full">
-    //     <div>
-    //       <Navbar setIsLoggedIn={setIsLoggedIn} />
-    //     </div>
-
-    //     <form className="w-50 mx-auto mt-5 mb-4" onSubmit={handleSubmit}>
-    //       {error && (
-    //         <div className="flex items-center text-xl bg-red-100 p-2 text-red-700 mb-5">
-    //           {error.message}
-    //         </div>
-    //       )}
-    //       <h1 className="mb-4">Add New Section</h1>
-
-    //       <div className="mb-3">
-    //         <label htmlFor="question" className="form-label">
-    //           Section-Name
-    //         </label>
-    //         <input
-    //           type="text"
-    //           name="sectionname"
-    //           value={inputSectiondata.sectionname}
-    //           onChange={handleChange}
-    //           className="form-control"
-    //           placeholder="Question*"
-    //           required
-    //         />
-    //       </div>
-
-    //       <div className="mb-3">
-    //         <label htmlFor="number" className="form-label">
-    //           Passing Marks
-    //         </label>
-    //         <input
-    //           type="number"
-    //           name="sectionpassingMarks"
-    //           value={inputSectiondata.sectionpassingMarks}
-    //           onChange={handleChange}
-    //           className="form-control"
-    //           placeholder="passing marks"
-    //           required
-    //         />
-    //       </div>
-    //       <button type="submit" className="btn btn-primary">
-    //         Submit
-    //       </button>
-    //       <Link to="/admin/Sectionmain" className="ml-4">
-    //         <button type="button" className="btn btn-primary">
-    //           Back
-    //         </button>
-    //       </Link>
-    //     </form>
-    //   </div>
-    // </div>
     <div className="flex flex-col lg:flex-row min-h-screen">
       <Sidebar />
       <div className="flex-1 flex flex-col">
@@ -132,11 +53,6 @@ function Sectionform({ setIsLoggedIn }) {
             className="w-full max-w-md mx-auto mt-5 mb-4 p-8 bg-white shadow-lg rounded-lg "
             onSubmit={handleSubmit}
           >
-            {error && (
-              <div className="flex items-center text-xl bg-red-100 p-2 text-red-700 mb-5">
-                {error.message}
-              </div>
-            )}
             <h1 className="text-2xl font-bold   my-5">Add New Section</h1>
             <div className="mb-5">
               <label
