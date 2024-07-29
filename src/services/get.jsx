@@ -36,6 +36,15 @@ export const quizpopboxget = async () => {
   }
 };
 
+export const questionpopbox = async () => {
+  try {
+    const response = await DefaultApiService.get(`/questions/getallquestions`);
+    return response;
+  } catch (error) {
+    throw error.response;
+  }
+};
+
 export const quizpaper = async (id) => {
   try {
     const response = await DefaultApiService.get(`/quiz/getall/${id}`);

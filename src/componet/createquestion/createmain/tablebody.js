@@ -4,10 +4,10 @@ import { ReactComponent as Popbox } from "../../../svgfile/Popbox.svg";
 import { ReactComponent as Upboxuparrow } from "../../../svgfile/boxuparrow.svg";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setIdstore, setDisplay } from "../../../reduxfiles/inputredux";
+import { setIdstore, setDisplay } from "../../../Slices/inputredux";
 import { questiondelete } from "../../../services/delete";
 
-function Tablebody({ formatDate, offset, showQuestion }) {
+function Tablebody({ formatDate, offset, showQuestion, fetchsortData }) {
   const navigate = useNavigate();
   const inputs = useSelector((state) => state.inputs);
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ function Tablebody({ formatDate, offset, showQuestion }) {
     } catch (error) {
       console.error("Fetch operation error:", error);
     }
-    navigate(0);
+    fetchsortData();
   }, []);
   const handleClicktd = useCallback(
     (id) => {

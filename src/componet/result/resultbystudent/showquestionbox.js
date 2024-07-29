@@ -1,64 +1,82 @@
-import React, { useEffect, useCallback, useMemo } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { ReactComponent as Add } from "../../../svgfile/Questionadd.svg";
-import { setIsloading, setData } from "../../../reduxfiles/quizredux";
-import { quizpopboxget } from "../../../services/get";
-import { quizssectiondelete } from "../../../services/delete";
-import { ReactComponent as Close } from "../../../svgfile/close.svg";
+import Addquiz from "../../Section/addsection";
+import { Link, useNavigate } from "react-router-dom";
+import { setIsloading, setData } from "../../../reduxfiles/QuizSlice";
+
 function Showquestionbox({ showQuestion }) {
   const id2 = localStorage.getItem("QuizeId");
-  const dispatch = useDispatch();
-  const inputs = useSelector((state) => state.inputs3);
+  const id = localStorage.getItem("sectionId");
+  const url = `http://localhost:3001/section/read`;
 
-  const fetchData = useCallback(async () => {
+  const dispatch = useDispatch();
+
+  const inputs = useSelector((state) => state.inputs5);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+  const fetchData = async () => {
     try {
       dispatch(setIsloading(true));
-      const response = await quizpopboxget();
-      dispatch(setData(response.data.data));
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const result = await response.json();
+
+      dispatch(setData(result.data));
     } catch (error) {
       console.error("Fetch operation error:", error);
     } finally {
       dispatch(setIsloading(false));
     }
-  }, [dispatch]);
+  };
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  const handleDelete = async (id1) => {
+    const updatedDel = { quizeId: id1 };
 
-  const DeleteHandle = useCallback(
-    async (updatedDel) => {
-      try {
-        const response = await quizssectiondelete(id2, updatedDel);
-        fetchData();
-      } catch (error) {
-        console.error("Fetch operation error:", error);
+    await DeleteHandle(updatedDel);
+  };
+
+  const DeleteHandle = async (updatedDel) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3001/section/deletetquiz/${id2}`,
+
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(updatedDel),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
       }
-    },
-    [fetchData, id2]
-  );
 
-  const handleDelete = useCallback(
-    async (id1) => {
-      const updatedDel = { sectionId: id1 };
-      await DeleteHandle(updatedDel);
-    },
-    [DeleteHandle]
-  );
-
-  const filteredData = useMemo(
-    () =>
-      inputs.Tablemanuplation.data?.filter(
-        (info) => inputs.Tablemanuplation.idstores === info._id
-      ),
-    [inputs.Tablemanuplation.data, inputs.Tablemanuplation.idstores]
-  );
+      await response.json();
+      fetchData();
+    } catch (error) {
+      console.error("Fetch operation error:", error);
+    }
+  };
 
   return (
     <div>
-      {filteredData?.map(
-        (info) =>
+      {inputs.Tablemanuplation.data?.map(
+        (info, ind) =>
+          inputs.Tablemanuplation.idstores === info._id &&
           inputs?.openpop === true && (
             <div
               key={info._id}
@@ -67,35 +85,45 @@ function Showquestionbox({ showQuestion }) {
               <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg overflow-hidden h-full">
                 <div className="bg-gray-800 text-white py-3 px-4 flex justify-between items-center">
                   <div>
-                    <Link to="/admin/AddSection">
+                    <Link to={"/QuizebySection"}>
                       <button
                         type="submit"
-                        className="bg-[#8A6FDF] btn text-white font-bold mr-3 flex items-center"
+                        className="btn btn-primary mr-3 flex items-center"
                       >
                         Add Section
-                        <Add fill="white" />
+                        <Addquiz />
                       </button>
                     </Link>
                   </div>
                   <div className="text-xl font-bold text-white">
-                    {info.quizName}
+                    {info.sectionName}
                   </div>
                   <div
                     className="cursor-pointer flex items-center"
                     onClick={() => showQuestion(info._id)}
                   >
-                    <Close />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 512 512"
+                      height="35px"
+                      width="35px"
+                    >
+                      <path
+                        fill="white"
+                        d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"
+                      />
+                    </svg>
                   </div>
                 </div>
                 <div className="p-6 overflow-y-scroll h-full">
-                  {info.quizinfo?.map((index, ind) => (
+                  {info.sectioninfo?.map((index, ind) => (
                     <div key={ind} className="mb-6">
                       <div>
                         <div className="flex justify-between items-center border-y-2">
                           <div className="font-bold text-xl mb-2 mt-4 ">
                             S:-
                             <span className="break-words ml-2 ">
-                              {index.sectionname}
+                              {index.quizename}
                             </span>
                           </div>
                           <div className="flex justify-end">

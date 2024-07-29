@@ -1,8 +1,6 @@
 import React from "react";
 
 const ResultData = (resultdata) => {
-  console.log("aa", resultdata[0]);
-  console.log("aa", resultdata[0]);
   const formatData = () => {
     let formattedText = `
         <html lang="en">

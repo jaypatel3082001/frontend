@@ -28,15 +28,15 @@ const Signup = () => {
         console.log(response, "response");
         if (response.ok) {
           setInputsigndata(initialdata);
-          setSignupSuccess(true);
         }
+        setSignupSuccess(true);
       } catch (error) {
         console.error("Fetch operation error:", error);
       }
     },
     [inputsigndata, navigate]
   );
-
+  console.log(signupSuccess);
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="main bg-white rounded-lg shadow-md p-10 w-96">

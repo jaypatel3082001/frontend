@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddSection from "../addsection";
 import { Link } from "react-router-dom";
-import { setIsloading, setData } from "../../../reduxfiles/sectionredux";
+import { setIsloading, setData } from "../../../Slices/sectionredux";
 import { sectiontoquestionread } from "../../../services/get";
 import { sectiontoquestiondelete } from "../../../services/delete";
 import { ReactComponent as Delete } from "../../../svgfile/delete.svg";
@@ -38,10 +38,9 @@ function Showquestionbox({ showQuestion }) {
     },
     [id2, fetchData]
   );
-
-  if (inputs?.openpop === true) {
-    fetchData(); // Update data state
-  }
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   return (
     <div>

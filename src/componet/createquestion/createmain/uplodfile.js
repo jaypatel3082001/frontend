@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleuploadModal } from "../../../reduxfiles/inputredux";
+import { toggleuploadModal } from "../../../Slices/inputredux";
 import axios from "axios";
 import * as XLSX from "xlsx";
 import { useNavigate } from "react-router-dom";

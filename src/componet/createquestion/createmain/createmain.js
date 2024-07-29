@@ -14,7 +14,7 @@ import {
   setIdstores,
   setDateRange,
   toggleuploadModal,
-} from "../../../reduxfiles/inputredux";
+} from "../../../Slices/inputredux";
 
 import CustomDatePicker from "../../../util/CoustomDatePicker";
 import Showquestionbox from "./showquestionbox";
@@ -141,7 +141,7 @@ function Createmain({ setIsLoggedIn }) {
     (id) => {
       dispatch(setIdstores(id));
       dispatch(toggleModal(!inputs.openpop));
-
+      console.log("aa", id);
       // localStorage.setItem("QuizeId", id);
     },
     [dispatch, inputs.openpop]
@@ -282,6 +282,7 @@ function Createmain({ setIsLoggedIn }) {
                   formatDate={formatDate}
                   offset={offset}
                   showQuestion={showQuestion}
+                  fetchsortData={fetchsortData}
                 />
               </table>
             </div>
