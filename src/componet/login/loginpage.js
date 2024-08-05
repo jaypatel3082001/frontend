@@ -1,6 +1,4 @@
-// student Login
-
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../cssfile/Login.css";
 import { Studentloging } from "../../services/auth";
@@ -13,14 +11,10 @@ const Loginpage = () => {
     userkey: "",
   };
   const [inputlogindata, setInputlogindata] = useState(initialdata);
-  const token = localStorage.getItem("authToken");
+
   const [errorMessage, setErrorMessage] = useState("");
-  const [backgroundcolor, setBackgroundcolor] = useState("");
-  const [bgimg, setBgimg] = useState("");
-  const [logoimg, setLogoimg] = useState("");
 
   const navigate = useNavigate();
-  const url = "http://localhost:3001/auth/examlogin";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,36 +47,8 @@ const Loginpage = () => {
     }
   };
 
-  ///color filter/////////////////////////
-  // useEffect(() => {
-  //   fetchsortData();
-  // });
-
-  // const fetchsortData = useCallback(async () => {
-  //   try {
-  //     const response = await fetch(url, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error("Network response was not ok");
-  //     }
-  //     const result = await response.json();
-  //     console.log(result.backgroundImage);
-  //     setBackgroundcolor(result.backgroundColor);
-  //     setBgimg(result.backgroundImage);
-  //     setLogoimg(result.logo);
-  //   } catch (error) {
-  //     console.error("Fetch operation error:", error);
-  //   }
-  // });
-
   return (
-    <div
-      className={`flex items-center justify-center min-h-screen bg-[${backgroundcolor}]`}
-    >
+    <div className={`flex items-center justify-center min-h-screen `}>
       <div className={`main bg-gray-100 rounded-lg shadow-md p-10 w-96`}>
         <div>
           {errorMessage && (

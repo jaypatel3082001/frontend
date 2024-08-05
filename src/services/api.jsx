@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_BASE_URL = "http://localhost:3001";
+const API_BASE_URL = "https://quiz-kt.vercel.app";
 const token = localStorage.getItem("authToken");
 
 export const DefaultApiService = axios.create({
