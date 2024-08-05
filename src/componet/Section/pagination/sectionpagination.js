@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentPage } from "../../../reduxfiles/sectionredux";
+import { setCurrentPage } from "../../../Slices/sectionredux";
 
 function Createmainpagination() {
   const dispatch = useDispatch();

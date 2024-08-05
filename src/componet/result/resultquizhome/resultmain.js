@@ -11,7 +11,7 @@ import {
   setCurrentPage,
   setDateRangeresult,
   setTotalCount,
-} from "../../../reduxfiles/result";
+} from "../../../Slices/result";
 import Tableheader from "./tableheader";
 import Tablebody from "./tablebody";
 

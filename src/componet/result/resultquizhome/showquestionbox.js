@@ -2,7 +2,7 @@
 // import { useDispatch, useSelector } from "react-redux";
 // import Addquiz from "../../Quize/addquiz";
 // import { Link } from "react-router-dom";
-// import { setIsloading, setData } from "../../../reduxfiles/quizeSlice";
+// import { setIsloading, setData } from "../../../Slices/quizeSlice";
 
 // function Showquestionbox({ showQuestion }) {
 //   const id2 = localStorage.getItem("sectionId");

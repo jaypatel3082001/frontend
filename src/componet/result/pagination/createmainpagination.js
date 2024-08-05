@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentPage } from "../../../reduxfiles/resultstudentSlice";
+import { setCurrentPage } from "../../../Slices/resultstudentSlice";
 
 function Createmainpagination() {
   const dispatch = useDispatch();

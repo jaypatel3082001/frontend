@@ -5,7 +5,7 @@ import { ReactComponent as Upboxuparrow } from "../../../svgfile/boxuparrow.svg"
 import { sectiondelete } from "../../../services/delete";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setIdstore, setDisplay } from "../../../reduxfiles/sectionredux";
+import { setIdstore, setDisplay } from "../../../Slices/sectionredux";
 
 function Tablebody({ formatDate, offset, showQuestion }) {
   const navigate = useNavigate();

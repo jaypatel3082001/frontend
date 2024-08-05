@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { admindelete } from "../../services/delete";
 import { useSelector, useDispatch } from "react-redux";
-import { setIdstore, setDisplay, setCurrentPage } from "../../reduxfiles/Admin";
+import { setIdstore, setDisplay, setCurrentPage } from "../../Slices/Admin";
 import { createadmin } from "../../services/auth";
 
 function Tablebody({ formatDate, offset, fetchsortData }) {

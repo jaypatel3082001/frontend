@@ -2,10 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CustomDatePicker from "../../../util/CoustomDatePicker";
 import { serializedSelectionDatePicker } from "../../../util/utility";
-import {
-  setDateRangequize,
-  toggleModalkey,
-} from "../../../reduxfiles/quizredux";
+import { setDateRangequize, toggleModalkey } from "../../../Slices/quizredux";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as Delete } from "./../../../svgfile/delete.svg";
 import { createkey } from "../../../services/create";

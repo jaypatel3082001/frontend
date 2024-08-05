@@ -13,7 +13,7 @@ import {
   setIdstores,
   setDateRangequize,
   setTotalCount,
-} from "../../reduxfiles/Admin";
+} from "../../Slices/Admin";
 import Tableheader from "./tableheader";
 import Tablebody from "./tablebody";
 

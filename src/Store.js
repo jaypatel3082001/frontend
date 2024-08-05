@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 // import inputReducer from './slice'; // Adjust path if necessary
-import inputReducer from "./reduxfiles/inputredux";
-import inputReducer2 from "./reduxfiles/sectionredux";
-import inputReducer3 from "./reduxfiles/quizredux";
-import inputReducer4 from "./reduxfiles/result";
-import inputReducer5 from "./reduxfiles/resultstudentSlice";
-import inputReducer6 from "./reduxfiles/Admin";
+import inputReducer from "./Slices/inputredux";
+import inputReducer2 from "./Slices/sectionredux";
+import inputReducer3 from "./Slices/quizredux";
+import inputReducer4 from "./Slices/result";
+import inputReducer5 from "./Slices/resultstudentSlice";
+import inputReducer6 from "./Slices/Admin";
 
 const store = configureStore({
   reducer: {

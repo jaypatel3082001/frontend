@@ -13,7 +13,7 @@ import {
   setIdstores,
   setDateRangequize,
   setTotalCount,
-} from "../../../reduxfiles/quizredux";
+} from "../../../Slices/quizredux";
 import Tableheader from "./tableheader";
 import Tablebody from "./tablebody";
 import Showquestionbox from "./showquestionbox";

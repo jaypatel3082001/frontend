@@ -15,7 +15,7 @@ import {
   setCurrentPage,
   toggleModalkey,
   setIdkeystores,
-} from "../../../reduxfiles/quizredux";
+} from "../../../Slices/quizredux";
 import { quizdelete } from "../../../services/delete";
 import { quizpaper } from "../../../services/get";
 

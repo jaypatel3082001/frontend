@@ -12,14 +12,14 @@ import {
   setSortedData,
   setCurrentPage,
   setIdstores,
-} from "../../../reduxfiles/resultstudentSlice";
+} from "../../../Slices/resultstudentSlice";
 import Tableheader from "./tableheader";
 import Tablebody from "./tablebody";
 import * as XLSX from "xlsx";
 import "jspdf-autotable";
-import { setTotalCount } from "../../../reduxfiles/resultstudentSlice";
+import { setTotalCount } from "../../../Slices/resultstudentSlice";
 import { serializedSelectionDatePicker } from "../../../util/utility";
-import { setDateRangeresultstudent } from "../../../reduxfiles/resultstudentSlice";
+import { setDateRangeresultstudent } from "../../../Slices/resultstudentSlice";
 import Createmainpagination from "../pagination/createmainpagination";
 import { GetallResult } from "../../../services/filter";
 

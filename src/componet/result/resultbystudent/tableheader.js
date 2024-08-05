@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { ReactComponent as Sortbyname } from "../../../svgfile/sortbyname.svg";
-import { setCurrentPage } from "../../../reduxfiles/resultstudentSlice";
+import { setCurrentPage } from "../../../Slices/resultstudentSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 

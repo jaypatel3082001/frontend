@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentPage } from "../../../Slices/inputredux";
-import { getPageNumbers } from "../../modules/pagination/";
+// import { getPageNumbers } from "../../modules/";
 
 function Createmainpagination() {
   const dispatch = useDispatch();

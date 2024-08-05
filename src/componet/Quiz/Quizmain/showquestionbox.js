@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { ReactComponent as Add } from "../../../svgfile/Questionadd.svg";
-import { setIsloading, setData } from "../../../reduxfiles/quizredux";
+import { setIsloading, setData } from "../../../Slices/quizredux";
 import { quizpopboxget } from "../../../services/get";
 import { quizssectiondelete } from "../../../services/delete";
 import { ReactComponent as Close } from "../../../svgfile/close.svg";

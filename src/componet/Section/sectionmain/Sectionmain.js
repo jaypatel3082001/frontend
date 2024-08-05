@@ -12,7 +12,7 @@ import {
   setCurrentPage,
   setIdstores,
   setDateRangeSectione,
-} from "../../../reduxfiles/sectionredux";
+} from "../../../Slices/sectionredux";
 import Tableheader from "./tableheader";
 import Tablebody from "./tablebody";
 import Showquestionbox from "./showquestionbox";
